@@ -18,7 +18,8 @@ The intended audiences are:
 
 ## Current development status
 
-- Phase 1 has started with repository security, product definition, and documentation foundations.
+- Phase 1 is complete: repository security, product definition, and documentation foundations have been committed and verified. Phase 2 has begun with the Python and Django dependency baseline.
+- The dependency baseline is Python 3.13.16 with Django 5.2.18; local installation is not yet verified because no Python interpreter is available in the current environment.
 - Django has not been initialised.
 - No application features, routes, models, tests, screenshots, or deployment have been implemented.
 - The README will be updated alongside the application and verification evidence.
@@ -227,11 +228,11 @@ No application routes currently exist. Implemented routes, permissions, protecte
 
 ## Technology stack
 
-The confirmed project context is a Python and Django full-stack application. Specific framework versions, packages, frontend technologies, payment configuration, database configuration, and hosting choices have not yet been selected or implemented; decisions will be recorded with their rationale.
+The dependency foundation uses Python 3.13.16 and Django 5.2.18, an LTS release whose official compatibility table includes Python 3.13. The Python runtime is recorded in `.python-version` and the Django runtime dependency is pinned in `requirements.txt`. Django's built-in test runner is sufficient for the initial test-driven foundation, so no development-only packages are pinned yet. Stripe, PostgreSQL drivers, frontend packages, and hosting dependencies will be added only when required by later implementation work.
 
 ## Local setup
 
-Local setup instructions, dependency installation, environment variables, and safe Stripe test-mode configuration will be added after the Django project and dependency definitions exist. Until then, there is no runnable application setup to document.
+Local setup instructions will begin with Python 3.13.16, a virtual environment, and `python -m pip install -r requirements.txt`. This installation has not been performed in the current environment because no Python launcher or interpreter is available. Environment variables and safe Stripe test-mode configuration will be documented only when those capabilities are introduced.
 
 ## Testing
 

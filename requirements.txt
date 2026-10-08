@@ -1,0 +1,2 @@
+# Runtime dependencies for SkillSeat
+Django==5.2.18
