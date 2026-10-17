@@ -40,3 +40,32 @@ The [journey wireframes](design/phase-3-wireframes.md) were created before busin
 - Integrated checkpoint: 99 tests passed in 15.408s, lint/format/whitespace checks clear. Pushed through `187871d`.
 - Browser found duplicated `id_title` attributes in the workshop/resource forms and offered booking/review actions before eligibility. Added two failing regression tests, then separate resource field IDs and eligibility-aware controls; all 4 interface tests passed.
 - Stripe CLI 1.54.0 installed into ignored `.local-tools` using the official npm package. Isolated `sandbox create --non-interactive` failed with `email is required`; no user email or Git identity was transmitted. No test keys or signing secret have been created. This is the remaining external integration verification dependency.
+
+## Final local implementation audit
+
+- Exact assertions passed: Python 3.13.16, Django 5.2.18, Stripe SDK 16.0.0. `uv pip check --python .venv/Scripts/python.exe`: all 12 installed packages compatible. Stripe and transitive packages were installed with the regenerated hash lock.
+- Ruff: lint passed; all 63 Python files formatted. `manage.py check`: no issues.
+- `manage.py test -v 2`: **109 tests passed in 17.242s**. [Genuine full output](testing/phase3-tests.txt) includes authentication, account isolation, public visibility, ownership, booking lifecycle/capacity, payment failure/signatures/replay, private-file delivery/deletion, review eligibility/moderation, interface and connection races.
+- Separate final file-backed SQLite run: **7 tests passed in 2.386s**. [Genuine full output](testing/phase3-file-concurrency.txt). No PostgreSQL execution is claimed.
+- Five incremental workshops migrations applied locally; fresh test databases also apply all five. `makemigrations --check --dry-run`: no changes. `migrate --check`: successful.
+- `expire_bookings`: executed successfully, 0 expired holds at audit time (expiry release is exercised in tests). No scheduler assumed.
+- `scripts/smoke_server.py`: real development server HTTP 200 and SkillSeat home verified; child stopped by script.
+- Production `check --deploy --fail-level WARNING`: no issues, with explicit check-only allowed host, strong transient key, debug false and no silenced checks. This is configuration verification, not deployment.
+- Actual browser registration/login/free booking/cancellation/paid-pending/unconfigured-payment/owner-creation/logout journeys executed. [Design verification](design/phase-3-verification.md) preserves captures and the 20-combination responsive DOM audit. Temporary fictional test login disabled and its owner permission revoked afterward.
+- Semantic form Red: missing block password help; Green: 22 interface/account tests passed. Price Red: three invalid prices were accepted; Green: 12 model/ownership tests passed after validation and migration. Existing-booking Red: missing management action; Green: 12 booking/interface tests passed. Final negative security audit: all 18 resource/regression tests passed.
+
+## CI and repository state
+
+- [39055816793](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39055816793): successful Windows run at `187871df0d295c464d9c33f0aa9e1414b10119e2`, 99 tests at that checkpoint, file-backed races, exact versions, hash installation, lint/format, migrations, expiry, production checks and real-server smoke.
+- Final documentation/source batch and its actual CI/remote status will be recorded after pushing. Never infer success from dispatch alone.
+- [Chronological commit evidence](phase-3-commits.md) lists full SHAs and accurate titles. Separate Red-stage commits stayed local until the paired implementation restored checks.
+
+## Remaining external dependency and continuation
+
+Phase 3 is **implemented and locally verified, but not fully complete** until a genuine Stripe sandbox Checkout/payment/signed-webhook exercise succeeds. Automated initiation is mocked; synthetic provider payloads use the real SDK signature validator. No real Stripe transaction is claimed.
+
+The only required human intervention is dedicated Stripe sandbox/test access: set a restricted test key privately in the execution environment, or explicitly authorise an email identity for the official CLI's claimable sandbox provisioning. Do not paste keys into Git or project documentation. The CLI is already available in ignored `.local-tools/node_modules/.bin/stripe.cmd`. No sandbox was created and no user identity sent.
+
+Resume by checking HEAD/status and the latest successful CI, then follow the Stripe setup steps in phase-3-architecture.md: start CLI forwarding to loopback, export its signing secret privately, restart Django, reserve a paid fictional workshop, complete test-mode hosted Checkout, verify stored matching paid state/private resource access and replay behaviour using actual provider evidence. Record the genuine result, rerun relevant/full checks, commit/push the evidence, and verify final CI/remote/tree. Keep test-only mode. The fictional browser user's password is unusable; create a fresh disposable attendee or use normal registration.
+
+Phase 4 has not begun. Production deployment, database/proxy/storage/scheduler selection, broader accessibility/release validation and final project reflection remain Phase 4 work after the Phase 3 external gap is resolved.

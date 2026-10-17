@@ -5,15 +5,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('workshops', '0004_paymentevent_paymentattempt'),
+        ("workshops", "0004_paymentevent_paymentattempt"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddConstraint(
-            model_name='workshop',
-            constraint=models.CheckConstraint(condition=models.Q(('price_pence', 0), models.Q(('price_pence__gte', 50), ('price_pence__lte', 99999999)), _connector='OR'), name='supported_workshop_price'),
+            model_name="workshop",
+            constraint=models.CheckConstraint(
+                condition=models.Q(
+                    ("price_pence", 0),
+                    models.Q(("price_pence__gte", 50), ("price_pence__lte", 99999999)),
+                    _connector="OR",
+                ),
+                name="supported_workshop_price",
+            ),
         ),
     ]

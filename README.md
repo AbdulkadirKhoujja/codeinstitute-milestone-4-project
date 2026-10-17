@@ -4,11 +4,11 @@ SkillSeat is the working title for a Code Institute Milestone Project 4 full-sta
 
 ## Project overview
 
-This repository contains the Django foundation for SkillSeat. Workshop discovery and booking remain planned Phase 3 functionality. This README distinguishes verified foundation behaviour from planned product features.
+SkillSeat is a Django workshop discovery and booking application. Phase 3 implements the committed core features, with real database, permission, concurrency and browser evidence. Genuine Stripe sandbox transaction verification remains an external dependency; Phase 3 is not yet declared fully complete.
 
 ## Purpose and intended audience
 
-SkillSeat is planned as a full-stack Django workshop and training discovery and booking platform. It is intended to help people discover relevant workshops, register and manage participation, and access resources associated with paid attendance.
+SkillSeat helps people discover practical workshops, manage their participation, and access private learning resources after verified paid booking.
 
 The intended audiences are:
 
@@ -18,15 +18,15 @@ The intended audiences are:
 
 ## Current development status
 
-- Phase 1 and the Phase 2 Django foundation are implemented and verified. Phase 3 has not begun.
+- Phases 1 and 2 are verified. Phase 3 core implementation is present; final external payment verification remains outstanding. Phase 4 has not begun.
 - Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Runtime recovery, test-first increments, migration checks, CI, and limitations are recorded in [the Phase 2 log](docs/phase-2-evidence.md).
-- Django is initialised with `config`, `core`, and `accounts` packages, SQLite configuration, ASGI/WSGI entry points, and 42 passing foundation tests. A custom user, sign-in/sign-out, and an authenticated own-account page establish the authentication foundation.
-- Workshop features, screenshots, and deployment remain unimplemented.
-- The README will be updated alongside the application and verification evidence.
+- The established custom user and production security defaults are preserved. `workshops` adds discovery, controlled ownership, atomic bookings, test-only Checkout, private resources and attendance-gated reviews.
+- The unchanged baseline passed 42 tests before development. The expanded suite and separate file-backed SQLite races are recorded in [Phase 3 evidence](docs/phase-3-evidence.md). The obsolete foundation home-page planning assertion now checks the working discovery link; no foundation test case was deleted.
+- Planning wireframes and real browser captures are separate in [design evidence](docs/design/phase-3-verification.md). No production deployment has occurred.
 
 ## Planned product scope
 
-The following is the committed core scope. Every item is planned and requires implementation and verification before it can be described as complete:
+The following committed core scope now has implementation and automated evidence. A genuine external Stripe transaction is still required before the payment story and Phase 3 can be called fully verified:
 
 - public workshop discovery and workshop detail pages;
 - registration, login, logout, and account management;
@@ -40,7 +40,7 @@ No optional enhancements are committed at this stage. They will only be consider
 
 ## User stories and acceptance criteria
 
-These concise stories define the initial testable scope. They are planning requirements, not evidence of implemented functionality.
+These stories define the agreed acceptance requirements. The [acceptance evidence map](docs/phase-3-architecture.md#acceptance-evidence-map) connects each story to implementation and real tests, and identifies the external payment gap.
 
 ### Committed core stories
 
@@ -185,6 +185,8 @@ Deliverables: incremental models, views, templates, forms, permissions, payment 
 
 Completion criteria: each committed user story has passing relevant tests, including permission, capacity, and payment-state cases; responsive and accessible behaviour has evidence; and documentation matches the implementation.
 
+Status: core implementation and automated/browser verification are documented in [Phase 3 evidence](docs/phase-3-evidence.md). Completion is withheld pending genuine Stripe sandbox verification. Phase 4 remains release/deployment work and has not started.
+
 ### Phase 4: Release and Evidence
 
 Objective: prepare, verify, and honestly document a releasable application.
@@ -210,33 +212,42 @@ Documentation will evolve with the real implementation. Planned documentation in
 
 ## Design and wireframes
 
-Design evidence will be prominent and traceable. For each major journey, the README will distinguish the original planning artefact, the implemented result, and the comparison between them. If a wireframe or final capture does not exist, that absence will be stated rather than reconstructed retrospectively. No wireframes or screenshots are available yet.
+The [original planning wireframes](docs/design/phase-3-wireframes.md) were committed before business interface implementation. [Final design verification](docs/design/phase-3-verification.md) links real screenshots, browser journeys, viewport measurements, accessibility observations and planned-versus-implemented differences. These are separate artefacts; generated visual mockups are not used as evidence of working screens.
 
 ## Features
 
-The foundation provides a public status page, Django sign-in, POST-only sign-out, an authenticated own-account page, and staff-restricted Django admin. No Phase 3 workshop or booking features are implemented. Registration and account management remain planned.
+- Public published-workshop cards and details with host, UTC schedule, location, price and current seats.
+- Registration, sign-in/out, own-profile editing and password changes using Django authentication and validation.
+- Permission-provisioned owner studio: create/edit/publish/unpublish, safe capacity changes, booking roster, attendance and private resource upload/removal. Superusers can work across owners.
+- Own booking history, free confirmation, paid pending holds, cancellation and executable expiry cleanup, with database-backed capacity and duplicate protections.
+- Stripe test-only hosted Checkout, server price snapshots, signed event verification, durable replay protection and explicit late-payment refund review. Offline tests pass; a real provider transaction remains unverified.
+- Authorised private downloads for relevant verified-paid confirmed attendees; files have no public media URL.
+- Reviews only after workshop completion and owner-recorded attendance, own editing/deletion and superuser visibility moderation.
+- Shared responsive styling, accessible labels/help/errors, skip navigation, keyboard focus and clear server-state feedback.
 
 ## Data model
 
-`accounts.User` subclasses Django's `AbstractUser` without adding fields. Username-based authentication, password hashing, groups, permissions, staff status, and superuser status retain Django's behaviour. `AUTH_USER_MODEL` is set before the initial persistent database migration. This small extension point avoids the disruption of swapping user models later; it does not invent owner or attendee role fields prematurely. Future foreign keys must use `settings.AUTH_USER_MODEL`, and runtime code must use `get_user_model()`. `accounts/0001_initial.py` creates the user and permission/group relationships. Workshop and booking entities remain undecided and unimplemented.
+`accounts.User` retains the Phase 2 AbstractUser model and Django's password/group/permission behaviour. All user references use AUTH_USER_MODEL. Workshop, Booking, PaymentAttempt, PaymentEvent, Resource and Review form the core domain. Prices use integer GBP pence; dates are aware UTC. Database constraints enforce capacity, date ordering, active-booking uniqueness, valid states and ratings. See the [relationship diagram, constraints and state machines](docs/phase-3-architecture.md).
 
 ## Application architecture
 
-`config/` contains environment validation, settings, root URLs, ASGI, and WSGI. `core/` owns the public foundation page; `accounts/` owns the custom user, admin registration, and minimal authentication routes. Shared templates live in `templates/`, and foundation tests in `tests/`. SQLite is appropriate for the local foundation; production database and concurrent booking decisions remain later work. There are no services, payment integrations, or additional business apps yet.
+`config/` owns validated settings and entry points; `core/` owns the public landing page, shared CSS and response headers; `accounts/` owns the custom user and account workflows. `workshops/` owns models, forms, scoped views, private storage, transactional booking services, Stripe integration and management commands. Templates remain conventional Django HTML with CSS, with no frontend framework or external font dependency. Tests live in `tests/`. SQLite shared-memory and file-backed independent-connection races are verified; production PostgreSQL is not tested. [Operating policies](docs/phase-3-architecture.md) explain the guarantees and limits.
 
 ## Routes
 
 | Route | Name | Access |
 | --- | --- | --- |
-| `/` | `core:home` | Public foundation page |
+| `/` | `core:home` | Public discovery landing page |
 | `/accounts/login/` | `accounts:login` | Public sign-in, CSRF-protected POST |
 | `/accounts/logout/` | `accounts:logout` | POST with CSRF token |
 | `/accounts/` | `accounts:profile` | Authenticated user's own identity |
 | `/admin/` | `admin:index` | Active staff users with Django permissions |
 
+The [complete Phase 3 route/permission table](docs/phase-3-architecture.md#roles-routes-and-boundaries) covers registration, account editing, studio, bookings, checkout, signed webhooks, resources and reviews.
+
 ## Technology stack
 
-The dependency foundation uses Python 3.13.16 and Django 5.2.18 LTS. The Python runtime is recorded in `.python-version` and the Django runtime dependency is pinned in `requirements.txt`. Django's built-in test runner runs the foundation tests; Ruff 0.17.1 provides linting and formatting. Hash locks freeze runtime and development packages. Stripe, PostgreSQL drivers, frontend packages, and hosting dependencies will be added only when required by later implementation work.
+Python 3.13.16 and Django 5.2.18 LTS are unchanged. Django's test runner and Ruff 0.17.1 remain the tools. Stripe SDK 16.0.0 is deliberately added, with its HTTP/typing dependencies hash-locked in requirements.lock. Its API version is explicitly pinned to `2026-09-30.endive`. No PostgreSQL driver, frontend framework or hosting dependency is introduced. The optional Stripe CLI 1.54.0 was used locally to inspect sandbox provisioning; ignored local tooling is not needed by CI.
 
 ## Local setup
 
@@ -284,8 +295,18 @@ uv 0.12.17 predates this Python build and cannot download it from its bundled li
 | `DJANGO_SECRET_KEY` | Required, generated private value | Required, stable private value |
 | `DJANGO_DEBUG` | Defaults to `true`; accepts `true`, `false`, `1`, `0` | Defaults to `false`; enabling it is rejected |
 | `DJANGO_ALLOWED_HOSTS` | Defaults to `localhost,127.0.0.1,[::1]` | Required comma-separated explicit hostnames |
+| `STRIPE_TEST_KEY` | Private test restricted key; blank disables Checkout | Test mode only; live key prefixes refused |
+| `STRIPE_WEBHOOK_SECRET` | Private listener signing secret | Private endpoint signing secret; no live events accepted |
+| `PAYMENT_ORIGIN` | Defaults to `http://localhost:8000` | Explicit HTTPS origin for test return URLs |
+| `SKILLSEAT_FILE_TEST_DB` | `1` selects ignored file-backed test DB for race verification | Test-only; leave unset for normal operation |
 
-Keys must contain at least 50 characters and five distinct characters; known placeholder prefixes are rejected. Generate a random key rather than merely satisfying those checks. Host values must not contain a URL scheme, port, wildcard, or empty entry. Unknown environment names fail instead of silently choosing a mode. No database URL, proxy trust, payment credentials, email service, or production service configuration is implemented in Phase 2.
+Keys must contain at least 50 characters and five distinct characters; known placeholder prefixes are rejected. Generate a random key rather than merely satisfying those checks. Host values must not contain a URL scheme, port, wildcard, or empty entry. Unknown environment names fail instead of silently choosing a mode. There is no email delivery/verification service, database URL loader or proxy trust. Stripe settings are environment-managed and never printed by application pages.
+
+### Phase 3 local operation
+
+After migrations, `manage.py seed_demo` creates three explicitly fictional workshops with a passwordless demo host (development only, idempotent). It does not create customers, payments or an administrator. Register your own attendee normally. A trusted administrator grants `workshops.add_workshop` through Django admin to provision an approved owner; registration never assigns it. Superusers manage all workshops through the studio and moderate reviews in admin.
+
+Run `manage.py expire_bookings` to release unpaid 35-minute holds. Discovery/reservation/dashboard requests also perform cleanup. No background scheduler is assumed. Private uploads are stored under ignored `private-resources/`, with a 5 MB form limit and authorised attachment responses. Do not expose this folder through a web server. [Stripe setup and policies](docs/phase-3-architecture.md#stripe-test-mode-setup) explain hosted Checkout, signed local forwarding, pending/late events and manual test-refund review.
 
 `requirements.txt` remains the approved Django pin. `requirements.lock` additionally freezes its transitive dependencies with hashes and a Windows marker for `tzdata`. `requirements-dev.txt`/`.lock` add only Ruff 0.17.1 for linting and formatting. Install from the lock files for reproducibility. When deliberately updating dependencies, regenerate with `uv pip compile requirements.txt --universal --generate-hashes --output-file requirements.lock` and the equivalent command for `requirements-dev.txt`; review and test the resulting diff. Do not change the approved runtime pins incidentally.
 
@@ -308,7 +329,7 @@ uv pip check --python .venv/Scripts/python.exe
 git diff --check
 ```
 
-The smoke script starts the real development server on a temporary loopback port, verifies HTTP 200 and the SkillSeat page, then stops its child process. This passed with approved execution outside the restricted sandbox after the sandbox attempt timed out. The local database has all 19 initial migrations applied; fresh test databases also apply them successfully. No migration drift is detected.
+The smoke script starts the real development server on a temporary loopback port, verifies HTTP 200 and the SkillSeat page, then stops its child process. The full test suite includes the original foundation cases plus accounts, discovery, owners, bookings, payment signatures/states, resources, reviews, interface and real connection races. [Phase 3 evidence](docs/phase-3-evidence.md) records actual counts, migration results and command output summaries. For a separate file-backed race run, set `SKILLSEAT_FILE_TEST_DB=1`, run `manage.py test tests.test_concurrency -v 2 --noinput`, then remove that environment variable. Tests recreate only the ignored test database, not db.sqlite3.
 
 Check production configuration in a separate shell (the example host is check-only, not a deployed site):
 
@@ -320,13 +341,13 @@ $env:DJANGO_SECRET_KEY = .venv/Scripts/python.exe -c "import secrets; print(secr
 .venv/Scripts/python.exe manage.py check --deploy --fail-level WARNING
 ```
 
-This deployment check passes without silencing checks. It does not verify a real TLS endpoint, proxy, production database, or hosting platform. Browser, accessibility, payment, capacity, and workshop permissions require later implementation and verification.
+This configuration check does not verify a real TLS endpoint, proxy, production database or hosting platform. Browser, accessibility, capacity, ownership and simulated payment evidence are recorded separately; genuine Stripe sandbox verification remains outstanding.
 
 ### Continuous integration
 
 `.github/workflows/foundation.yml` runs on pushes and pull requests to `main`, and supports manual runs. A Windows runner verifies the official NuGet runtime, creates a fresh environment, installs hash-locked dependencies, asserts exact versions and interpreter location, checks dependency integrity, runs lint/format/system/tests/migrations/production checks, and smoke-tests the server. The checkout action is pinned to an immutable official release commit, permissions are read-only, and no repository secret is required. A random check-only key is generated per run.
 
-[Windows CI run 39050533406](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39050533406) completed successfully on `f6d8123ae4bcd8d48454516021751e72cdac3774`; every required step was inspected and succeeded. The evidence log records the local final audit and commit sequence. This is verified CI execution, not a deployment.
+[Phase 3 Windows CI run 39055816793](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39055816793) completed successfully on `187871df0d295c464d9c33f0aa9e1414b10119e2`, including all 99 tests at that checkpoint and the separate file-backed concurrency run. The evidence log records subsequent runs and final audited HEAD. The earlier Phase 3 lint failure is retained in the evidence; it was fixed without weakening checks. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
 
 ## Deployment
 
@@ -336,20 +357,26 @@ SkillSeat has not been deployed. Deployment targets, production configuration, r
 
 Secrets, credentials, local databases, environment files, uploads, and generated deployment artefacts must not enter Git history. `.gitignore` protects local artefacts. Production defaults enforce HTTPS redirects, secure session/CSRF cookies, HTTP-only sessions, SameSite Lax, frame denial, content-type protection, and one-year HSTS with subdomains and the preload directive. Do not use production mode on a plain-HTTP development server. Before deployment, confirm that the real domain and every subdomain support HTTPS; the directive does not itself submit a domain to a preload list. Forwarded proxy headers are deliberately not trusted until a specific deployment is configured.
 
-Missing/weak secrets, production debug mode, malformed booleans, and missing/invalid hosts prevent startup. Django's standard password validators and model permissions are retained. Anonymous account requests redirect to login; ordinary users cannot enter admin. Sign-in and POST-only sign-out enforce CSRF. Production `check --deploy --fail-level WARNING` currently passes without silencing checks. Production infrastructure and later object-level permissions still require their own tests and release review.
+Missing/weak secrets, production debug mode, malformed booleans and missing/invalid hosts prevent startup. Django's password validators, safe login redirects, session handling and CSRF remain. Object-level owner/account/resource/review checks are enforced server-side and tested with forged identifiers and ownership fields. Capacity/financial audit admin is read-only; superusers moderate visibility. Signed webhooks are the only CSRF exemption. Test-mode event flags, exact server amounts and durable event receipts protect fulfillment. Private pages use no-store; application pages use a restrictive CSP. Production infrastructure still requires release review.
 
 ## Accessibility
 
-Accessibility requirements, responsive implementation decisions, and manual or automated evidence will be recorded here. No accessibility verification has been completed yet.
+WCAG 2.2 AA is the design target. Semantic landmarks/headings, a skip link, visible keyboard focus, explicit labels, associated help/errors, native controls, live status feedback and responsive wrapping are implemented. Actual browser measurements, keyboard observations, contrast calculations, captures and limitations are in [design verification](docs/design/phase-3-verification.md). Browser review found and fixed duplicate form IDs. These scoped checks do not establish full WCAG compliance or a screen-reader audit.
 
 ## Limitations
 
-The Django foundation is implemented and tested; workshop features are not. SQLite validation does not demonstrate production concurrency safety. Login has Django's standard authentication behaviour but no rate-limiting infrastructure yet. Production database, HTTPS termination, trusted proxy configuration, domain-specific policy, email delivery, registration, owner permissions, and all booking/payment/resource rules remain later work. No deployment, wireframes, screenshots, browser-based usability review, or accessibility audit is claimed. The Windows x64 setup is verified; other operating systems are not yet verified.
+Genuine Stripe sandbox Checkout/payment/webhook forwarding remains unverified because no test credentials or signing secret are present. Official CLI provisioning requires an email/authenticated account; no user identity was transmitted automatically. The SDK initiation is mocked in tests and signature validation uses synthetic signed payloads. This gap prevents a full Phase 3 completion claim.
+
+SQLite races are tested locally and in Windows CI, but PostgreSQL and production concurrency are not verified. Login has Django's normal behaviour without rate-limiting infrastructure. No email delivery, live payments, automatic refunds, background scheduler or production deployment is configured. Private local file delivery needs production storage/request-size/content controls before release. Accessibility evidence is scoped rather than a full compliance claim. Windows x64 is verified; other operating systems remain unverified. Phase 4 must handle production deployment, database/proxy/storage/scheduler configuration and comprehensive release evidence after the Phase 3 payment gap is resolved.
 
 ## Credits
 
 SkillSeat is a Code Institute Milestone Project 4 repository. Foundation references: [Python's official Windows/NuGet guidance](https://docs.python.org/3.13/using/windows.html#the-nuget-org-packages), [Django's early custom-user guidance](https://docs.djangoproject.com/en/5.2/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project), [Django's deployment checklist](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/), [Ruff](https://docs.astral.sh/ruff/), and [GitHub's checkout action](https://github.com/actions/checkout). Project/ASGI/WSGI boilerplate and the initial user migration were generated by Django 5.2.18 and adapted to this configuration.
 
+Phase 3 used [Stripe Checkout creation](https://docs.stripe.com/api/checkout/sessions/create), [Checkout fulfillment](https://docs.stripe.com/checkout/fulfillment), [webhook signature validation](https://docs.stripe.com/webhooks), and the official [stripe-python SDK](https://github.com/stripe/stripe-python). The Stripe best-practices/documentation plugin skills informed the integration; public official documentation was used when the connected documentation tool repeatedly requested authentication. CSS artwork and fictional workshop descriptions are project-created. Real screenshots are from the local running application.
+
 ## Reflection
 
 Phase 2 showed why runtime availability must be proved separately from dependency compatibility: the approved versions were compatible, but the bundled uv download list and sandboxed installer prevented installation. Verifying the official NuGet package against its catalog hash provided an isolated runtime without replacing existing installations. Authentication was decided before persistent migrations, and test-first environment/routing/authentication increments preserved evidence of actual failures and fixes. Production checks are useful configuration evidence, but they do not substitute for deployment validation.
+
+Phase 3 made transaction boundaries concrete: independent SQLite connections exposed lock errors that sequential tests could not reveal. Atomic conditional counter updates, rollback and bounded lock retries preserve capacity without claiming SQLite row locking. Signed provider events, rather than redirects, determine payment access; late success deliberately becomes refund review. Browser inspection caught duplicate form IDs that ordinary view tests missed, leading to specific regression tests and semantic shared form rendering. A real CI failure also exposed an unstaged lint fix, reinforcing the need to verify staged content. The separate Red/Green commits and [chronological history](docs/phase-3-commits.md) preserve these actual development steps.
