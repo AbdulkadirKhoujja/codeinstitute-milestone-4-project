@@ -20,7 +20,7 @@ The intended audiences are:
 
 - Phase 1 is complete: repository security, product definition, and documentation foundations have been committed and verified. Phase 2 has begun with the Python and Django dependency baseline.
 - Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Phase 2 foundation work is underway; verification evidence is recorded in [the Phase 2 log](docs/phase-2-evidence.md).
-- Django is initialised with `config` and `core` packages, a public foundation page, SQLite configuration, ASGI/WSGI entry points, and 21 passing foundation tests. Authentication setup is in progress.
+- Django is initialised with `config`, `core`, and `accounts` packages, SQLite configuration, ASGI/WSGI entry points, and 33 passing foundation tests. A custom user, sign-in/sign-out, and an authenticated own-account page establish the authentication foundation.
 - Workshop features, screenshots, and deployment remain unimplemented.
 - The README will be updated alongside the application and verification evidence.
 
@@ -212,19 +212,25 @@ Design evidence will be prominent and traceable. For each major journey, the REA
 
 ## Features
 
-No features are currently implemented. The committed scope and user stories above are planned requirements; completed features will be listed here only after implementation and verification.
+The foundation provides a public status page, Django sign-in, POST-only sign-out, an authenticated own-account page, and staff-restricted Django admin. No Phase 3 workshop or booking features are implemented. Registration and account management remain planned.
 
 ## Data model
 
-No data model has been designed or implemented yet. Confirmed entities, relationships, constraints, ownership rules, and migrations will be documented here after the project requirements are translated into tested Django designs.
+`accounts.User` subclasses Django's `AbstractUser` without adding fields. Username-based authentication, password hashing, groups, permissions, staff status, and superuser status retain Django's behaviour. `AUTH_USER_MODEL` is set before the initial persistent database migration. This small extension point avoids the disruption of swapping user models later; it does not invent owner or attendee role fields prematurely. Future foreign keys must use `settings.AUTH_USER_MODEL`, and runtime code must use `get_user_model()`. `accounts/0001_initial.py` creates the user and permission/group relationships. Workshop and booking entities remain undecided and unimplemented.
 
 ## Application architecture
 
-The application architecture has not yet been established. This section will document the Django project and app structure, responsibilities, data flow, authorization boundaries, payment flow, and important design decisions as implementation develops.
+`config/` contains environment validation, settings, root URLs, ASGI, and WSGI. `core/` owns the public foundation page; `accounts/` owns the custom user, admin registration, and minimal authentication routes. Shared templates live in `templates/`, and foundation tests in `tests/`. SQLite is appropriate for the local foundation; production database and concurrent booking decisions remain later work. There are no services, payment integrations, or additional business apps yet.
 
 ## Routes
 
-No application routes currently exist. Implemented routes, permissions, protected resources, and their user journeys will be recorded here after Django development begins.
+| Route | Name | Access |
+| --- | --- | --- |
+| `/` | `core:home` | Public foundation page |
+| `/accounts/login/` | `accounts:login` | Public sign-in, CSRF-protected POST |
+| `/accounts/logout/` | `accounts:logout` | POST with CSRF token |
+| `/accounts/` | `accounts:profile` | Authenticated user's own identity |
+| `/admin/` | `admin:index` | Active staff users with Django permissions |
 
 ## Technology stack
 
@@ -261,7 +267,7 @@ $env:DJANGO_SECRET_KEY = .venv/Scripts/python.exe -c "import secrets; print(secr
 .venv/Scripts/python.exe manage.py runserver 127.0.0.1:8000
 ```
 
-The generated development key is ephemeral; use a stable private key in your local environment when preserving sessions. The database is local SQLite at ignored `db.sqlite3`. Initial database migration instructions will follow the authentication-model decision, before any persistent database is created.
+The generated development key is ephemeral; use a stable private key in your local environment when preserving sessions. The database is local SQLite at ignored `db.sqlite3`. The custom user model is already configured; initialise the database with `.venv/Scripts/python.exe manage.py migrate`. Create a local administrator only when needed using `manage.py createsuperuser`; no credentials are shipped. Database migration checks are recorded in the evidence log when executed.
 
 uv 0.12.17 predates this Python build and cannot download it from its bundled list. Passing the exact NuGet executable avoids that limitation. The full installer previously exited with access denied inside the restricted sandbox. If a managed environment denies network, cache, or external-directory access, use its approved permission mechanism; do not disable security controls. In a normal user PowerShell session, this route needs no Windows installer. Application configuration instructions will be added as the foundation is implemented.
 

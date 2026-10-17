@@ -31,3 +31,11 @@ Only commands actually executed are recorded here. No application tests existed 
 - Django's `startproject config` rejected the existing config package. Generated the standard scaffold under a temporary name inside ignored `.venv/scaffold`, then copied manage.py/ASGI/WSGI with the final package name. The generated secret/settings stayed ignored; the tracked settings use validated environment input.
 - Green: `python manage.py test -v 2`, 21 tests passed. `python manage.py check`, exit 0, no issues.
 - Tests verify public routing/template, 404s, host rejection, app registration, SQLite connectivity and migrations, settings, ASGI, and WSGI.
+
+## Authentication TDD
+
+- Red: `python manage.py test tests.test_accounts -v 1`, exit 1, 12 tests: 1 failure (`auth.User` instead of `accounts.User`) and 7 errors (accounts namespace absent). Four inherited Django contracts already passed.
+- Implemented `accounts.User(AbstractUser)`, configured it before the first persistent migration, generated `accounts/0001_initial`, and added Django login/logout views plus an authenticated own-account page.
+- Green: `python manage.py test -v 1`, exit 0, all 33 tests passed in 5.456 seconds.
+- Real password hashing, inactive-user rejection, CSRF, POST-only logout/session termination, safe login redirects, anonymous access, and non-staff admin rejection are covered.
+- No registration, owner role, workshop, booking, review, payment, or resource models exist yet.
