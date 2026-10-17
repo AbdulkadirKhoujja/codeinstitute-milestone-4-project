@@ -62,6 +62,17 @@ class WorkshopModelTests(TestCase):
 
 
 class DiscoveryTests(TestCase):
+    def test_discovery_lists_upcoming_workshops_without_advertising_past_seats(self):
+        item = workshop(
+            title="Past fictional workshop",
+            starts_at=timezone.now() - timedelta(hours=3),
+            ends_at=timezone.now() - timedelta(hours=1),
+        )
+        self.assertNotContains(self.client.get("/workshops/"), item.title)
+        response = self.client.get(f"/workshops/{item.pk}/")
+        self.assertContains(response, item.title)
+        self.assertNotContains(response, "places available")
+
     def test_public_discovery_hides_drafts(self):
         item = workshop()
         draft = workshop(owner=item.owner, title="Private draft", published=False)
