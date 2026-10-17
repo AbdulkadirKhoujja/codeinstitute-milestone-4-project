@@ -20,7 +20,11 @@ def listing(request):
     return render(
         request,
         "workshops/list.html",
-        {"workshops": Workshop.objects.filter(published=True).select_related("owner")},
+        {
+            "workshops": Workshop.objects.filter(
+                published=True, starts_at__gt=timezone.now()
+            ).select_related("owner")
+        },
     )
 
 
@@ -42,6 +46,7 @@ def detail(request, pk):
             "reviews": item.reviews.filter(visible=True).select_related("attendee"),
             "resources": item.resources.all() if can_access else [],
             "booking_open": item.starts_at > timezone.now() and item.available_seats > 0,
+            "booking_started": item.starts_at <= timezone.now(),
             "active_booking": request.user.is_authenticated
             and Booking.objects.filter(
                 workshop=item, attendee=request.user, status__in=["pending", "confirmed"]

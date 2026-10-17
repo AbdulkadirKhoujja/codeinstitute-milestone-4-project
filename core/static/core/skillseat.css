@@ -6,3 +6,5 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 .form-field{margin-bottom:22px}
+
+.card,h2,h3,p{overflow-wrap:anywhere}
