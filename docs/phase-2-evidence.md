@@ -54,3 +54,12 @@ Only commands actually executed are recorded here. No application tests existed 
 - Generated universal hash locks with uv 0.12.17 for runtime and development requirements. Runtime pins remain Python 3.13.16 and Django 5.2.18; resolved transitive packages are asgiref 3.12.1, sqlparse 0.6.0, and Windows tzdata 2026.5.
 - Read official PyPI metadata and selected Ruff 0.17.1 as the only additional development tool. Hash-verified installation from both lock files succeeded (exit 0).
 - Initial Ruff checks found three import-order issues and ten files needing formatting. Applied the formatter/import fixes, then `ruff check .` and `ruff format --check .` passed. This is tooling verification/refactoring, not application TDD.
+- Post-format full suite: 42 tests passed in 10.982 seconds, exit 0.
+- Real development-server smoke check: the sandbox attempt timed out with no response/log; approved execution outside the sandbox passed (exit 0), HTTP 200 with the expected home page. The child server was terminated by the script.
+- Independently created `.venv/repro-check` using the NuGet executable's standard `-m venv`, installed both hash locks with pip, and ran pip integrity/version assertions: exit 0, Python 3.13.16 and Django 5.2.18. This validates the alternative setup used by CI.
+
+## Continuous integration
+
+- Added a Windows GitHub Actions workflow reproducing official NuGet setup, hashes, exact versions, dependency checks, lint/format, system/tests/migrations, production security checks, real-server smoke, and clean-tree checks.
+- Verified official GitHub release metadata for checkout v7.0.1 (`3d3c42e5aac5ba805825da76410c181273ba90b1`); pinned that commit with read-only permissions and checkout credentials disabled.
+- GitHub execution remains pending until this workflow is pushed and its actual result inspected.

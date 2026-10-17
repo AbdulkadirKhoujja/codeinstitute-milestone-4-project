@@ -1,0 +1,68 @@
+name: Django foundation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-foundation:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      DJANGO_ENV: development
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,[::1]
+      PIP_DISABLE_PIP_VERSION_CHECK: '1'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify official Python NuGet package and create environment
+        shell: pwsh
+        run: |
+          ./scripts/Install-Python.ps1
+          $python = Join-Path $env:LOCALAPPDATA 'SkillSeat\runtimes\python-3.13.16\package\tools\python.exe'
+          & $python -m venv .venv
+      - name: Install hash-locked dependencies
+        run: .venv/Scripts/python.exe -m pip install --require-hashes -r requirements.lock -r requirements-dev.lock
+      - name: Verify exact versions and environment path
+        run: .venv/Scripts/python.exe -c "import sys, django; from pathlib import Path; print(sys.version); print(sys.executable); print(django.get_version()); assert sys.version_info[:3] == (3, 13, 16); assert django.get_version() == '5.2.18'; assert Path(sys.prefix).resolve() == Path('.venv').resolve()"
+      - name: Verify dependency consistency
+        run: .venv/Scripts/python.exe -m pip check
+      - name: Generate transient check-only secret
+        run: .venv/Scripts/python.exe -c "import os, secrets; key = secrets.token_urlsafe(64); print('::add-mask::' + key); open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8').write('DJANGO_SECRET_KEY=' + key + '\n')"
+      - name: Lint
+        run: .venv/Scripts/ruff.exe check .
+      - name: Check formatting
+        run: .venv/Scripts/ruff.exe format --check .
+      - name: Django system checks
+        run: .venv/Scripts/python.exe manage.py check
+      - name: Test foundation
+        run: .venv/Scripts/python.exe manage.py test -v 2
+      - name: Check migration consistency
+        run: .venv/Scripts/python.exe manage.py makemigrations --check --dry-run
+      - name: Apply migrations on fresh database
+        run: .venv/Scripts/python.exe manage.py migrate --noinput
+      - name: Check no migrations remain
+        run: .venv/Scripts/python.exe manage.py migrate --check
+      - name: Production security checks
+        env:
+          DJANGO_ENV: production
+          DJANGO_DEBUG: 'false'
+          DJANGO_ALLOWED_HOSTS: skillseat.example.com
+        run: .venv/Scripts/python.exe manage.py check --deploy --fail-level WARNING
+      - name: Verify development server starts and serves home page
+        run: .venv/Scripts/python.exe scripts/smoke_server.py
+      - name: Check whitespace and untracked artefacts
+        shell: pwsh
+        run: |
+          git diff --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $status = git status --porcelain
+          if ($status) { throw "Unexpected repository changes: $status" }

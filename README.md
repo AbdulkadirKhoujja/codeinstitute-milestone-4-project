@@ -4,7 +4,7 @@ SkillSeat is the working title for a Code Institute Milestone Project 4 full-sta
 
 ## Project overview
 
-This repository is currently at the planning and repository-foundation stage. SkillSeat is not yet implemented, so this README records the committed product direction without presenting planned work as completed functionality.
+This repository contains the Django foundation for SkillSeat. Workshop discovery and booking remain planned Phase 3 functionality. This README distinguishes verified foundation behaviour from planned product features.
 
 ## Purpose and intended audience
 
@@ -20,7 +20,7 @@ The intended audiences are:
 
 - Phase 1 is complete: repository security, product definition, and documentation foundations have been committed and verified. Phase 2 has begun with the Python and Django dependency baseline.
 - Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Phase 2 foundation work is underway; verification evidence is recorded in [the Phase 2 log](docs/phase-2-evidence.md).
-- Django is initialised with `config`, `core`, and `accounts` packages, SQLite configuration, ASGI/WSGI entry points, and 33 passing foundation tests. A custom user, sign-in/sign-out, and an authenticated own-account page establish the authentication foundation.
+- Django is initialised with `config`, `core`, and `accounts` packages, SQLite configuration, ASGI/WSGI entry points, and 42 passing foundation tests. A custom user, sign-in/sign-out, and an authenticated own-account page establish the authentication foundation.
 - Workshop features, screenshots, and deployment remain unimplemented.
 - The README will be updated alongside the application and verification evidence.
 
@@ -234,7 +234,7 @@ The foundation provides a public status page, Django sign-in, POST-only sign-out
 
 ## Technology stack
 
-The dependency foundation uses Python 3.13.16 and Django 5.2.18, an LTS release whose official compatibility table includes Python 3.13. The Python runtime is recorded in `.python-version` and the Django runtime dependency is pinned in `requirements.txt`. Django's built-in test runner is sufficient for the initial test-driven foundation, so no development-only packages are pinned yet. Stripe, PostgreSQL drivers, frontend packages, and hosting dependencies will be added only when required by later implementation work.
+The dependency foundation uses Python 3.13.16 and Django 5.2.18 LTS. The Python runtime is recorded in `.python-version` and the Django runtime dependency is pinned in `requirements.txt`. Django's built-in test runner runs the foundation tests; Ruff 0.17.1 provides linting and formatting. Hash locks freeze runtime and development packages. Stripe, PostgreSQL drivers, frontend packages, and hosting dependencies will be added only when required by later implementation work.
 
 ## Local setup
 
@@ -255,6 +255,8 @@ uv pip check --python .venv/Scripts/python.exe
 
 The script validates package identity and SHA-512 against official NuGet catalog metadata before extracting or executing it. Keep the extracted runtime: the virtual environment depends on it. NuGet runtimes are replaced with a newly verified version rather than updated in place. Do not use the embeddable distribution for this setup.
 
+The standard-library alternative has also been verified in a separate clean environment: replace the uv environment/install commands with `& $python -m venv .venv`, then `.venv/Scripts/python.exe -m pip install --require-hashes -r requirements.lock -r requirements-dev.lock` and `.venv/Scripts/python.exe -m pip check`. Choose one setup route for a new environment; do not recreate a working environment unnecessarily. Activation is optional because every command names its interpreter explicitly.
+
 Configuration validation is implemented in `config/environment.py`. Production is the default; development must be selected explicitly. A strong `DJANGO_SECRET_KEY` is required in both modes. Production rejects debug mode and requires explicit allowed hosts. Missing, placeholder, or invalid values fail before the application starts. `.env.example` documents placeholders; it is not automatically loaded.
 
 Configure the current PowerShell session, then run checks or the local server:
@@ -269,13 +271,57 @@ $env:DJANGO_SECRET_KEY = .venv/Scripts/python.exe -c "import secrets; print(secr
 
 The generated development key is ephemeral; use a stable private key in your local environment when preserving sessions. The database is local SQLite at ignored `db.sqlite3`. The custom user model is already configured; initialise the database with `.venv/Scripts/python.exe manage.py migrate`. Create a local administrator only when needed using `manage.py createsuperuser`; no credentials are shipped. Database migration checks are recorded in the evidence log when executed.
 
-uv 0.12.17 predates this Python build and cannot download it from its bundled list. Passing the exact NuGet executable avoids that limitation. The full installer previously exited with access denied inside the restricted sandbox. If a managed environment denies network, cache, or external-directory access, use its approved permission mechanism; do not disable security controls. In a normal user PowerShell session, this route needs no Windows installer. Application configuration instructions will be added as the foundation is implemented.
+uv 0.12.17 predates this Python build and cannot download it from its bundled list. Passing the exact NuGet executable avoids that limitation. The full installer previously exited with access denied inside the restricted sandbox. If a managed environment denies network, cache, external-directory, or loopback-server access, use its approved permission mechanism; do not disable security controls. In a normal user PowerShell session, this route needs no Windows installer.
+
+### Environment variables
+
+| Variable | Development | Production |
+| --- | --- | --- |
+| `DJANGO_ENV` | Set explicitly to `development` | Defaults to `production` |
+| `DJANGO_SECRET_KEY` | Required, generated private value | Required, stable private value |
+| `DJANGO_DEBUG` | Defaults to `true`; accepts `true`, `false`, `1`, `0` | Defaults to `false`; enabling it is rejected |
+| `DJANGO_ALLOWED_HOSTS` | Defaults to `localhost,127.0.0.1,[::1]` | Required comma-separated explicit hostnames |
+
+Keys must contain at least 50 characters and five distinct characters; known placeholder prefixes are rejected. Generate a random key rather than merely satisfying those checks. Host values must not contain a URL scheme, port, wildcard, or empty entry. Unknown environment names fail instead of silently choosing a mode. No database URL, proxy trust, payment credentials, email service, or production service configuration is implemented in Phase 2.
 
 `requirements.txt` remains the approved Django pin. `requirements.lock` additionally freezes its transitive dependencies with hashes and a Windows marker for `tzdata`. `requirements-dev.txt`/`.lock` add only Ruff 0.17.1 for linting and formatting. Install from the lock files for reproducibility. When deliberately updating dependencies, regenerate with `uv pip compile requirements.txt --universal --generate-hashes --output-file requirements.lock` and the equivalent command for `requirements-dev.txt`; review and test the resulting diff. Do not change the approved runtime pins incidentally.
 
 ## Testing
 
-No test suite currently exists. Implementation work will follow strict test-driven development: Red, Green, then Refactor. Planned evidence includes unit, integration, permission, payment-state, and browser tests; commands and results will be added only when they exist.
+The built-in Django runner currently passes **42 tests**: 12 environment contracts, nine Django wiring/database checks, 12 authentication/model boundaries, and nine startup/security checks. Real Red/Green runs and the subsequent formatting refactor are recorded in [the evidence log](docs/phase-2-evidence.md). Tests use an isolated in-memory database and real password hashing. Production startup is also exercised in fresh subprocesses.
+
+With development environment variables set as above:
+
+```powershell
+.venv/Scripts/ruff.exe check .
+.venv/Scripts/ruff.exe format --check .
+uv pip check --python .venv/Scripts/python.exe
+.venv/Scripts/python.exe manage.py check
+.venv/Scripts/python.exe manage.py test -v 2
+.venv/Scripts/python.exe manage.py makemigrations --check --dry-run
+.venv/Scripts/python.exe manage.py migrate --noinput
+.venv/Scripts/python.exe manage.py migrate --check
+.venv/Scripts/python.exe scripts/smoke_server.py
+git diff --check
+```
+
+The smoke script starts the real development server on a temporary loopback port, verifies HTTP 200 and the SkillSeat page, then stops its child process. This passed with approved execution outside the restricted sandbox after the sandbox attempt timed out. The local database has all 19 initial migrations applied; fresh test databases also apply them successfully. No migration drift is detected.
+
+Check production configuration in a separate shell (the example host is check-only, not a deployed site):
+
+```powershell
+$env:DJANGO_ENV = 'production'
+$env:DJANGO_DEBUG = 'false'
+$env:DJANGO_ALLOWED_HOSTS = 'skillseat.example.com'
+$env:DJANGO_SECRET_KEY = .venv/Scripts/python.exe -c "import secrets; print(secrets.token_urlsafe(64))"
+.venv/Scripts/python.exe manage.py check --deploy --fail-level WARNING
+```
+
+This deployment check passes without silencing checks. It does not verify a real TLS endpoint, proxy, production database, or hosting platform. Browser, accessibility, payment, capacity, and workshop permissions require later implementation and verification.
+
+### Continuous integration
+
+`.github/workflows/foundation.yml` runs on pushes and pull requests to `main`, and supports manual runs. A Windows runner verifies the official NuGet runtime, creates a fresh environment, installs hash-locked dependencies, asserts exact versions and interpreter location, checks dependency integrity, runs lint/format/system/tests/migrations/production checks, and smoke-tests the server. The checkout action is pinned to an immutable official release commit, permissions are read-only, and no repository secret is required. A random check-only key is generated per run. Actual GitHub execution results will be linked in the evidence log once verified.
 
 ## Deployment
 
@@ -293,12 +339,12 @@ Accessibility requirements, responsive implementation decisions, and manual or a
 
 ## Limitations
 
-The project is not yet implemented. Consequently, there are currently no completed features, test results, deployment outcomes, screenshots, or production claims to report. Future limitations will be recorded honestly as the real scope and evidence develop.
+The Django foundation is implemented and tested; workshop features are not. SQLite validation does not demonstrate production concurrency safety. Login has Django's standard authentication behaviour but no rate-limiting infrastructure yet. Production database, HTTPS termination, trusted proxy configuration, domain-specific policy, email delivery, registration, owner permissions, and all booking/payment/resource rules remain later work. No deployment, wireframes, screenshots, browser-based usability review, or accessibility audit is claimed. The Windows x64 setup is verified; other operating systems are not yet verified.
 
 ## Credits
 
-SkillSeat is a Code Institute Milestone Project 4 repository. Third-party resources, libraries, design assets, and learning references will be credited here when they are used.
+SkillSeat is a Code Institute Milestone Project 4 repository. Foundation references: [Python's official Windows/NuGet guidance](https://docs.python.org/3.13/using/windows.html#the-nuget-org-packages), [Django's early custom-user guidance](https://docs.djangoproject.com/en/5.2/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project), [Django's deployment checklist](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/), [Ruff](https://docs.astral.sh/ruff/), and [GitHub's checkout action](https://github.com/actions/checkout). Project/ASGI/WSGI boilerplate and the initial user migration were generated by Django 5.2.18 and adapted to this configuration.
 
 ## Reflection
 
-Development reflections, significant decisions, challenges, solutions, and lessons learned will be added throughout the project rather than reconstructed at the end.
+Phase 2 showed why runtime availability must be proved separately from dependency compatibility: the approved versions were compatible, but the bundled uv download list and sandboxed installer prevented installation. Verifying the official NuGet package against its catalog hash provided an isolated runtime without replacing existing installations. Authentication was decided before persistent migrations, and test-first environment/routing/authentication increments preserved evidence of actual failures and fixes. Production checks are useful configuration evidence, but they do not substitute for deployment validation.
