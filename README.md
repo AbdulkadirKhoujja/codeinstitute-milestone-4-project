@@ -20,8 +20,8 @@ The intended audiences are:
 
 - Phase 1 is complete: repository security, product definition, and documentation foundations have been committed and verified. Phase 2 has begun with the Python and Django dependency baseline.
 - Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Phase 2 foundation work is underway; verification evidence is recorded in [the Phase 2 log](docs/phase-2-evidence.md).
-- Django has not been initialised.
-- No application features, routes, models, tests, screenshots, or deployment have been implemented.
+- Django is initialised with `config` and `core` packages, a public foundation page, SQLite configuration, ASGI/WSGI entry points, and 21 passing foundation tests. Authentication setup is in progress.
+- Workshop features, screenshots, and deployment remain unimplemented.
 - The README will be updated alongside the application and verification evidence.
 
 ## Planned product scope
@@ -249,7 +249,19 @@ uv pip check --python .venv/Scripts/python.exe
 
 The script validates package identity and SHA-512 against official NuGet catalog metadata before extracting or executing it. Keep the extracted runtime: the virtual environment depends on it. NuGet runtimes are replaced with a newly verified version rather than updated in place. Do not use the embeddable distribution for this setup.
 
-Configuration validation is implemented in `config/environment.py`. Production is the default; development must be selected explicitly. A strong `DJANGO_SECRET_KEY` is required in both modes. Production rejects debug mode and requires explicit allowed hosts. Missing, placeholder, or invalid values fail before the application starts. The configuration contracts currently pass 12 tests; Django wiring is the next foundation increment.
+Configuration validation is implemented in `config/environment.py`. Production is the default; development must be selected explicitly. A strong `DJANGO_SECRET_KEY` is required in both modes. Production rejects debug mode and requires explicit allowed hosts. Missing, placeholder, or invalid values fail before the application starts. `.env.example` documents placeholders; it is not automatically loaded.
+
+Configure the current PowerShell session, then run checks or the local server:
+
+```powershell
+$env:DJANGO_ENV = 'development'
+$env:DJANGO_SECRET_KEY = .venv/Scripts/python.exe -c "import secrets; print(secrets.token_urlsafe(64))"
+.venv/Scripts/python.exe manage.py check
+.venv/Scripts/python.exe manage.py test -v 2
+.venv/Scripts/python.exe manage.py runserver 127.0.0.1:8000
+```
+
+The generated development key is ephemeral; use a stable private key in your local environment when preserving sessions. The database is local SQLite at ignored `db.sqlite3`. Initial database migration instructions will follow the authentication-model decision, before any persistent database is created.
 
 uv 0.12.17 predates this Python build and cannot download it from its bundled list. Passing the exact NuGet executable avoids that limitation. The full installer previously exited with access denied inside the restricted sandbox. If a managed environment denies network, cache, or external-directory access, use its approved permission mechanism; do not disable security controls. In a normal user PowerShell session, this route needs no Windows installer. Application configuration instructions will be added as the foundation is implemented.
 

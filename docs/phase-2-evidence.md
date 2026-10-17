@@ -24,3 +24,10 @@ Only commands actually executed are recorded here. No application tests existed 
 - Red: `.venv/Scripts/python.exe -m unittest tests.test_environment -v`, exit 1: `ModuleNotFoundError: No module named 'config'`. Tests were committed before implementation.
 - Green: same command, exit 0, 12 tests passed after implementing strict environment parsing.
 - Contracts cover production defaults, explicit development mode, missing/weak keys, invalid debug values, production debug rejection, host validation, and avoiding secrets in configuration representations.
+
+## Django wiring TDD
+
+- Red: `DJANGO_SETTINGS_MODULE=config.settings python -m django test tests.test_foundation -v 2`, exit 1: settings module did not exist.
+- Django's `startproject config` rejected the existing config package. Generated the standard scaffold under a temporary name inside ignored `.venv/scaffold`, then copied manage.py/ASGI/WSGI with the final package name. The generated secret/settings stayed ignored; the tracked settings use validated environment input.
+- Green: `python manage.py test -v 2`, 21 tests passed. `python manage.py check`, exit 0, no issues.
+- Tests verify public routing/template, 404s, host rejection, app registration, SQLite connectivity and migrations, settings, ASGI, and WSGI.
