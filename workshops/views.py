@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.http import FileResponse, Http404, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 
-from .forms import WorkshopForm
-from .models import Booking, Workshop
+from .forms import ResourceForm, ReviewForm, WorkshopForm
+from .models import Booking, Resource, Review, Workshop
 from .services import cancel_booking, expire_bookings, reserve
 
 
@@ -21,7 +23,22 @@ def listing(request):
 def detail(request, pk):
     expire_bookings()
     item = get_object_or_404(Workshop.objects.select_related("owner"), pk=pk, published=True)
-    return render(request, "workshops/detail.html", {"workshop": item})
+    can_access = request.user.is_authenticated and (
+        request.user.is_superuser
+        or (item.owner_id == request.user.pk and request.user.has_perm("workshops.add_workshop"))
+        or Booking.objects.filter(
+            workshop=item, attendee=request.user, status="confirmed", paid=True
+        ).exists()
+    )
+    return render(
+        request,
+        "workshops/detail.html",
+        {
+            "workshop": item,
+            "reviews": item.reviews.filter(visible=True).select_related("attendee"),
+            "resources": item.resources.all() if can_access else [],
+        },
+    )
 
 
 @login_required
@@ -99,5 +116,111 @@ def edit_workshop(request, pk=None):
             "form": form,
             "workshop": item,
             "roster": item.bookings.select_related("attendee") if pk else [],
+            "resource_form": ResourceForm(),
+            "resources": item.resources.all() if pk else [],
         },
     )
+
+
+@login_required
+def download(request, pk):
+    resource = get_object_or_404(Resource.objects.select_related("workshop"), pk=pk)
+    item = resource.workshop
+    host = request.user.is_superuser or (
+        item.owner_id == request.user.pk and request.user.has_perm("workshops.add_workshop")
+    )
+    if (
+        not host
+        and not Booking.objects.filter(
+            workshop=item, attendee=request.user, status="confirmed", paid=True
+        ).exists()
+    ):
+        raise Http404
+    try:
+        response = FileResponse(
+            resource.file.open("rb"),
+            as_attachment=True,
+            filename=resource.file.name.rsplit("/", 1)[-1],
+            content_type="application/octet-stream",
+        )
+    except FileNotFoundError:
+        raise Http404 from None
+    response["Cache-Control"] = "private, no-store"
+    return response
+
+
+@login_required
+@require_POST
+def upload_resource(request, pk):
+    item = get_object_or_404(owned_workshops(request.user), pk=pk)
+    form = ResourceForm(request.POST, request.FILES)
+    if form.is_valid():
+        resource = form.save(commit=False)
+        resource.workshop = item
+        resource.save()
+        messages.success(request, "Private resource added.")
+    else:
+        messages.error(request, "Resource not saved. Provide a title and a file of at most 5 MB.")
+    return redirect("workshops:edit", pk=pk)
+
+
+@login_required
+@require_POST
+def delete_resource(request, pk):
+    resource = get_object_or_404(Resource, pk=pk, workshop__in=owned_workshops(request.user))
+    workshop_id = resource.workshop_id
+    resource.file.delete(save=False)
+    resource.delete()
+    messages.success(request, "Resource removed.")
+    return redirect("workshops:edit", pk=workshop_id)
+
+
+@login_required
+@require_POST
+def attend(request, pk):
+    booking = get_object_or_404(
+        Booking.objects.select_related("workshop"),
+        pk=pk,
+        workshop__in=owned_workshops(request.user),
+    )
+    if booking.status != "confirmed" or booking.workshop.ends_at > timezone.now():
+        return HttpResponseBadRequest(
+            "Attendance can be recorded only for confirmed bookings after the workshop ends."
+        )
+    Booking.objects.filter(pk=pk, status="confirmed").update(attended=True)
+    messages.success(request, "Attendance recorded.")
+    return redirect("workshops:edit", pk=booking.workshop_id)
+
+
+@login_required
+def review(request, pk):
+    item = get_object_or_404(Workshop, pk=pk)
+    if (
+        item.ends_at > timezone.now()
+        or not Booking.objects.filter(
+            workshop=item, attendee=request.user, status="confirmed", attended=True
+        ).exists()
+    ):
+        raise PermissionDenied(
+            "Reviews require attendance recorded by your host after the workshop ends."
+        )
+    existing = Review.objects.filter(workshop=item, attendee=request.user).first()
+    form = ReviewForm(request.POST or None, instance=existing)
+    if request.method == "POST" and form.is_valid():
+        record = form.save(commit=False)
+        record.workshop = item
+        record.attendee = request.user
+        record.save()
+        messages.success(request, "Your review was saved.")
+        return redirect("workshops:detail", pk=pk)
+    return render(request, "accounts/form.html", {"form": form, "heading": "Review your workshop"})
+
+
+@login_required
+@require_POST
+def delete_review(request, pk):
+    record = get_object_or_404(Review, pk=pk, attendee=request.user)
+    workshop_id = record.workshop_id
+    record.delete()
+    messages.success(request, "Your review was removed.")
+    return redirect("workshops:detail", pk=workshop_id)

@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import F, Q
 
+from .storage import PrivateStorage, resource_path
+
 
 class Workshop(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -77,3 +79,28 @@ class Booking(models.Model):
             ),
         ]
         indexes = [models.Index(fields=["status", "expires_at"])]
+
+
+class Resource(models.Model):
+    workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE, related_name="resources")
+    title = models.CharField(max_length=140)
+    file = models.FileField(storage=PrivateStorage(), upload_to=resource_path)
+
+
+class Review(models.Model):
+    workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE, related_name="reviews")
+    attendee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    rating = models.PositiveSmallIntegerField()
+    body = models.TextField(max_length=2000)
+    visible = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["workshop", "attendee"], name="one_review_per_attendee"
+            ),
+            models.CheckConstraint(
+                condition=Q(rating__gte=1, rating__lte=5), name="valid_review_rating"
+            ),
+        ]
