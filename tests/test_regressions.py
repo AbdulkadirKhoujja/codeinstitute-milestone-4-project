@@ -14,6 +14,18 @@ from workshops.services import reserve
 
 
 class SecurityRegressionTests(TestCase):
+    def test_financial_admin_is_read_only_even_for_superuser(self):
+        admin = user("administrator")
+        admin.is_staff = admin.is_superuser = True
+        admin.save()
+        booking = reserve(self.item.pk, self.person)
+        self.client.force_login(admin)
+        path = f"/admin/workshops/booking/{booking.pk}/change/"
+        self.assertEqual(self.client.get(path).status_code, 200)
+        self.assertEqual(self.client.post(path, {"status": "cancelled"}).status_code, 403)
+        booking.refresh_from_db()
+        self.assertEqual(booking.status, "confirmed")
+
     def setUp(self):
         self.item = workshop()
         self.person = user("learner")

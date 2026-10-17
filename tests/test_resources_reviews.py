@@ -12,6 +12,27 @@ from workshops.services import reserve
 
 
 class ResourceReviewTests(TestCase):
+    def test_expired_and_cancelled_states_deny_even_with_a_paid_flag(self):
+        self.client.force_login(self.person)
+        for state in ("expired", "cancelled", "pending"):
+            Booking.objects.filter(pk=self.booking.pk).update(status=state, paid=True)
+            self.assertEqual(
+                self.client.get(f"/workshops/resources/{self.resource.pk}/").status_code, 404
+            )
+
+    def test_owner_resource_delete_checks_ownership_and_removes_file(self):
+        other = user("otherhost")
+        other.user_permissions.add(Permission.objects.get(codename="add_workshop"))
+        self.client.force_login(other)
+        path = f"/workshops/resources/{self.resource.pk}/delete/"
+        self.assertEqual(self.client.post(path).status_code, 404)
+        storage, filename = self.resource.file.storage, self.resource.file.name
+        self.assertTrue(storage.exists(filename))
+        self.client.force_login(self.item.owner)
+        self.assertEqual(self.client.post(path).status_code, 302)
+        self.assertFalse(storage.exists(filename))
+        self.assertFalse(Resource.objects.exists())
+
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
