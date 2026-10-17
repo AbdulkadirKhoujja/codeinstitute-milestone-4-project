@@ -14,6 +14,13 @@ class BookingTests(TestCase):
         self.item = workshop(capacity=1)
         self.attendee = user("learner")
 
+    def test_existing_booking_detail_links_to_management(self):
+        reserve(self.item.pk, self.attendee)
+        self.client.force_login(self.attendee)
+        response = self.client.get(f"/workshops/{self.item.pk}/")
+        self.assertContains(response, "Manage your booking")
+        self.assertNotContains(response, "Reserve a place")
+
     def test_free_confirmed_and_duplicate_rejected(self):
         booking = reserve(self.item.pk, self.attendee)
         self.assertEqual(booking.status, "confirmed")
