@@ -1,0 +1,2 @@
+# Single development tool: Python linting and consistent formatting.
+ruff==0.17.1

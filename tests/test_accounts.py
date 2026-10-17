@@ -14,7 +14,9 @@ class UserModelTests(TestCase):
         self.assertNotIn("auth_user", tables)
 
     def test_new_user_has_hashed_password_and_no_privileged_role(self):
-        user = get_user_model().objects.create_user(username="attendee", password="test-password-73!")
+        user = get_user_model().objects.create_user(
+            username="attendee", password="test-password-73!"
+        )
         self.assertTrue(user.check_password("test-password-73!"))
         self.assertNotEqual(user.password, "test-password-73!")
         self.assertFalse(user.is_staff)
@@ -22,7 +24,9 @@ class UserModelTests(TestCase):
         self.assertFalse(user.has_perm("accounts.change_user"))
 
     def test_superuser_manager_preserves_django_admin_contract(self):
-        user = get_user_model().objects.create_superuser(username="administrator", password="test-password-73!")
+        user = get_user_model().objects.create_superuser(
+            username="administrator", password="test-password-73!"
+        )
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_superuser)
 
@@ -30,7 +34,9 @@ class UserModelTests(TestCase):
 class AuthenticationBoundaryTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.user = get_user_model().objects.create_user(username="attendee", password="test-password-73!")
+        cls.user = get_user_model().objects.create_user(
+            username="attendee", password="test-password-73!"
+        )
 
     def test_anonymous_profile_access_redirects_to_login(self):
         self.assertRedirects(
@@ -44,12 +50,16 @@ class AuthenticationBoundaryTests(TestCase):
         self.assertContains(response, "csrfmiddlewaretoken")
 
     def test_valid_login_grants_access_to_own_account_page(self):
-        response = self.client.post(reverse("accounts:login"), {"username": "attendee", "password": "test-password-73!"})
+        response = self.client.post(
+            reverse("accounts:login"), {"username": "attendee", "password": "test-password-73!"}
+        )
         self.assertRedirects(response, reverse("accounts:profile"))
         self.assertContains(self.client.get(reverse("accounts:profile")), "attendee")
 
     def test_bad_password_does_not_authenticate(self):
-        self.client.post(reverse("accounts:login"), {"username": "attendee", "password": "incorrect"})
+        self.client.post(
+            reverse("accounts:login"), {"username": "attendee", "password": "incorrect"}
+        )
         self.assertNotIn("_auth_user_id", self.client.session)
 
     def test_inactive_user_cannot_authenticate(self):
@@ -58,12 +68,17 @@ class AuthenticationBoundaryTests(TestCase):
         self.assertIsNone(authenticate(username="attendee", password="test-password-73!"))
 
     def test_login_cannot_redirect_to_an_external_site(self):
-        response = self.client.post(reverse("accounts:login") + "?next=https://attacker.example/", {"username": "attendee", "password": "test-password-73!"})
+        response = self.client.post(
+            reverse("accounts:login") + "?next=https://attacker.example/",
+            {"username": "attendee", "password": "test-password-73!"},
+        )
         self.assertRedirects(response, reverse("accounts:profile"))
 
     def test_login_post_requires_csrf(self):
         client = Client(enforce_csrf_checks=True)
-        response = client.post(reverse("accounts:login"), {"username": "attendee", "password": "test-password-73!"})
+        response = client.post(
+            reverse("accounts:login"), {"username": "attendee", "password": "test-password-73!"}
+        )
         self.assertEqual(response.status_code, 403)
         self.assertNotIn("_auth_user_id", client.session)
 
@@ -73,7 +88,9 @@ class AuthenticationBoundaryTests(TestCase):
         self.assertEqual(client.get(reverse("accounts:logout")).status_code, 405)
         self.assertEqual(client.post(reverse("accounts:logout")).status_code, 403)
         client.get(reverse("accounts:profile"))
-        response = client.post(reverse("accounts:logout"), {"csrfmiddlewaretoken": client.cookies["csrftoken"].value})
+        response = client.post(
+            reverse("accounts:logout"), {"csrfmiddlewaretoken": client.cookies["csrftoken"].value}
+        )
         self.assertRedirects(response, reverse("core:home"))
         self.assertNotIn("_auth_user_id", client.session)
 

@@ -6,7 +6,6 @@ from django.core.exceptions import ImproperlyConfigured
 
 from config.environment import load_environment
 
-
 SECRET = "unit-test-only-key-" + "aB7!" * 16
 
 
@@ -67,7 +66,14 @@ class EnvironmentTests(unittest.TestCase):
                 self.production(DJANGO_ALLOWED_HOSTS=value)
 
     def test_invalid_or_wildcard_hosts_are_rejected(self):
-        for host in ("*", ".example.com", "https://example.com", "example.com:443", "bad host", "-bad.com"):
+        for host in (
+            "*",
+            ".example.com",
+            "https://example.com",
+            "example.com:443",
+            "bad host",
+            "-bad.com",
+        ):
             with self.subTest(host=host), self.assertRaises(ImproperlyConfigured):
                 self.production(DJANGO_ALLOWED_HOSTS=host)
 

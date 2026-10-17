@@ -48,3 +48,9 @@ Only commands actually executed are recorded here. No application tests existed 
 - `python manage.py migrate --check`: exit 0. `showmigrations` lists every migration applied.
 - With production mode, generated transient key, explicit example host, debug off: `python manage.py check --deploy --fail-level WARNING`: exit 0, no issues, none silenced.
 - HTTPS, HSTS (one year, subdomains, preload directive), secure cookies, CSRF, and frame denial are configuration foundations. No TLS terminator, production database, domain, or deployment has been provisioned.
+
+## Reproducible dependencies and code quality
+
+- Generated universal hash locks with uv 0.12.17 for runtime and development requirements. Runtime pins remain Python 3.13.16 and Django 5.2.18; resolved transitive packages are asgiref 3.12.1, sqlparse 0.6.0, and Windows tzdata 2026.5.
+- Read official PyPI metadata and selected Ruff 0.17.1 as the only additional development tool. Hash-verified installation from both lock files succeeded (exit 0).
+- Initial Ruff checks found three import-order issues and ten files needing formatting. Applied the formatter/import fixes, then `ruff check .` and `ruff format --check .` passed. This is tooling verification/refactoring, not application TDD.

@@ -248,7 +248,7 @@ From PowerShell in this repository, with uv installed:
 .\scripts\Install-Python.ps1
 $python = Join-Path $env:LOCALAPPDATA 'SkillSeat\runtimes\python-3.13.16\package\tools\python.exe'
 uv venv --python $python .venv
-uv pip install --python .venv/Scripts/python.exe -r requirements.txt
+uv pip install --python .venv/Scripts/python.exe --require-hashes -r requirements.lock -r requirements-dev.lock
 .venv/Scripts/python.exe -c "import sys, django; print(sys.version); print(sys.executable); print(django.get_version())"
 uv pip check --python .venv/Scripts/python.exe
 ```
@@ -270,6 +270,8 @@ $env:DJANGO_SECRET_KEY = .venv/Scripts/python.exe -c "import secrets; print(secr
 The generated development key is ephemeral; use a stable private key in your local environment when preserving sessions. The database is local SQLite at ignored `db.sqlite3`. The custom user model is already configured; initialise the database with `.venv/Scripts/python.exe manage.py migrate`. Create a local administrator only when needed using `manage.py createsuperuser`; no credentials are shipped. Database migration checks are recorded in the evidence log when executed.
 
 uv 0.12.17 predates this Python build and cannot download it from its bundled list. Passing the exact NuGet executable avoids that limitation. The full installer previously exited with access denied inside the restricted sandbox. If a managed environment denies network, cache, or external-directory access, use its approved permission mechanism; do not disable security controls. In a normal user PowerShell session, this route needs no Windows installer. Application configuration instructions will be added as the foundation is implemented.
+
+`requirements.txt` remains the approved Django pin. `requirements.lock` additionally freezes its transitive dependencies with hashes and a Windows marker for `tzdata`. `requirements-dev.txt`/`.lock` add only Ruff 0.17.1 for linting and formatting. Install from the lock files for reproducibility. When deliberately updating dependencies, regenerate with `uv pip compile requirements.txt --universal --generate-hashes --output-file requirements.lock` and the equivalent command for `requirements-dev.txt`; review and test the resulting diff. Do not change the approved runtime pins incidentally.
 
 ## Testing
 

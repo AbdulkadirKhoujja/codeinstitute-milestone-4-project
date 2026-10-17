@@ -2,8 +2,8 @@
 
 import os
 import re
-from dataclasses import dataclass, field
 from collections.abc import Mapping
+from dataclasses import dataclass, field
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -35,12 +35,16 @@ def load_environment(values: Mapping[str, str] | None = None) -> Environment:
         or len(set(secret)) < 5
         or secret.startswith(("django-insecure-", "replace-me-"))
     ):
-        raise ImproperlyConfigured("DJANGO_SECRET_KEY must be a strong, non-placeholder key of at least 50 characters.")
+        raise ImproperlyConfigured(
+            "DJANGO_SECRET_KEY must be a strong, non-placeholder key of at least 50 characters."
+        )
 
     default_hosts = "localhost,127.0.0.1,[::1]" if name == "development" else ""
     hosts = [host.strip() for host in values.get("DJANGO_ALLOWED_HOSTS", default_hosts).split(",")]
     host_pattern = r"(?=.{1,253}$)(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*"
     if not hosts or any(host != "[::1]" and not re.fullmatch(host_pattern, host) for host in hosts):
-        raise ImproperlyConfigured("DJANGO_ALLOWED_HOSTS must contain explicit hostnames without schemes, ports, or wildcards.")
+        raise ImproperlyConfigured(
+            "DJANGO_ALLOWED_HOSTS must contain explicit hostnames without schemes, ports, or wildcards."
+        )
 
     return Environment(name=name, debug=debug, secret_key=secret, allowed_hosts=hosts)
