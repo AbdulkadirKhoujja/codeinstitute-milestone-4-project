@@ -4,7 +4,7 @@ import time
 from datetime import timedelta
 from functools import wraps
 
-from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, OperationalError, transaction
 from django.db.models import F
 from django.utils import timezone
@@ -101,3 +101,30 @@ def cancel_booking(booking_id, attendee):
         if booking.workshop.starts_at <= now:
             raise ValidationError("Bookings cannot be cancelled after the workshop starts.")
         _release(booking_id, "cancelled", now)
+
+
+@retry_contention
+def update_workshop(workshop_id, person, values):
+    if not person.has_perm("workshops.add_workshop"):
+        raise PermissionDenied
+    allowed_fields = {
+        "title",
+        "description",
+        "location",
+        "starts_at",
+        "ends_at",
+        "capacity",
+        "price_pence",
+        "published",
+    }
+    if set(values) - allowed_fields or values.get("capacity", 1) < 1:
+        raise ValidationError("Invalid workshop update.")
+    query = Workshop.objects.filter(pk=workshop_id)
+    if not person.is_superuser:
+        query = query.filter(owner=person)
+    if "capacity" in values:
+        query = query.filter(reserved__lte=values["capacity"])
+    if not query.update(**values):
+        raise ValidationError(
+            "Reservations changed or workshop unavailable. Reload and choose sufficient capacity."
+        )

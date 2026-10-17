@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 from .forms import ResourceForm, ReviewForm, WorkshopForm
 from .models import Booking, Resource, Review, Workshop
 from .payments import initiate_checkout, process_event
-from .services import cancel_booking, expire_bookings, reserve
+from .services import cancel_booking, expire_bookings, reserve, update_workshop
 
 
 def listing(request):
@@ -102,10 +102,10 @@ def edit_workshop(request, pk=None):
         if pk:
             # Conditional UPDATE closes the validation-to-save booking race.
             values = {field: form.cleaned_data[field] for field in form.Meta.fields}
-            if not allowed.filter(pk=pk, reserved__lte=values["capacity"]).update(**values):
-                form.add_error(
-                    "capacity", "Reservations changed. Reload and choose sufficient capacity."
-                )
+            try:
+                update_workshop(pk, request.user, values)
+            except ValidationError as exc:
+                form.add_error("capacity", exc.messages[0])
             else:
                 messages.success(request, "Workshop updated.")
                 return redirect("workshops:edit", pk=pk)

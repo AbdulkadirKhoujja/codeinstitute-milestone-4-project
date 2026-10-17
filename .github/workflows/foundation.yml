@@ -47,12 +47,18 @@ jobs:
         run: .venv/Scripts/python.exe manage.py test -v 2
       - name: Execute hold cleanup command
         run: .venv/Scripts/python.exe manage.py help expire_bookings
+      - name: Verify independent connection races on file-backed SQLite
+        env:
+          SKILLSEAT_FILE_TEST_DB: '1'
+        run: .venv/Scripts/python.exe manage.py test tests.test_concurrency -v 2 --noinput
       - name: Check migration consistency
         run: .venv/Scripts/python.exe manage.py makemigrations --check --dry-run
       - name: Apply migrations on fresh database
         run: .venv/Scripts/python.exe manage.py migrate --noinput
       - name: Check no migrations remain
         run: .venv/Scripts/python.exe manage.py migrate --check
+      - name: Release expired test holds
+        run: .venv/Scripts/python.exe manage.py expire_bookings
       - name: Production security checks
         env:
           DJANGO_ENV: production
