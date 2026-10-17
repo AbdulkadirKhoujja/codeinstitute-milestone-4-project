@@ -22,12 +22,12 @@ class ProjectWiringTests(SimpleTestCase):
         self.assertEqual(reverse("core:home"), "/")
         self.assertEqual(resolve("/").view_name, "core:home")
 
-    def test_home_is_public_and_describes_foundation_status(self):
+    def test_home_is_public_and_leads_to_workshop_discovery(self):
         response = self.client.get(reverse("core:home"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "core/home.html")
         self.assertContains(response, "SkillSeat")
-        self.assertContains(response, "Workshops and booking are planned")
+        self.assertContains(response, 'href="/workshops/"')
 
     @override_settings(DEBUG=False, ALLOWED_HOSTS=["skillseat.example.com"])
     def test_unapproved_host_is_rejected(self):

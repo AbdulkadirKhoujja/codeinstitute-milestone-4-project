@@ -3,5 +3,6 @@
 {% block content %}
   <h1>Your account</h1>
   <p>Signed in as {{ user.username }}.</p>
-  <p>Workshop participation and account management are planned for Phase 3.</p>
+  <p>{{ user.get_full_name }}{% if user.email %} · {{ user.email }}{% endif %}</p>
+  <div class="cards"><article class="card"><h2>Your next chapter</h2><p>Keep track of your places, payments and workshop resources.</p><a class="button" href="{% url 'workshops:bookings' %}">My bookings</a></article><article class="card"><h2>Account settings</h2><p><a href="{% url 'accounts:edit' %}">Edit your profile</a></p><p><a href="{% url 'accounts:password' %}">Change your password</a></p></article>{% if perms.workshops.add_workshop %}<article class="card"><h2>Share your skills</h2><p>Manage your workshops, attendance and private resources.</p><a class="button" href="{% url 'workshops:studio' %}">Owner studio</a></article>{% endif %}</div>
 {% endblock %}
