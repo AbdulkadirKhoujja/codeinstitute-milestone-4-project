@@ -42,3 +42,38 @@ class Workshop(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Booking(models.Model):
+    STATES = [(value, value.title()) for value in ("pending", "confirmed", "cancelled", "expired")]
+    workshop = models.ForeignKey(Workshop, on_delete=models.PROTECT, related_name="bookings")
+    attendee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    status = models.CharField(max_length=12, choices=STATES)
+    amount_pence = models.PositiveIntegerField()
+    expires_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    attended = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False, editable=False)
+    refund_required = models.BooleanField(default=False, editable=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["workshop", "attendee"],
+                condition=Q(status__in=["pending", "confirmed"]),
+                name="one_active_booking",
+            ),
+            models.CheckConstraint(
+                condition=Q(status__in=["pending", "confirmed", "cancelled", "expired"]),
+                name="valid_booking_state",
+            ),
+            models.CheckConstraint(
+                condition=~Q(status="pending") | Q(expires_at__isnull=False, amount_pence__gt=0),
+                name="pending_has_hold",
+            ),
+            models.CheckConstraint(
+                condition=~Q(status="confirmed") | Q(amount_pence=0) | Q(paid=True),
+                name="paid_confirmation_verified",
+            ),
+        ]
+        indexes = [models.Index(fields=["status", "expires_at"])]

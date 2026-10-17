@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,23 +14,45 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Workshop',
+            name="Workshop",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=140)),
-                ('description', models.TextField(max_length=10000)),
-                ('location', models.CharField(max_length=240)),
-                ('starts_at', models.DateTimeField(db_index=True)),
-                ('ends_at', models.DateTimeField()),
-                ('capacity', models.PositiveIntegerField()),
-                ('reserved', models.PositiveIntegerField(default=0, editable=False)),
-                ('price_pence', models.PositiveIntegerField(default=0)),
-                ('published', models.BooleanField(db_index=True, default=False)),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("title", models.CharField(max_length=140)),
+                ("description", models.TextField(max_length=10000)),
+                ("location", models.CharField(max_length=240)),
+                ("starts_at", models.DateTimeField(db_index=True)),
+                ("ends_at", models.DateTimeField()),
+                ("capacity", models.PositiveIntegerField()),
+                ("reserved", models.PositiveIntegerField(default=0, editable=False)),
+                ("price_pence", models.PositiveIntegerField(default=0)),
+                ("published", models.BooleanField(db_index=True, default=False)),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL
+                    ),
+                ),
             ],
             options={
-                'ordering': ['starts_at', 'pk'],
-                'constraints': [models.CheckConstraint(condition=models.Q(('capacity__gte', 1)), name='positive_capacity'), models.CheckConstraint(condition=models.Q(('reserved__lte', models.F('capacity'))), name='within_capacity'), models.CheckConstraint(condition=models.Q(('ends_at__gt', models.F('starts_at'))), name='ordered_dates')],
+                "ordering": ["starts_at", "pk"],
+                "constraints": [
+                    models.CheckConstraint(
+                        condition=models.Q(("capacity__gte", 1)), name="positive_capacity"
+                    ),
+                    models.CheckConstraint(
+                        condition=models.Q(("reserved__lte", models.F("capacity"))),
+                        name="within_capacity",
+                    ),
+                    models.CheckConstraint(
+                        condition=models.Q(("ends_at__gt", models.F("starts_at"))),
+                        name="ordered_dates",
+                    ),
+                ],
             },
         ),
     ]
