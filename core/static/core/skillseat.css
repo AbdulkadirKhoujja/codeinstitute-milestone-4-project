@@ -4,3 +4,5 @@
 @media(max-width:800px){nav{gap:14px;padding:18px 22px}.hero{gap:28px;grid-template-columns:1.1fr 1fr}.hero-art{min-height:360px}.ticket{width:220px;padding:25px 20px}.ticket strong{font-size:3rem}.detail-grid{grid-template-columns:1fr;gap:20px}.detail-grid aside{position:static}}
 @media(max-width:600px){main{padding:30px 20px 54px}nav{gap:8px 16px}nav .brand{flex-basis:100%;margin-bottom:5px}nav>a:not(.brand){font-size:.83rem}nav .button,nav button{padding:10px 14px}.hero{grid-template-columns:1fr;padding:10px 0 38px}.hero h2{font-size:3.6rem}.hero-art{min-height:345px;max-width:420px;width:100%;margin:auto}.hero-copy{font-size:1rem}.card{padding:23px}.form-panel{padding:22px}.form-panel h1{font-size:2rem}.cards{gap:8px}.detail-grid{gap:12px}footer{padding:30px 20px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.form-field{margin-bottom:22px}
