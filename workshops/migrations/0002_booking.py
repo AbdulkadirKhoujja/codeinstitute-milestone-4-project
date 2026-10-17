@@ -6,30 +6,90 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('workshops', '0001_initial'),
+        ("workshops", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Booking',
+            name="Booking",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled'), ('expired', 'Expired')], max_length=12)),
-                ('amount_pence', models.PositiveIntegerField()),
-                ('expires_at', models.DateTimeField(blank=True, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('attended', models.BooleanField(default=False)),
-                ('paid', models.BooleanField(default=False, editable=False)),
-                ('refund_required', models.BooleanField(default=False, editable=False)),
-                ('attendee', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
-                ('workshop', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='bookings', to='workshops.workshop')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("pending", "Pending"),
+                            ("confirmed", "Confirmed"),
+                            ("cancelled", "Cancelled"),
+                            ("expired", "Expired"),
+                        ],
+                        max_length=12,
+                    ),
+                ),
+                ("amount_pence", models.PositiveIntegerField()),
+                ("expires_at", models.DateTimeField(blank=True, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("attended", models.BooleanField(default=False)),
+                ("paid", models.BooleanField(default=False, editable=False)),
+                ("refund_required", models.BooleanField(default=False, editable=False)),
+                (
+                    "attendee",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL
+                    ),
+                ),
+                (
+                    "workshop",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="bookings",
+                        to="workshops.workshop",
+                    ),
+                ),
             ],
             options={
-                'indexes': [models.Index(fields=['status', 'expires_at'], name='workshops_b_status_6fa075_idx')],
-                'constraints': [models.UniqueConstraint(condition=models.Q(('status__in', ['pending', 'confirmed'])), fields=('workshop', 'attendee'), name='one_active_booking'), models.CheckConstraint(condition=models.Q(('status__in', ['pending', 'confirmed', 'cancelled', 'expired'])), name='valid_booking_state'), models.CheckConstraint(condition=models.Q(models.Q(('status', 'pending'), _negated=True), models.Q(('amount_pence__gt', 0), ('expires_at__isnull', False)), _connector='OR'), name='pending_has_hold'), models.CheckConstraint(condition=models.Q(models.Q(('status', 'confirmed'), _negated=True), ('amount_pence', 0), ('paid', True), _connector='OR'), name='paid_confirmation_verified')],
+                "indexes": [
+                    models.Index(
+                        fields=["status", "expires_at"], name="workshops_b_status_6fa075_idx"
+                    )
+                ],
+                "constraints": [
+                    models.UniqueConstraint(
+                        condition=models.Q(("status__in", ["pending", "confirmed"])),
+                        fields=("workshop", "attendee"),
+                        name="one_active_booking",
+                    ),
+                    models.CheckConstraint(
+                        condition=models.Q(
+                            ("status__in", ["pending", "confirmed", "cancelled", "expired"])
+                        ),
+                        name="valid_booking_state",
+                    ),
+                    models.CheckConstraint(
+                        condition=models.Q(
+                            models.Q(("status", "pending"), _negated=True),
+                            models.Q(("amount_pence__gt", 0), ("expires_at__isnull", False)),
+                            _connector="OR",
+                        ),
+                        name="pending_has_hold",
+                    ),
+                    models.CheckConstraint(
+                        condition=models.Q(
+                            models.Q(("status", "confirmed"), _negated=True),
+                            ("amount_pence", 0),
+                            ("paid", True),
+                            _connector="OR",
+                        ),
+                        name="paid_confirmation_verified",
+                    ),
+                ],
             },
         ),
     ]

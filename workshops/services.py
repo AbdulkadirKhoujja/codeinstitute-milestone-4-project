@@ -1,13 +1,33 @@
 """Transactional domain operations. Start with a write to serialize SQLite writers."""
 
+import time
 from datetime import timedelta
+from functools import wraps
 
 from django.core.exceptions import ValidationError
-from django.db import IntegrityError, transaction
+from django.db import IntegrityError, OperationalError, transaction
 from django.db.models import F
 from django.utils import timezone
 
 from .models import Booking, Workshop
+
+
+def retry_contention(function):
+    """Retry whole transactions only for transient SQLite lock contention."""
+
+    @wraps(function)
+    def wrapped(*args, **kwargs):
+        for attempt in range(8):
+            try:
+                return function(*args, **kwargs)
+            except OperationalError as exc:
+                if "locked" not in str(exc).lower():
+                    raise
+                if attempt == 7:
+                    raise ValidationError("The service is busy. Please try again.") from exc
+                time.sleep(0.01 * (attempt + 1))
+
+    return wrapped
 
 
 def _release(booking_id, state, now):
@@ -24,6 +44,7 @@ def _release(booking_id, state, now):
     return 0
 
 
+@retry_contention
 def expire_bookings():
     now = timezone.now()
     ids = list(
@@ -36,6 +57,7 @@ def expire_bookings():
     return count
 
 
+@retry_contention
 def reserve(workshop_id, attendee):
     expire_bookings()
     now = timezone.now()
@@ -62,6 +84,7 @@ def reserve(workshop_id, attendee):
         raise ValidationError("A place could not be reserved. Please check your bookings.") from exc
 
 
+@retry_contention
 def cancel_booking(booking_id, attendee):
     now = timezone.now()
     with transaction.atomic():

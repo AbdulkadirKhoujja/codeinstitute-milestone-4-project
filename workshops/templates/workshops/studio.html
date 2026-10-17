@@ -1,0 +1,2 @@
+{% extends "base.html" %}
+{% block content %}<h1>Owner studio</h1><a class="button" href="{% url 'workshops:create' %}">Create workshop</a><div class="cards">{% for workshop in workshops %}<article class="card"><h2><a href="{% url 'workshops:edit' workshop.pk %}">{{ workshop.title }}</a></h2><p>{{ workshop.published|yesno:"Published,Draft" }} · {{ workshop.reserved }} / {{ workshop.capacity }} places reserved</p></article>{% empty %}<p>Create your first workshop to get started.</p>{% endfor %}</div>{% endblock %}

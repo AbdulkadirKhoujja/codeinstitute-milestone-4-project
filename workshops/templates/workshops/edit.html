@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block content %}<a href="{% url 'workshops:studio' %}">Owner studio</a><h1>{% if workshop.pk %}Edit workshop{% else %}Create workshop{% endif %}</h1><div class="form-panel"><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Save workshop</button></form></div>
+{% if workshop.pk %}<h2>Booking roster</h2><p>Private information for this workshop only.</p>{% for booking in roster %}<article class="card"><h3>{{ booking.attendee.username }}</h3><p>{{ booking.get_status_display }}{% if booking.refund_required %} · Refund review required{% endif %}</p></article>{% empty %}<p>No bookings yet.</p>{% endfor %}{% endif %}{% endblock %}
