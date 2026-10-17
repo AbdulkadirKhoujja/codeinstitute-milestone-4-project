@@ -42,6 +42,10 @@ def detail(request, pk):
             "reviews": item.reviews.filter(visible=True).select_related("attendee"),
             "resources": item.resources.all() if can_access else [],
             "booking_open": item.starts_at > timezone.now() and item.available_seats > 0,
+            "active_booking": request.user.is_authenticated
+            and Booking.objects.filter(
+                workshop=item, attendee=request.user, status__in=["pending", "confirmed"]
+            ).exists(),
             "review_eligible": request.user.is_authenticated
             and item.ends_at <= timezone.now()
             and Booking.objects.filter(
