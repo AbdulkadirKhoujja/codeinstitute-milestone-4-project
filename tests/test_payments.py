@@ -172,3 +172,33 @@ class PaymentTests(TestCase):
         self.client.get("/workshops/bookings/?success=true&paid=true")
         self.booking.refresh_from_db()
         self.assertEqual(self.booking.status, "pending")
+
+    @patch("workshops.payments.stripe.StripeClient")
+    def test_repeated_checkout_reuses_session_and_server_price_snapshot(self, client):
+        client.return_value.v1.checkout.sessions.create.return_value = SimpleNamespace(
+            id="cs_test_repeat", url="https://checkout.stripe.com/c/pay/repeat", livemode=False
+        )
+        from workshops.models import Workshop
+
+        Workshop.objects.filter(pk=self.item.pk).update(price_pence=9000)
+        first = initiate_checkout(self.booking.pk, self.person)
+        self.assertEqual(initiate_checkout(self.booking.pk, self.person), first)
+        self.assertEqual(client.return_value.v1.checkout.sessions.create.call_count, 1)
+        self.assertEqual(
+            client.return_value.v1.checkout.sessions.create.call_args.args[0]["line_items"][0][
+                "price_data"
+            ]["unit_amount"],
+            2500,
+        )
+
+    def test_signed_but_stale_webhook_rejected(self):
+        payload = json.dumps(self.event()).encode()
+        signature = hmac.new(b"whsec_simulated", b"1." + payload, hashlib.sha256).hexdigest()
+        response = self.client.post(
+            "/workshops/payments/webhook/",
+            payload,
+            content_type="application/json",
+            HTTP_STRIPE_SIGNATURE=f"t=1,v1={signature}",
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(PaymentEvent.objects.exists())
