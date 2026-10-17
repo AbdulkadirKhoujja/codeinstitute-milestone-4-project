@@ -17,3 +17,10 @@ Only commands actually executed are recorded here. No application tests existed 
 - `.venv` is ignored by `.gitignore:157`; `git ls-files .venv` is empty.
 - Sandbox denied runtime-directory and uv cache writes. Approved command execution was used; no security settings, PATH entries, or existing Python installations were changed.
 - Git push dry run succeeded. `gh auth status` reported an invalid token; CI access still needs verification.
+- `scripts/Install-Python.ps1` independently reran metadata/hash/version verification successfully (exit 0).
+
+## Environment validation TDD
+
+- Red: `.venv/Scripts/python.exe -m unittest tests.test_environment -v`, exit 1: `ModuleNotFoundError: No module named 'config'`. Tests were committed before implementation.
+- Green: same command, exit 0, 12 tests passed after implementing strict environment parsing.
+- Contracts cover production defaults, explicit development mode, missing/weak keys, invalid debug values, production debug rejection, host validation, and avoiding secrets in configuration representations.
