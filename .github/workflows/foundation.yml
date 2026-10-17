@@ -1,4 +1,4 @@
-name: Django foundation
+name: SkillSeat verification
 
 on:
   push:
@@ -43,8 +43,10 @@ jobs:
         run: .venv/Scripts/ruff.exe format --check .
       - name: Django system checks
         run: .venv/Scripts/python.exe manage.py check
-      - name: Test foundation
+      - name: Test foundation and Phase 3 contracts including real connection races
         run: .venv/Scripts/python.exe manage.py test -v 2
+      - name: Execute hold cleanup command
+        run: .venv/Scripts/python.exe manage.py help expire_bookings
       - name: Check migration consistency
         run: .venv/Scripts/python.exe manage.py makemigrations --check --dry-run
       - name: Apply migrations on fresh database

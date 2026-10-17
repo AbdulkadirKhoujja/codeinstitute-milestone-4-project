@@ -120,11 +120,13 @@ def process_event(event):
         if not created:
             return
         try:
-            attempt = PaymentAttempt.objects.select_related("booking").get(session_id=obj.get("id"))
+            attempt = PaymentAttempt.objects.get(session_id=obj.get("id"))
         except PaymentAttempt.DoesNotExist as exc:
             # Roll back receipt: Stripe may retry if initiation has not committed yet.
             raise ValidationError("Unknown Checkout session.") from exc
-        booking = attempt.booking
+        # Serialize different events against cancellation/expiry on the same booking.
+        Booking.objects.filter(pk=attempt.booking_id).update(status=F("status"))
+        booking = Booking.objects.get(pk=attempt.booking_id)
         now = timezone.now()
         if event_type in ("checkout.session.expired", "checkout.session.async_payment_failed"):
             if booking.status == "pending":
