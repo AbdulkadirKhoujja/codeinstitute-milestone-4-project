@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}{{ heading }} · SkillSeat{% endblock %}
+{% block content %}
+<div class="form-panel"><h1>{{ heading }}</h1><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Save and continue</button></form></div>
+{% endblock %}
