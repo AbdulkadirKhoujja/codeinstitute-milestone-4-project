@@ -1,6 +1,6 @@
 # Phase 3 chronological development commits
 
-Generated from the real Git history, in chronological order. Baseline: `9b165941b3a35123409e43b85b991935b29a39f9`. This list records implementation through the audited source checkpoint; later evidence-only commits are recorded in the final report and Git history. No history was rewritten.
+Generated from genuine Git history in chronological order. Baseline: `9b165941b3a35123409e43b85b991935b29a39f9`. The final report-bearing commit is supplied separately in the delivery message because a file cannot contain the hash of its own Git commit. No history was rewritten.
 
 | Full SHA | Accurate commit title |
 | --- | --- |
@@ -37,3 +37,6 @@ Generated from the real Git history, in chronological order. Baseline: `9b165941
 | `8b040704b4b8f90a37c18fbc867f1d4002fffe36` | test: guide existing attendees back to their booking management |
 | `e2ae2c6a76bbbde2efbe25365433e88373e27e2b` | fix: clarify existing bookings and polish final navigation assets |
 | `e85fe9012b506d4e986715b41b7aeb6a95ac235a` | test: verify resource revocation deletion and immutable financial admin |
+| `c71bc8dcd10e296807f72248c0d5a706f4e76b57` | docs: preserve Phase 3 acceptance architecture browser and test evidence |
+| `1737c1ec0645e5b3bb1e07a42e2b143c9e6ba8e5` | test: prevent past workshops advertising bookable seats |
+| `71802e6f0102e544e0b439defa25f5c054b5dfc0` | fix: advertise upcoming workshops with accurate booking availability |

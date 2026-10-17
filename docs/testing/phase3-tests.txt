@@ -1,6 +1,6 @@
 Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 
-Found 109 test(s).
+Found 110 test(s).
 Operations to perform:
   Synchronize unmigrated apps: messages, staticfiles
   Apply all migrations: accounts, admin, auth, contenttypes, sessions, workshops
@@ -100,6 +100,7 @@ test_review_invalid_content_and_unrelated_attendee (tests.test_resources_reviews
 test_review_requires_completion_attendance_and_confirmed_booking (tests.test_resources_reviews.ResourceReviewTests.test_review_requires_completion_attendance_and_confirmed_booking) ... ok
 test_unrelated_user_and_forged_resource_denied (tests.test_resources_reviews.ResourceReviewTests.test_unrelated_user_and_forged_resource_denied) ... ok
 test_detail_and_invalid_identifiers (tests.test_workshops.DiscoveryTests.test_detail_and_invalid_identifiers) ... ok
+test_discovery_lists_upcoming_workshops_without_advertising_past_seats (tests.test_workshops.DiscoveryTests.test_discovery_lists_upcoming_workshops_without_advertising_past_seats) ... ok
 test_public_discovery_hides_drafts (tests.test_workshops.DiscoveryTests.test_public_discovery_hides_drafts) ... ok
 test_database_rejects_over_capacity_and_zero_capacity (tests.test_workshops.WorkshopModelTests.test_database_rejects_over_capacity_and_zero_capacity) ... ok
 test_dates_must_be_ordered (tests.test_workshops.WorkshopModelTests.test_dates_must_be_ordered) ... ok
@@ -142,7 +143,7 @@ test_unknown_environment_is_rejected (tests.test_environment.EnvironmentTests.te
 test_weak_or_placeholder_secrets_are_rejected (tests.test_environment.EnvironmentTests.test_weak_or_placeholder_secrets_are_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 109 tests in 17.242s
+Ran 110 tests in 17.209s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

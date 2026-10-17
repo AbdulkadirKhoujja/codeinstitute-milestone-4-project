@@ -67,7 +67,7 @@ Registration creates an ordinary attendee with no staff flag, group or owner per
 
 | Route | Access / purpose |
 | --- | --- |
-| `/`, `/workshops/`, `/workshops/<id>/` | Public home/discovery/published detail |
+| `/`, `/workshops/`, `/workshops/<id>/` | Public home/upcoming discovery/published detail (past details retain reviews, booking closed) |
 | `/accounts/register/`, `/accounts/login/` | Public validated registration and authentication |
 | `/accounts/`, `/accounts/edit/`, `/accounts/password/` | Own authenticated account only |
 | `/accounts/logout/` | POST-only logout |

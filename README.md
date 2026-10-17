@@ -216,7 +216,7 @@ The [original planning wireframes](docs/design/phase-3-wireframes.md) were commi
 
 ## Features
 
-- Public published-workshop cards and details with host, UTC schedule, location, price and current seats.
+- Public upcoming published-workshop cards and details with host, UTC schedule, location, price and current seats. Past details remain available for reviews, with booking closed.
 - Registration, sign-in/out, own-profile editing and password changes using Django authentication and validation.
 - Permission-provisioned owner studio: create/edit/publish/unpublish, safe capacity changes, booking roster, attendance and private resource upload/removal. Superusers can work across owners.
 - Own booking history, free confirmation, paid pending holds, cancellation and executable expiry cleanup, with database-backed capacity and duplicate protections.
@@ -347,7 +347,7 @@ This configuration check does not verify a real TLS endpoint, proxy, production 
 
 `.github/workflows/foundation.yml` runs on pushes and pull requests to `main`, and supports manual runs. A Windows runner verifies the official NuGet runtime, creates a fresh environment, installs hash-locked dependencies, asserts exact versions and interpreter location, checks dependency integrity, runs lint/format/system/tests/migrations/production checks, and smoke-tests the server. The checkout action is pinned to an immutable official release commit, permissions are read-only, and no repository secret is required. A random check-only key is generated per run.
 
-[Phase 3 Windows CI run 39055816793](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39055816793) completed successfully on `187871df0d295c464d9c33f0aa9e1414b10119e2`, including all 99 tests at that checkpoint and the separate file-backed concurrency run. The evidence log records subsequent runs and final audited HEAD. The earlier Phase 3 lint failure is retained in the evidence; it was fixed without weakening checks. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
+[Phase 3 Windows CI run 39057049274](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39057049274) completed successfully on `c71bc8dcd10e296807f72248c0d5a706f4e76b57`, including all 109 tests at that checkpoint and the separate file-backed concurrency run. The final discovery edge-case correction increases the local suite to **110 passing tests**; the [consolidated report](docs/phase-3-report.md) and final delivery message identify final verification. The earlier Phase 3 lint failure is retained in the evidence; it was fixed without weakening checks. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
 
 ## Deployment
 

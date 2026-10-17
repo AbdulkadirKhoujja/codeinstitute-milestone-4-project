@@ -44,8 +44,8 @@ The [journey wireframes](design/phase-3-wireframes.md) were created before busin
 ## Final local implementation audit
 
 - Exact assertions passed: Python 3.13.16, Django 5.2.18, Stripe SDK 16.0.0. `uv pip check --python .venv/Scripts/python.exe`: all 12 installed packages compatible. Stripe and transitive packages were installed with the regenerated hash lock.
-- Ruff: lint passed; all 63 Python files formatted. `manage.py check`: no issues.
-- `manage.py test -v 2`: **109 tests passed in 17.242s**. [Genuine full output](testing/phase3-tests.txt) includes authentication, account isolation, public visibility, ownership, booking lifecycle/capacity, payment failure/signatures/replay, private-file delivery/deletion, review eligibility/moderation, interface and connection races.
+- Ruff lint and format checks passed. `manage.py check`: no issues.
+- Initial final audit: 109 tests passed in 17.242s. A subsequent discovery edge-case test exposed past-workshop seat advertising (Red), corrected by upcoming discovery filtering and closed past details (Green: all 7 workshop tests). Final `manage.py test -v 2`: **110 tests passed in 17.209s**. [Genuine full output](testing/phase3-tests.txt) includes authentication, account isolation, public visibility, ownership, booking lifecycle/capacity, payment failure/signatures/replay, private-file delivery/deletion, review eligibility/moderation, interface and connection races.
 - Separate final file-backed SQLite run: **7 tests passed in 2.386s**. [Genuine full output](testing/phase3-file-concurrency.txt). No PostgreSQL execution is claimed.
 - Five incremental workshops migrations applied locally; fresh test databases also apply all five. `makemigrations --check --dry-run`: no changes. `migrate --check`: successful.
 - `expire_bookings`: executed successfully, 0 expired holds at audit time (expiry release is exercised in tests). No scheduler assumed.
@@ -57,7 +57,9 @@ The [journey wireframes](design/phase-3-wireframes.md) were created before busin
 ## CI and repository state
 
 - [39055816793](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39055816793): successful Windows run at `187871df0d295c464d9c33f0aa9e1414b10119e2`, 99 tests at that checkpoint, file-backed races, exact versions, hash installation, lint/format, migrations, expiry, production checks and real-server smoke.
-- Final documentation/source batch and its actual CI/remote status will be recorded after pushing. Never infer success from dispatch alone.
+- [39057049274](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39057049274): successful Windows run at `c71bc8dcd10e296807f72248c0d5a706f4e76b57`; every job step inspected and successful, including the then-current 109 tests, file-backed races, hash installation, migrations, expiry, production checks and real-server smoke.
+- Live origin/main and local HEAD were both `c71bc8dcd10e296807f72248c0d5a706f4e76b57` with a clean tracked/untracked tree before the final past-workshop regression. Final delivery reports the subsequent actual CI run, live SHA comparison and clean tree; a dispatched run alone is never treated as success.
+- Local Markdown file links checked successfully. A scoped tracked-file payment-credential pattern scan found no matching credentials. This is not a comprehensive historical secret scan; Phase 4 retains that release responsibility.
 - [Chronological commit evidence](phase-3-commits.md) lists full SHAs and accurate titles. Separate Red-stage commits stayed local until the paired implementation restored checks.
 
 ## Remaining external dependency and continuation
