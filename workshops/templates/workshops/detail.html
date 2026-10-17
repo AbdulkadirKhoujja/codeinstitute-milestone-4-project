@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}{{ workshop.title }} · SkillSeat{% endblock %}
+{% block content %}
+<a href="{% url 'workshops:list' %}">All workshops</a>
+<h1>{{ workshop.title }}</h1>
+<div class="detail-grid"><section><h2>What you’ll learn</h2>{{ workshop.description|linebreaks }}<h2>Your host</h2><p>{{ workshop.owner.get_full_name|default:workshop.owner.username }}</p></section>
+<aside class="card"><h2>Your place starts here</h2><p>{{ workshop.starts_at|date:"d M Y H:i" }} – {{ workshop.ends_at|date:"d M Y H:i" }} UTC</p><p>{{ workshop.location }}</p><p>{{ workshop.price_display }}</p><p>{{ workshop.available_seats }} places available</p>{% block booking %}{% endblock %}</aside></div>
+{% endblock %}

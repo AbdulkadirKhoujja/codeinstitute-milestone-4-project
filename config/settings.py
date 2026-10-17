@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core.apps.CoreConfig",
     "accounts.apps.AccountsConfig",
+    "workshops.apps.WorkshopsConfig",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

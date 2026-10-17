@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Discover workshops · SkillSeat{% endblock %}
+{% block content %}
+<p class="eyebrow">MAKE TIME TO GROW</p>
+<h1>Find your next skill.</h1>
+<p>Practical workshops. Inspiring hosts. A place for your next step.</p>
+<div class="cards">
+{% for workshop in workshops %}
+<article class="card"><p>{{ workshop.starts_at|date:"d M Y · H:i" }} UTC</p><h2><a href="{% url 'workshops:detail' workshop.pk %}">{{ workshop.title }}</a></h2><p>{{ workshop.description|truncatewords:25 }}</p><p>With {{ workshop.owner.get_full_name|default:workshop.owner.username }}</p><p>{{ workshop.price_display }} · {{ workshop.available_seats }} places available</p></article>
+{% empty %}<p>New workshops are on their way. Please check back soon.</p>{% endfor %}
+</div>
+{% endblock %}
