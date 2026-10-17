@@ -19,7 +19,7 @@ The intended audiences are:
 ## Current development status
 
 - Phase 1 is complete: repository security, product definition, and documentation foundations have been committed and verified. Phase 2 has begun with the Python and Django dependency baseline.
-- The dependency baseline is Python 3.13.16 with Django 5.2.18; local installation is not yet verified because no Python interpreter is available in the current environment.
+- Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Phase 2 foundation work is underway; verification evidence is recorded in [the Phase 2 log](docs/phase-2-evidence.md).
 - Django has not been initialised.
 - No application features, routes, models, tests, screenshots, or deployment have been implemented.
 - The README will be updated alongside the application and verification evidence.
@@ -232,7 +232,24 @@ The dependency foundation uses Python 3.13.16 and Django 5.2.18, an LTS release 
 
 ## Local setup
 
-Local setup instructions will begin with Python 3.13.16, a virtual environment, and `python -m pip install -r requirements.txt`. This installation has not been performed in the current environment because no Python launcher or interpreter is available. Environment variables and safe Stripe test-mode configuration will be documented only when those capabilities are introduced.
+### Windows runtime and virtual environment
+
+Use Python **3.13.16** and Django **5.2.18**. The verified Windows x64 fallback is the official [Python NuGet distribution](https://docs.python.org/3.13/using/windows.html#the-nuget-org-packages). It extracts into a dedicated per-user directory without an installer, administrator privileges, PATH changes, or changes to existing Python installations.
+
+From PowerShell in this repository, with uv installed:
+
+```powershell
+.\scripts\Install-Python.ps1
+$python = Join-Path $env:LOCALAPPDATA 'SkillSeat\runtimes\python-3.13.16\package\tools\python.exe'
+uv venv --python $python .venv
+uv pip install --python .venv/Scripts/python.exe -r requirements.txt
+.venv/Scripts/python.exe -c "import sys, django; print(sys.version); print(sys.executable); print(django.get_version())"
+uv pip check --python .venv/Scripts/python.exe
+```
+
+The script validates package identity and SHA-512 against official NuGet catalog metadata before extracting or executing it. Keep the extracted runtime: the virtual environment depends on it. NuGet runtimes are replaced with a newly verified version rather than updated in place. Do not use the embeddable distribution for this setup.
+
+uv 0.12.17 predates this Python build and cannot download it from its bundled list. Passing the exact NuGet executable avoids that limitation. The full installer previously exited with access denied inside the restricted sandbox. If a managed environment denies network, cache, or external-directory access, use its approved permission mechanism; do not disable security controls. In a normal user PowerShell session, this route needs no Windows installer. Application configuration instructions will be added as the foundation is implemented.
 
 ## Testing
 
