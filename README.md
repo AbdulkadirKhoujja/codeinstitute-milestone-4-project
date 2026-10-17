@@ -281,7 +281,9 @@ SkillSeat has not been deployed. Deployment targets, production configuration, r
 
 ## Security
 
-Secrets, credentials, local databases, environment files, uploads, and generated deployment artefacts must not enter Git history. The repository `.gitignore` provides the initial protection for local development. The final security review will include server-side authorization, payment-state protection, dependency considerations, and Git-history secret scanning.
+Secrets, credentials, local databases, environment files, uploads, and generated deployment artefacts must not enter Git history. `.gitignore` protects local artefacts. Production defaults enforce HTTPS redirects, secure session/CSRF cookies, HTTP-only sessions, SameSite Lax, frame denial, content-type protection, and one-year HSTS with subdomains and the preload directive. Do not use production mode on a plain-HTTP development server. Before deployment, confirm that the real domain and every subdomain support HTTPS; the directive does not itself submit a domain to a preload list. Forwarded proxy headers are deliberately not trusted until a specific deployment is configured.
+
+Missing/weak secrets, production debug mode, malformed booleans, and missing/invalid hosts prevent startup. Django's standard password validators and model permissions are retained. Anonymous account requests redirect to login; ordinary users cannot enter admin. Sign-in and POST-only sign-out enforce CSRF. Production `check --deploy --fail-level WARNING` currently passes without silencing checks. Production infrastructure and later object-level permissions still require their own tests and release review.
 
 ## Accessibility
 

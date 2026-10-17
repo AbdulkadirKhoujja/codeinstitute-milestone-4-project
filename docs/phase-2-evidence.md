@@ -39,3 +39,12 @@ Only commands actually executed are recorded here. No application tests existed 
 - Green: `python manage.py test -v 1`, exit 0, all 33 tests passed in 5.456 seconds.
 - Real password hashing, inactive-user rejection, CSRF, POST-only logout/session termination, safe login redirects, anonymous access, and non-staff admin rejection are covered.
 - No registration, owner role, workshop, booking, review, payment, or resource models exist yet.
+
+## Security and migration verification
+
+- Added nine verification tests against the existing security implementation, not a manufactured Red cycle. `python manage.py test tests.test_security -v 2`: exit 0, nine passed in 5.637 seconds. Subprocess tests load real production/development settings and reject invalid startup configuration; response tests check HTTPS redirection, HSTS, framing/content-type headers, and session policy.
+- `python manage.py migrate --noinput`: exit 0; all 19 initial Django/accounts migrations applied to ignored local SQLite.
+- `python manage.py makemigrations --check --dry-run`: exit 0, no changes detected.
+- `python manage.py migrate --check`: exit 0. `showmigrations` lists every migration applied.
+- With production mode, generated transient key, explicit example host, debug off: `python manage.py check --deploy --fail-level WARNING`: exit 0, no issues, none silenced.
+- HTTPS, HSTS (one year, subdomains, preload directive), secure cookies, CSRF, and frame denial are configuration foundations. No TLS terminator, production database, domain, or deployment has been provisioned.
