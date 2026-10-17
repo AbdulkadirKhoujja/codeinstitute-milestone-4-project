@@ -175,6 +175,7 @@ secrets.py
 staticfiles/
 media/
 private-resources/
+.local-tools/
 
 # Optional local PostgreSQL data directories
 postgres-data/
