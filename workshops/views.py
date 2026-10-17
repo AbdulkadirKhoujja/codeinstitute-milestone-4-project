@@ -41,6 +41,12 @@ def detail(request, pk):
             "workshop": item,
             "reviews": item.reviews.filter(visible=True).select_related("attendee"),
             "resources": item.resources.all() if can_access else [],
+            "booking_open": item.starts_at > timezone.now() and item.available_seats > 0,
+            "review_eligible": request.user.is_authenticated
+            and item.ends_at <= timezone.now()
+            and Booking.objects.filter(
+                workshop=item, attendee=request.user, status="confirmed", attended=True
+            ).exists(),
         },
     )
 
@@ -120,7 +126,7 @@ def edit_workshop(request, pk=None):
             "form": form,
             "workshop": item,
             "roster": item.bookings.select_related("attendee") if pk else [],
-            "resource_form": ResourceForm(),
+            "resource_form": ResourceForm(auto_id="resource_%s"),
             "resources": item.resources.all() if pk else [],
         },
     )
