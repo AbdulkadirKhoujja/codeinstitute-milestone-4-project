@@ -43,3 +43,8 @@ class InterfaceTests(TestCase):
             self.assertContains(response, 'name="viewport"')
             self.assertContains(response, "skillseat.css")
             self.assertContains(response, "<footer")
+
+    def test_registration_uses_block_help_and_programmatic_descriptions(self):
+        response = self.client.get("/accounts/register/")
+        self.assertContains(response, '<div class="helptext" id="id_password1_helptext">')
+        self.assertContains(response, 'aria-describedby="id_password1_helptext"')
