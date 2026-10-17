@@ -29,6 +29,16 @@ def workshop(owner=None, **kwargs):
 
 
 class WorkshopModelTests(TestCase):
+    def test_paid_prices_have_a_practical_minimum_and_provider_safe_maximum(self):
+        item = workshop()
+        for value in (1, 49, 100000000):
+            item.price_pence = value
+            with self.subTest(price=value), self.assertRaises(ValidationError):
+                item.full_clean()
+        for value in (0, 50, 99999999):
+            item.price_pence = value
+            item.full_clean()
+
     def test_price_and_availability(self):
         item = workshop(price_pence=2500)
         self.assertEqual(item.price_display, "£25.00")
