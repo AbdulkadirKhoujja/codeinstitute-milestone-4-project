@@ -1,2 +1,3 @@
 # Runtime dependencies for SkillSeat
 Django==5.2.18
+stripe==16.0.0
