@@ -6,7 +6,7 @@ from django.db import close_old_connections, connections
 from django.test import TransactionTestCase
 
 from tests.test_workshops import user, workshop
-from workshops.models import Booking, Workshop
+from workshops.models import Booking
 from workshops.services import cancel_booking, reserve
 
 
