@@ -87,6 +87,26 @@ class Resource(models.Model):
     file = models.FileField(storage=PrivateStorage(), upload_to=resource_path)
 
 
+class PaymentAttempt(models.Model):
+    booking = models.OneToOneField(
+        Booking, on_delete=models.PROTECT, related_name="payment_attempt"
+    )
+    session_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    checkout_url = models.URLField(max_length=2048, blank=True)
+    state = models.CharField(
+        max_length=20,
+        default="created",
+        choices=[(value, value.title()) for value in ("created", "succeeded", "failed", "review")],
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class PaymentEvent(models.Model):
+    event_id = models.CharField(max_length=255, unique=True)
+    event_type = models.CharField(max_length=100)
+    received_at = models.DateTimeField(auto_now_add=True)
+
+
 class Review(models.Model):
     workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE, related_name="reviews")
     attendee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)

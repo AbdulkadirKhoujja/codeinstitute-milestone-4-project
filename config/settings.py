@@ -1,5 +1,6 @@
 """Django settings with explicit development/production policy."""
 
+import os
 from pathlib import Path
 
 from .environment import load_environment
@@ -65,6 +66,9 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 PRIVATE_RESOURCE_ROOT = BASE_DIR / "private-resources"
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
+STRIPE_TEST_KEY = os.environ.get("STRIPE_TEST_KEY", "")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+PAYMENT_ORIGIN = os.environ.get("PAYMENT_ORIGIN", "http://localhost:8000" if not PRODUCTION else "")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
 LOGIN_URL = "accounts:login"

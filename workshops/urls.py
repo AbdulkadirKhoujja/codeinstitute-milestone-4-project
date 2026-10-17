@@ -4,6 +4,8 @@ from . import views
 
 app_name = "workshops"
 urlpatterns = [
+    path("payments/webhook/", views.webhook, name="webhook"),
+    path("bookings/<int:pk>/checkout/", views.checkout, name="checkout"),
     path("resources/<int:pk>/", views.download, name="download"),
     path("resources/<int:pk>/delete/", views.delete_resource, name="delete_resource"),
     path("reviews/<int:pk>/delete/", views.delete_review, name="delete_review"),

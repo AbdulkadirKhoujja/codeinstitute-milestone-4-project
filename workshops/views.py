@@ -1,13 +1,17 @@
+import stripe
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.http import FileResponse, Http404, HttpResponseBadRequest
+from django.http import FileResponse, Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .forms import ResourceForm, ReviewForm, WorkshopForm
 from .models import Booking, Resource, Review, Workshop
+from .payments import initiate_checkout, process_event
 from .services import cancel_booking, expire_bookings, reserve
 
 
@@ -224,3 +228,33 @@ def delete_review(request, pk):
     record.delete()
     messages.success(request, "Your review was removed.")
     return redirect("workshops:detail", pk=workshop_id)
+
+
+@login_required
+@require_POST
+def checkout(request, pk):
+    get_object_or_404(Booking, pk=pk, attendee=request.user)
+    try:
+        return redirect(initiate_checkout(pk, request.user))
+    except ValidationError as exc:
+        messages.error(request, exc.messages[0])
+        return redirect("workshops:bookings")
+
+
+@csrf_exempt
+@require_POST
+def webhook(request):
+    if not settings.STRIPE_WEBHOOK_SECRET:
+        return HttpResponse(status=503)
+    if len(request.body) > 256 * 1024:
+        return HttpResponse(status=400)
+    try:
+        event = stripe.Webhook.construct_event(
+            request.body,
+            request.headers.get("Stripe-Signature", ""),
+            settings.STRIPE_WEBHOOK_SECRET,
+        )
+        process_event(event.to_dict())
+    except (ValueError, stripe.SignatureVerificationError, ValidationError):
+        return HttpResponse(status=400)
+    return HttpResponse(status=200)
