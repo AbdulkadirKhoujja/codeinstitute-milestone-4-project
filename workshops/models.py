@@ -23,6 +23,10 @@ class Workshop(models.Model):
     class Meta:
         ordering = ["starts_at", "pk"]
         constraints = [
+            models.CheckConstraint(
+                condition=Q(price_pence=0) | Q(price_pence__gte=50, price_pence__lte=99999999),
+                name="supported_workshop_price",
+            ),
             models.CheckConstraint(condition=Q(capacity__gte=1), name="positive_capacity"),
             models.CheckConstraint(
                 condition=Q(reserved__lte=F("capacity")), name="within_capacity"

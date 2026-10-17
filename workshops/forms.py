@@ -5,6 +5,14 @@ from .models import Resource, Review, Workshop
 
 
 class WorkshopForm(forms.ModelForm):
+    def clean_price_pence(self):
+        value = self.cleaned_data["price_pence"]
+        if value and not 50 <= value <= 99999999:
+            raise forms.ValidationError(
+                "Use 0 for free, or a price between 50 and 99,999,999 pence."
+            )
+        return value
+
     class Meta:
         model = Workshop
         fields = (
