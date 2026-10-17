@@ -18,8 +18,8 @@ The intended audiences are:
 
 ## Current development status
 
-- Phase 1 is complete: repository security, product definition, and documentation foundations have been committed and verified. Phase 2 has begun with the Python and Django dependency baseline.
-- Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Phase 2 foundation work is underway; verification evidence is recorded in [the Phase 2 log](docs/phase-2-evidence.md).
+- Phase 1 and the Phase 2 Django foundation are implemented and verified. Phase 3 has not begun.
+- Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Runtime recovery, test-first increments, migration checks, CI, and limitations are recorded in [the Phase 2 log](docs/phase-2-evidence.md).
 - Django is initialised with `config`, `core`, and `accounts` packages, SQLite configuration, ASGI/WSGI entry points, and 42 passing foundation tests. A custom user, sign-in/sign-out, and an authenticated own-account page establish the authentication foundation.
 - Workshop features, screenshots, and deployment remain unimplemented.
 - The README will be updated alongside the application and verification evidence.
@@ -175,6 +175,8 @@ Deliverables: project configuration, dependency definitions, environment configu
 
 Completion criteria: the foundation runs locally, configuration is documented, initial security boundaries are tested, and no feature is described as complete without passing evidence.
 
+Status: verified with 42 passing tests, applied initial migrations, no migration drift, production configuration checks, a real-server smoke check, and a successful Windows CI run. The development history retains separate failing-test and passing-implementation commits; see [the ordered evidence record](docs/phase-2-evidence.md#commit-evidence).
+
 ### Phase 3: Core SkillSeat Features
 
 Objective: implement the committed discovery, account, workshop management, booking, capacity, review, payment, and resource-access scope.
@@ -264,6 +266,7 @@ Configure the current PowerShell session, then run checks or the local server:
 ```powershell
 $env:DJANGO_ENV = 'development'
 $env:DJANGO_SECRET_KEY = .venv/Scripts/python.exe -c "import secrets; print(secrets.token_urlsafe(64))"
+.venv/Scripts/python.exe manage.py migrate --noinput
 .venv/Scripts/python.exe manage.py check
 .venv/Scripts/python.exe manage.py test -v 2
 .venv/Scripts/python.exe manage.py runserver 127.0.0.1:8000
@@ -321,7 +324,9 @@ This deployment check passes without silencing checks. It does not verify a real
 
 ### Continuous integration
 
-`.github/workflows/foundation.yml` runs on pushes and pull requests to `main`, and supports manual runs. A Windows runner verifies the official NuGet runtime, creates a fresh environment, installs hash-locked dependencies, asserts exact versions and interpreter location, checks dependency integrity, runs lint/format/system/tests/migrations/production checks, and smoke-tests the server. The checkout action is pinned to an immutable official release commit, permissions are read-only, and no repository secret is required. A random check-only key is generated per run. Actual GitHub execution results will be linked in the evidence log once verified.
+`.github/workflows/foundation.yml` runs on pushes and pull requests to `main`, and supports manual runs. A Windows runner verifies the official NuGet runtime, creates a fresh environment, installs hash-locked dependencies, asserts exact versions and interpreter location, checks dependency integrity, runs lint/format/system/tests/migrations/production checks, and smoke-tests the server. The checkout action is pinned to an immutable official release commit, permissions are read-only, and no repository secret is required. A random check-only key is generated per run.
+
+[Windows CI run 39050533406](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39050533406) completed successfully on `f6d8123ae4bcd8d48454516021751e72cdac3774`; every required step was inspected and succeeded. The evidence log records the local final audit and commit sequence. This is verified CI execution, not a deployment.
 
 ## Deployment
 
