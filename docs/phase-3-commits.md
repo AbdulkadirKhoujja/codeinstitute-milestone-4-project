@@ -44,4 +44,6 @@ Generated from genuine Git history in chronological order. Baseline: `9b165941b3
 
 | `1d8154bef35d36e29164d1f59b7341fa42a586d4` | docs: verify real sandbox Checkout and isolate webhook permission blocker |
 
+| `2aff9d2932c1ca8d0febab1108c3d38e0efb2d89` | docs: complete Phase 3 with genuine sandbox payment and webhook evidence |
+
 All 37 original Phase 3 commits remain intact, followed by the credentialed continuation above. The final completion commit records the genuine manual sandbox payment, signed webhook, private download, replay and post-payment checks. Its full SHA and successful CI run are supplied in the delivery message because this file cannot embed its own commit hash. No artificial code-change commit or rewritten history is needed.

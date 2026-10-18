@@ -341,13 +341,13 @@ $env:DJANGO_SECRET_KEY = .venv/Scripts/python.exe -c "import secrets; print(secr
 .venv/Scripts/python.exe manage.py check --deploy --fail-level WARNING
 ```
 
-This configuration check does not verify a real TLS endpoint, proxy, production database or hosting platform. Browser, accessibility, capacity, ownership and simulated payment evidence are recorded separately; genuine Stripe sandbox verification remains outstanding.
+This configuration check does not verify a real TLS endpoint, proxy, production database or hosting platform. Browser, accessibility, capacity, ownership and simulated payment evidence are recorded separately. The genuine hosted Stripe sandbox payment, signed delivery and replay results are recorded in [Phase 3 evidence](docs/phase-3-evidence.md#completed-manual-sandbox-payment--18-october-2026).
 
 ### Continuous integration
 
 `.github/workflows/foundation.yml` runs on pushes and pull requests to `main`, and supports manual runs. A Windows runner verifies the official NuGet runtime, creates a fresh environment, installs hash-locked dependencies, asserts exact versions and interpreter location, checks dependency integrity, runs lint/format/system/tests/migrations/production checks, and smoke-tests the server. The checkout action is pinned to an immutable official release commit, permissions are read-only, and no repository secret is required. A random check-only key is generated per run.
 
-[Phase 3 Windows CI run 39159120497](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39159120497) completed successfully on `1d8154bef35d36e29164d1f59b7341fa42a586d4`, including the 110-test suite and separate file-backed concurrency run. The post-payment local run again passed **110 tests plus seven separate concurrency tests**. The [consolidated report](docs/phase-3-report.md) and final delivery identify the completion commit's successful CI run. The earlier real lint failure remains documented; checks were not weakened. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
+[Phase 3 Windows CI run 39159120497](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39159120497) completed successfully on `1d8154bef35d36e29164d1f59b7341fa42a586d4`, including the 110-test suite and separate file-backed concurrency run. The post-payment local run again passed **110 tests plus seven separate concurrency tests**. Completion evidence CI [39164323260](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39164323260) also passed on `2aff9d2932c1ca8d0febab1108c3d38e0efb2d89`; all steps were inspected. The final delivery identifies the final documentation commit and its successful run. The earlier real lint failure remains documented; checks were not weakened. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
 
 ## Deployment
 
