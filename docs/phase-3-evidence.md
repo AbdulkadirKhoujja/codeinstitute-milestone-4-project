@@ -62,7 +62,9 @@ The [journey wireframes](design/phase-3-wireframes.md) were created before busin
 - Local Markdown file links checked successfully. A scoped tracked-file payment-credential pattern scan found no matching credentials. This is not a comprehensive historical secret scan; Phase 4 retains that release responsibility.
 - [Chronological commit evidence](phase-3-commits.md) lists full SHAs and accurate titles. Separate Red-stage commits stayed local until the paired implementation restored checks.
 
-## Remaining external dependency and continuation
+<a id="remaining-external-dependency-and-continuation"></a>
+
+## Historical external dependency and continuation
 
 ### Credentialed continuation — 18 October 2026
 
@@ -101,12 +103,48 @@ The automated suite retains deterministic signature/timestamp rejection, duplica
 
 The existing virtual environment initially pointed to a missing NuGet Python executable. The repository installer verified the archive's official SHA-512. Windows PowerShell 5 rejected the `.nupkg` extension and left a partial destination; PowerShell 7 extracted the verified archive into its intended runtime directory. No application change or dependency upgrade was needed. Restricted execution also denied installed-package/temporary-file access; the authorised checks succeeded with normal access. These environment failures are not application regressions.
 
-**Minimum intervention:** enable only Debugging Tools → Write for the existing restricted test key in the sandbox Dashboard, then retry the authenticated listener. Capture its signing secret privately, start Django with PAYMENT_ORIGIN `http://127.0.0.1:8000`, and create a **new** booking/Session because the probe Session was expired during cleanup. Complete hosted test Checkout and verify the actual signed delivery, paid state, resource access and replay before declaring completion. Phase 3 remains incomplete; Phase 4 has not begun.
+The missing CLI permission was the blocker at this historical checkpoint. The replacement restricted test key resolved it in the completed exercise below. Earlier unpaid Sessions and synthetic test events are not payment-completion evidence.
 
-Phase 3 is **implemented and locally verified, but not fully complete** until a genuine Stripe sandbox Checkout/payment/signed-webhook exercise succeeds. Automated initiation is mocked; synthetic provider payloads use the real SDK signature validator. No real Stripe transaction is claimed.
+## Completed manual sandbox payment — 18 October 2026
 
-The test key is now privately available and genuine Checkout creation works. The remaining required intervention is the narrow CLI permission recorded above. Do not paste keys into Git or project documentation. The CLI is already available in ignored `.local-tools/node_modules/.bin/stripe.cmd`. No new sandbox was provisioned and no user identity was used for provisioning.
+Resumed at `1d8154bef35d36e29164d1f59b7341fa42a586d4`, a clean tree with fetched origin/main at 0/0 divergence. Baseline Windows CI [39159120497](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39159120497) completed successfully. No application change, dependency upgrade, browser automation or Computer Use was needed for this exercise.
 
-Resume by checking HEAD/status and the latest successful CI, then follow the Stripe setup steps in phase-3-architecture.md: start CLI forwarding to loopback, export its signing secret privately, restart Django, reserve a paid fictional workshop, complete test-mode hosted Checkout, verify stored matching paid state/private resource access and replay behaviour using actual provider evidence. Record the genuine result, rerun relevant/full checks, commit/push the evidence, and verify final CI/remote/tree. Keep test-only mode. The fictional browser user's password is unusable; create a fresh disposable attendee or use normal registration.
+### Actual provider and HTTP evidence
 
-Phase 4 has not begun. Production deployment, database/proxy/storage/scheduler selection, broader accessibility/release validation and final project reflection remain Phase 4 work after the Phase 3 external gap is resolved.
+- The privately inherited replacement STRIPE_TEST_KEY was present with the restricted test prefix. Successful application Checkout creation, independent SDK retrieval and authenticated CLI listener creation established the required operational permissions, including Debugging Tools Write. This verifies the permissions used, not the key's entire configured permission list or least-privilege completeness.
+- The same inherited test key was used by the application and CLI, keeping creation and delivery in the same sandbox context. SDK 16.0.0 explicitly used API `2026-09-30.endive`; CLI readiness and the received provider event both reported that API version. No live flag or live key was used.
+- The listener signing secret was captured privately into the Django process environment before Django initialisation. Raw signed requests were observed in memory around the unchanged Django WSGI application; body/signature bytes were passed through to its real webhook view. No secret or signature was printed, persisted or committed.
+- Fresh disposable data: fictional owner/attendee, published £25 workshop with capacity one, protected handout and pending booking **7**. Real CSRF-protected HTTP registration, login, reservation and application Checkout POST succeeded. Before payment, pending/unpaid status held exactly one seat and the resource returned HTTP 404. Repeated Checkout reused the Session; forged success query parameters did not confirm payment.
+- Independent provider retrieval of Session **`cs_test_...uExhQK`** verified `livemode=false`, `mode=payment`, `amount_total=2500`, `currency=gbp`, matching booking reference, `status=open` and `payment_status=unpaid`. The exact hosted URL was exposed locally for the user to open manually in Microsoft Edge. The user submitted the official sandbox card; no browser-control tool entered card data or submitted Checkout.
+- The running listener delivered actual **`checkout.session.completed`**, event **`evt_1US0...y3Yp2f`**, to Django. The captured request returned **HTTP 200** and separately passed the SDK's signature/timestamp validator using the in-memory listener secret. The event API was **`2026-09-30.endive`**. These are actual CLI-forwarded provider bytes, not a CLI-triggered fixture or a locally fabricated signature.
+- Independent provider retrieval then verified `status=complete`, `payment_status=paid`, `livemode=false`, the unchanged 2500 GBP pence and matching reference. The webhook alone changed the stored booking to **confirmed/paid**, PaymentAttempt to **succeeded**, with **reserved=1/capacity=1** and exactly one matching PaymentEvent receipt. No direct paid-state database mutation was performed.
+- The authenticated attendee's actual resource HTTP GET returned **200**, exact expected handout bytes and `private, no-store`. Anonymous access returned the login redirect. Invalid-signature submission returned **400** before payment.
+- Two immediate byte-for-byte replays of the captured genuine body and signature each returned **200**. The global receipt count stayed unchanged, the event retained one durable receipt, and confirmed/paid state and reserved capacity stayed unchanged. A changed body with the original signature returned **400**. These replay requests originated locally using the actual received provider bytes; they are not claims of two new Stripe deliveries.
+
+The harness retained a [sanitised result](testing/phase3-provider-result.json) containing masked provider identifiers and actual asserted results; it contains no signature, key or hosted URL.
+
+### Cleanup and retained audit
+
+The disposable attendee was made inactive and its password unusable; the fictional workshop was unpublished; the private resource record and stored file were deleted. The confirmed paid booking, succeeded attempt, matching event receipt and one occupied seat were retained as financial audit evidence in ignored local SQLite. Keeping that confirmed booking and its matching capacity counter avoids inventing a cancellation/refund or erasing the verification. No refund was necessary or requested for this sandbox-only exercise. Full provider identifiers remain in the ignored local audit records; public evidence uses masked identifiers and omits the hosted URL. The owned Django WSGI server and CLI listener stopped only after verification and cleanup. Other data and processes were not removed.
+
+### Final post-payment verification
+
+| Check | Actual result |
+| --- | --- |
+| Exact versions | Python 3.13.16; Django 5.2.18; Stripe 16.0.0 |
+| Dependency consistency | `uv pip check`: all 12 installed packages compatible; existing hash locks unchanged |
+| Ruff lint / format | Passed; 66 files already formatted |
+| Full existing Django suite | **110 passed in 4.543s**; [complete output](testing/phase3-final-tests.txt) |
+| Separate file-backed concurrency suite | **7 passed in 1.282s**; [complete output](testing/phase3-final-concurrency.txt); test database destroyed |
+| Django checks | No issues; zero silenced |
+| Migration drift / applied state | No changes, no unapplied migrations; all five workshops migrations applied |
+| Expiry command | Successful; zero expired holds |
+| Real development server smoke | HTTP 200 and SkillSeat home verified; smoke child stopped |
+| Production security check | `check --deploy --fail-level WARNING`: no issues, using strong transient secret and explicit check-only host |
+| SQLite integrity, foreign keys and capacity | Passed after payment cleanup; every workshop counter reconciled to active bookings |
+| Credential scan | No exact inherited key or long Stripe credential-pattern matches in 213 reachable historical blobs and current tracked/unignored files before this evidence commit |
+| Whitespace | `git diff --check` passed |
+
+[Other final command output](testing/phase3-final-checks.txt) preserves the actual checks. No production deployment is implied by the configuration check. The final delivery supplies the evidence commit SHA, its completed GitHub Actions run and live remote/tree comparison; a queued run is never treated as success.
+
+Phase 3 is **complete within its documented development scope**, including the previously missing genuine hosted sandbox payment and signed fulfillment. Deterministic tests still use mocked initiation and synthetic events; the real exercise covers one successful card-payment path, not every provider payment method or failure mode. PostgreSQL/production concurrency, live payments, production storage/proxy/database/scheduler integration, automatic refunds and comprehensive release accessibility/security validation remain unverified. The scoped prior browser evidence is unchanged. **Phase 4 has not begun.**

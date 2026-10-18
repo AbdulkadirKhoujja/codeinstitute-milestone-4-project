@@ -47,11 +47,11 @@ Run `manage.py expire_bookings`. It is idempotent and releases expired pending h
 
 ## Stripe test-mode setup
 
-1. Obtain a dedicated Stripe sandbox/test restricted key with Checkout permissions. Set it privately as STRIPE_TEST_KEY (`rk_test_` preferred; `sk_test_` supported). Live prefixes are refused. The official CLI listener additionally requires Debugging Tools → Write (`stripecli_session_write`); the credentialed continuation verified Checkout access but received that exact missing-permission error for listener creation. Add only the required permission to the test key; no broader access is assumed necessary.
+1. Obtain a dedicated Stripe sandbox/test restricted key with Checkout permissions. Set it privately as STRIPE_TEST_KEY (`rk_test_` preferred; `sk_test_` supported). Live prefixes are refused. The official CLI listener additionally requires Debugging Tools → Write (`stripecli_session_write`); the initial continuation received that missing-permission error. The replacement restricted test key subsequently passed both Checkout operations and authenticated listener creation; no broader permission grant is claimed.
 2. Set PAYMENT_ORIGIN to the local origin, e.g. `http://127.0.0.1:8000`. Production configuration requires HTTPS. It is server configuration, never the request Host or a posted redirect.
 3. Use the official CLI: `stripe listen --forward-to http://127.0.0.1:8000/workshops/payments/webhook/`. Export the listener's signing secret privately as STRIPE_WEBHOOK_SECRET and restart Django.
 4. Subscribe to checkout.session.completed, checkout.session.async_payment_succeeded, checkout.session.async_payment_failed and checkout.session.expired. Use webhook API version `2026-09-30.endive`, matching pinned SDK 16.0.0.
-5. Register an attendee, reserve a paid fictional workshop, start Checkout promptly, and use Stripe's documented test payment details. Verify a real provider session and signed event, the stored confirmation, resource access and replay behaviour. This end-to-end external exercise is still unverified in the current evidence.
+5. Register an attendee, reserve a paid fictional workshop, start Checkout promptly, and use Stripe's documented test payment details. Verify a real provider session and signed event, the stored confirmation, resource access and replay behaviour. This exercise passed on 18 October 2026 with manual Edge payment and no browser automation; see the [actual provider evidence](phase-3-evidence.md#completed-manual-sandbox-payment--18-october-2026).
 
 Stripe credentials are not auto-loaded from `.env.example`. There is no publishable key needed because Checkout is fully hosted. Application pages never collect card details. No live financial operations are supported. The official CLI is optional development tooling in ignored `.local-tools`; it is not an application or CI dependency.
 
@@ -104,11 +104,11 @@ Eligibility requires an authenticated attendee, a confirmed booking, workshop en
 | Register/use account | Django forms, own-profile edit, password change | test_account_management; original test_accounts |
 | Book within capacity | reserve transaction and database constraints | test_booking; test_concurrency |
 | Cancel own booking | conditional terminal transition and seat release | test_booking; test_concurrency |
-| Verified test-mode payment | StripeClient Checkout, raw signature validation and durable event receipts | test_payments; test_regressions.PaymentFailureTests; payment races; external test transaction pending |
+| Verified test-mode payment | StripeClient Checkout, raw signature validation and durable event receipts | test_payments; test_regressions.PaymentFailureTests; payment races; genuine hosted sandbox transaction and signed delivery recorded in phase-3-evidence.md |
 | Paid resources | private storage and authorised FileResponse | test_resources_reviews |
 | Eligible reviews | ended + confirmed + attended, ownership and moderation | test_resources_reviews; test_regressions |
 | Owner listings | controlled permission, scoped studio, conditional capacity edits | test_ownership; test_concurrency |
 | Related owner/admin workflows | roster, attendance, upload/delete, audit and moderation admin | test_resources_reviews; test_ownership |
 | Role/data boundaries | CSRF, POST methods, XSS escaping, scoped queries and server prices | original security/account tests; test_regressions; test_payments |
 
-Browser and responsive observations are recorded separately in [design verification](design/phase-3-verification.md). Tests simulate provider events and initiation; they do not substitute for the unavailable genuine Stripe sandbox verification.
+Browser and responsive observations are recorded separately in [design verification](design/phase-3-verification.md). Tests simulate provider events and initiation; the separately recorded genuine sandbox payment, signed delivery and download establish the external path.

@@ -1,0 +1,11 @@
+{
+  "session": "cs_test_...uExhQK",
+  "event": "evt_1US0...y3Yp2f",
+  "api_version": "2026-09-30.endive",
+  "booking_id": 7,
+  "amount_total": 2500,
+  "currency": "gbp",
+  "real_webhook_status": 200,
+  "replays": 2,
+  "resource_verified": true
+}

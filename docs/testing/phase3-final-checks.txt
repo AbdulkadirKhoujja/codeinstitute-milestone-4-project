@@ -1,0 +1,51 @@
+$ versions
+3.13.16 (tags/v3.13.16:cbc944f, Sep 30 2026, 19:17:50) [MSC v.1944 64 bit (AMD64)]
+Django 5.2.18 Stripe 16.0.0
+
+
+$ dependencies
+Checked 12 packages in 1ms
+All installed packages are compatible
+
+
+$ ruff
+All checks passed!
+
+
+$ format
+66 files already formatted
+
+
+$ django
+System check identified no issues (0 silenced).
+
+
+$ migration-drift
+No changes detected
+
+
+$ migrations
+
+
+$ applied
+workshops
+ [X] 0001_initial
+ [X] 0002_booking
+ [X] 0003_resource_review
+ [X] 0004_paymentevent_paymentattempt
+ [X] 0005_workshop_supported_workshop_price
+
+
+$ expiry
+Expired 0 booking holds.
+
+
+$ smoke
+Development server smoke check: HTTP 200, SkillSeat home verified.
+
+
+$ security
+System check identified no issues (0 silenced).
+
+
+$ whitespace

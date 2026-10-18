@@ -4,7 +4,7 @@ SkillSeat is the working title for a Code Institute Milestone Project 4 full-sta
 
 ## Project overview
 
-SkillSeat is a Django workshop discovery and booking application. Phase 3 implements the committed core features, with real database, permission, concurrency and browser evidence. Genuine Stripe sandbox transaction verification remains an external dependency; Phase 3 is not yet declared fully complete.
+SkillSeat is a Django workshop discovery and booking application. Phase 3 implements the committed core features, with real database, permission, concurrency and browser evidence. Phase 3 is complete with a genuine hosted Stripe sandbox payment and signed webhook verification. Phase 4 has not begun.
 
 ## Purpose and intended audience
 
@@ -18,7 +18,7 @@ The intended audiences are:
 
 ## Current development status
 
-- Phases 1 and 2 are verified. Phase 3 core implementation is present; final external payment verification remains outstanding. Phase 4 has not begun.
+- Phases 1 and 2 are verified. Phase 3 implementation and genuine sandbox payment verification are complete. Phase 4 has not begun.
 - Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Runtime recovery, test-first increments, migration checks, CI, and limitations are recorded in [the Phase 2 log](docs/phase-2-evidence.md).
 - The established custom user and production security defaults are preserved. `workshops` adds discovery, controlled ownership, atomic bookings, test-only Checkout, private resources and attendance-gated reviews.
 - The unchanged baseline passed 42 tests before development. The expanded suite and separate file-backed SQLite races are recorded in [Phase 3 evidence](docs/phase-3-evidence.md). The obsolete foundation home-page planning assertion now checks the working discovery link; no foundation test case was deleted.
@@ -26,7 +26,7 @@ The intended audiences are:
 
 ## Planned product scope
 
-The following committed core scope now has implementation and automated evidence. A genuine external Stripe transaction is still required before the payment story and Phase 3 can be called fully verified:
+The following committed core scope now has implementation and automated evidence. The payment story also has genuine hosted sandbox payment, signed webhook, protected download and replay evidence:
 
 - public workshop discovery and workshop detail pages;
 - registration, login, logout, and account management;
@@ -185,7 +185,7 @@ Deliverables: incremental models, views, templates, forms, permissions, payment 
 
 Completion criteria: each committed user story has passing relevant tests, including permission, capacity, and payment-state cases; responsive and accessible behaviour has evidence; and documentation matches the implementation.
 
-Status: core implementation and automated/browser verification are documented in [Phase 3 evidence](docs/phase-3-evidence.md). Completion is withheld pending genuine Stripe sandbox verification. Phase 4 remains release/deployment work and has not started.
+Status: core implementation and automated/browser verification are documented in [Phase 3 evidence](docs/phase-3-evidence.md). Genuine hosted sandbox payment, signed delivery, paid resource access and replay verification now pass. Phase 4 remains release/deployment work and has not started.
 
 ### Phase 4: Release and Evidence
 
@@ -220,7 +220,7 @@ The [original planning wireframes](docs/design/phase-3-wireframes.md) were commi
 - Registration, sign-in/out, own-profile editing and password changes using Django authentication and validation.
 - Permission-provisioned owner studio: create/edit/publish/unpublish, safe capacity changes, booking roster, attendance and private resource upload/removal. Superusers can work across owners.
 - Own booking history, free confirmation, paid pending holds, cancellation and executable expiry cleanup, with database-backed capacity and duplicate protections.
-- Stripe test-only hosted Checkout, server price snapshots, signed event verification, durable replay protection and explicit late-payment refund review. Offline tests and genuine sandbox Session creation/retrieval pass; hosted payment and signed forwarding remain blocked by the restricted key's missing Debugging Tools Write permission. [Credentialed verification evidence](docs/phase-3-evidence.md#credentialed-continuation--18-october-2026).
+- Stripe test-only hosted Checkout, server price snapshots, signed event verification, durable replay protection and explicit late-payment refund review. Offline tests and a genuine £25 GBP hosted sandbox payment pass, including authenticated CLI forwarding, signed fulfillment, paid resource access and genuine-event replay protection. [Provider verification evidence](docs/phase-3-evidence.md#completed-manual-sandbox-payment--18-october-2026).
 - Authorised private downloads for relevant verified-paid confirmed attendees; files have no public media URL.
 - Reviews only after workshop completion and owner-recorded attendance, own editing/deletion and superuser visibility moderation.
 - Shared responsive styling, accessible labels/help/errors, skip navigation, keyboard focus and clear server-state feedback.
@@ -347,7 +347,7 @@ This configuration check does not verify a real TLS endpoint, proxy, production 
 
 `.github/workflows/foundation.yml` runs on pushes and pull requests to `main`, and supports manual runs. A Windows runner verifies the official NuGet runtime, creates a fresh environment, installs hash-locked dependencies, asserts exact versions and interpreter location, checks dependency integrity, runs lint/format/system/tests/migrations/production checks, and smoke-tests the server. The checkout action is pinned to an immutable official release commit, permissions are read-only, and no repository secret is required. A random check-only key is generated per run.
 
-[Phase 3 Windows CI run 39057049274](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39057049274) completed successfully on `c71bc8dcd10e296807f72248c0d5a706f4e76b57`, including all 109 tests at that checkpoint and the separate file-backed concurrency run. The final discovery edge-case correction increases the local suite to **110 passing tests**; the [consolidated report](docs/phase-3-report.md) and final delivery message identify final verification. The earlier Phase 3 lint failure is retained in the evidence; it was fixed without weakening checks. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
+[Phase 3 Windows CI run 39159120497](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39159120497) completed successfully on `1d8154bef35d36e29164d1f59b7341fa42a586d4`, including the 110-test suite and separate file-backed concurrency run. The post-payment local run again passed **110 tests plus seven separate concurrency tests**. The [consolidated report](docs/phase-3-report.md) and final delivery identify the completion commit's successful CI run. The earlier real lint failure remains documented; checks were not weakened. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
 
 ## Deployment
 
@@ -365,9 +365,9 @@ WCAG 2.2 AA is the design target. Semantic landmarks/headings, a skip link, visi
 
 ## Limitations
 
-Genuine Stripe sandbox Checkout creation/retrieval/expiration succeeded using the privately inherited restricted test key. Hosted payment and signed webhook forwarding remain unverified: Stripe rejected CLI listener creation because the key lacks Debugging Tools → Write (`stripecli_session_write`). No signing secret was obtained. Enable that narrow permission to resume with a fresh booking; no new sandbox provisioning or email identity is needed. Automated SDK initiation remains mocked and signature tests use synthetic payloads. This remaining external gap prevents a full Phase 3 completion claim.
+A genuine £25 GBP hosted sandbox payment and signed CLI-forwarded webhook passed on 18 October 2026 using the replacement restricted test key. Checkout creation/retrieval and Debugging Tools Write were proven by successful operations. The application confirmed the paid booking, preserved capacity, authorised the protected download and rejected invalid signatures; two captured genuine-event replays produced no duplicate receipt or state change. Credentials and signing secrets were never committed. Automated provider fixtures remain synthetic and are distinguished from [actual provider evidence](docs/phase-3-evidence.md#completed-manual-sandbox-payment--18-october-2026).
 
-SQLite races are tested locally and in Windows CI, but PostgreSQL and production concurrency are not verified. Login has Django's normal behaviour without rate-limiting infrastructure. No email delivery, live payments, automatic refunds, background scheduler or production deployment is configured. Private local file delivery needs production storage/request-size/content controls before release. Accessibility evidence is scoped rather than a full compliance claim. Windows x64 is verified; other operating systems remain unverified. Phase 4 must handle production deployment, database/proxy/storage/scheduler configuration and comprehensive release evidence after the Phase 3 payment gap is resolved.
+SQLite races are tested locally and in Windows CI, but PostgreSQL and production concurrency are not verified. Login has Django's normal behaviour without rate-limiting infrastructure. No email delivery, live payments, automatic refunds, background scheduler or production deployment is configured. Private local file delivery needs production storage/request-size/content controls before release. Accessibility evidence is scoped rather than a full compliance claim. Windows x64 is verified; other operating systems remain unverified. Phase 4 must handle production deployment, database/proxy/storage/scheduler configuration and comprehensive release evidence following the completed Phase 3 sandbox exercise.
 
 ## Credits
 

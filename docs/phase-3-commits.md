@@ -42,4 +42,6 @@ Generated from genuine Git history in chronological order. Baseline: `9b165941b3
 | `71802e6f0102e544e0b439defa25f5c054b5dfc0` | fix: advertise upcoming workshops with accurate booking availability |
 | `ad24e14d9ab44faccb131fb13761a146ed7add04` | docs: record final 110-test audit and Stripe continuation requirement |
 
-All 37 original Phase 3 commits above remain intact. The credentialed continuation adds genuine sandbox API evidence and the exact CLI permission blocker; its new evidence commit's full SHA and title are supplied in the delivery report after commit/push/CI verification. No payment-completion claim or artificial code-change commit is added.
+| `1d8154bef35d36e29164d1f59b7341fa42a586d4` | docs: verify real sandbox Checkout and isolate webhook permission blocker |
+
+All 37 original Phase 3 commits remain intact, followed by the credentialed continuation above. The final completion commit records the genuine manual sandbox payment, signed webhook, private download, replay and post-payment checks. Its full SHA and successful CI run are supplied in the delivery message because this file cannot embed its own commit hash. No artificial code-change commit or rewritten history is needed.
