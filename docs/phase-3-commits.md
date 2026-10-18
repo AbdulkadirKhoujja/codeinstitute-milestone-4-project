@@ -40,3 +40,6 @@ Generated from genuine Git history in chronological order. Baseline: `9b165941b3
 | `c71bc8dcd10e296807f72248c0d5a706f4e76b57` | docs: preserve Phase 3 acceptance architecture browser and test evidence |
 | `1737c1ec0645e5b3bb1e07a42e2b143c9e6ba8e5` | test: prevent past workshops advertising bookable seats |
 | `71802e6f0102e544e0b439defa25f5c054b5dfc0` | fix: advertise upcoming workshops with accurate booking availability |
+| `ad24e14d9ab44faccb131fb13761a146ed7add04` | docs: record final 110-test audit and Stripe continuation requirement |
+
+All 37 original Phase 3 commits above remain intact. The credentialed continuation adds genuine sandbox API evidence and the exact CLI permission blocker; its new evidence commit's full SHA and title are supplied in the delivery report after commit/push/CI verification. No payment-completion claim or artificial code-change commit is added.

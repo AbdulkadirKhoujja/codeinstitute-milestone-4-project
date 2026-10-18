@@ -47,7 +47,7 @@ Run `manage.py expire_bookings`. It is idempotent and releases expired pending h
 
 ## Stripe test-mode setup
 
-1. Obtain a dedicated Stripe sandbox/test restricted key with Checkout permissions. Set it privately as STRIPE_TEST_KEY (`rk_test_` preferred; `sk_test_` supported). Live prefixes are refused.
+1. Obtain a dedicated Stripe sandbox/test restricted key with Checkout permissions. Set it privately as STRIPE_TEST_KEY (`rk_test_` preferred; `sk_test_` supported). Live prefixes are refused. The official CLI listener additionally requires Debugging Tools → Write (`stripecli_session_write`); the credentialed continuation verified Checkout access but received that exact missing-permission error for listener creation. Add only the required permission to the test key; no broader access is assumed necessary.
 2. Set PAYMENT_ORIGIN to the local origin, e.g. `http://127.0.0.1:8000`. Production configuration requires HTTPS. It is server configuration, never the request Host or a posted redirect.
 3. Use the official CLI: `stripe listen --forward-to http://127.0.0.1:8000/workshops/payments/webhook/`. Export the listener's signing secret privately as STRIPE_WEBHOOK_SECRET and restart Django.
 4. Subscribe to checkout.session.completed, checkout.session.async_payment_succeeded, checkout.session.async_payment_failed and checkout.session.expired. Use webhook API version `2026-09-30.endive`, matching pinned SDK 16.0.0.

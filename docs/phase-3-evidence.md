@@ -64,9 +64,48 @@ The [journey wireframes](design/phase-3-wireframes.md) were created before busin
 
 ## Remaining external dependency and continuation
 
+### Credentialed continuation — 18 October 2026
+
+Resumed at `ad24e14d9ab44faccb131fb13761a146ed7add04`, with a clean tree and 0/0 divergence after fetching origin. Its Windows CI [39057314601](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39057314601) was completed successfully. The original 37 Phase 3 commits remain intact (36 rows in the chronological table plus that final evidence commit).
+
+**Genuine external results:**
+
+- The privately inherited STRIPE_TEST_KEY exists and has an accepted test prefix. No key value was displayed or persisted by the probe. SDK 16.0.0, pinned API `2026-09-30.endive`, successfully listed Checkout Sessions and checked their test-mode flags.
+- A disposable probe started a real loopback Django server, registered and authenticated a fictional attendee through CSRF-protected HTTP forms, and reserved a fictional paid workshop. The database showed pending/unpaid and exactly one held seat. The actual private resource request returned the intended 404 denial.
+- The application's unchanged Checkout POST and StripeClient created a genuine sandbox Session, masked identifier `cs_test_…jndjMY`. Independent SDK retrieval verified `livemode=false`, `mode=payment`, `amount_total=2500`, `currency=gbp`, the matching booking reference, `status=open`, and `payment_status=unpaid`. This proves creation/retrieval, **not payment completion**.
+- Repeating the application's Checkout POST returned the same stored provider URL. Requesting the booking page with forged success/paid query parameters left the booking pending/unpaid.
+- Cleanup cancelled the booking, verified reserved capacity returned to zero, and expired the actual Session through Stripe's API (`status=expired`). The disposable attendee password was disabled, the fictional workshop unpublished, and the probe resource/file removed. No payment was submitted or refund requested.
+- Official CLI 1.54.0 authenticated with the same inherited test key, but `listen --print-secret --skip-update` was rejected before listener creation. Stripe explicitly required **Debugging Tools → Write (`stripecli_session_write`)**. No signing secret was obtained and no forwarded webhook reached Django. No interactive account login is needed if this narrow permission is enabled on the existing restricted test key. Checkout access already works; do not request broader API permissions without a further concrete error.
+- Hosted Checkout payment, actual signed webhook processing, genuine-event replay, and resulting paid resource access remain **unverified**. No fabricated event/signature or direct database paid-state mutation was used as external evidence. The expired provider Session is genuine, but its webhook was not forwarded or processed and is not claimed as webhook evidence.
+
+**Independent revalidation:**
+
+| Check | Actual result |
+| --- | --- |
+| Exact runtime versions | Python 3.13.16; Django 5.2.18; Stripe 16.0.0 |
+| `uv pip check --python .venv/Scripts/python.exe` | 12 installed packages compatible |
+| `ruff check .`; `ruff format --check .` (project executables) | Passed; 66 files formatted |
+| `manage.py test -v 2` | 110 passed in 4.509s |
+| `SKILLSEAT_FILE_TEST_DB=1`; `manage.py test tests.test_concurrency -v 2 --noinput` | 7 passed in 1.240s; file database destroyed afterwards |
+| `manage.py check` | No issues, zero silenced |
+| `makemigrations --check --dry-run`; `migrate --check` | No changes; no unapplied migrations |
+| `showmigrations workshops` | All five applied |
+| `expire_bookings` | Successful; zero expired holds at check time |
+| `scripts/smoke_server.py` | Real HTTP 200 SkillSeat home; child stopped |
+| Production `check --deploy --fail-level WARNING` | No issues with explicit production hosts, debug false and transient strong secret |
+| SQLite `integrity_check`, `foreign_key_check`, capacity reconciliation | Passed; every workshop counter equals its active booking count and stays within capacity |
+| All reachable Git history blobs | 208 blobs scanned; no exact inherited key or long Stripe credential-pattern matches (values withheld) |
+| `git diff --check` | Passed |
+
+The automated suite retains deterministic signature/timestamp rejection, duplicate receipts, replay, failure/expiry, amount/currency/reference mismatch, cancellation/refund review, terminal-state non-reactivation, private-access negatives and real independent-connection capacity races. Its provider payloads and initiation mocks remain clearly distinct from the genuine sandbox API probe above.
+
+The existing virtual environment initially pointed to a missing NuGet Python executable. The repository installer verified the archive's official SHA-512. Windows PowerShell 5 rejected the `.nupkg` extension and left a partial destination; PowerShell 7 extracted the verified archive into its intended runtime directory. No application change or dependency upgrade was needed. Restricted execution also denied installed-package/temporary-file access; the authorised checks succeeded with normal access. These environment failures are not application regressions.
+
+**Minimum intervention:** enable only Debugging Tools → Write for the existing restricted test key in the sandbox Dashboard, then retry the authenticated listener. Capture its signing secret privately, start Django with PAYMENT_ORIGIN `http://127.0.0.1:8000`, and create a **new** booking/Session because the probe Session was expired during cleanup. Complete hosted test Checkout and verify the actual signed delivery, paid state, resource access and replay before declaring completion. Phase 3 remains incomplete; Phase 4 has not begun.
+
 Phase 3 is **implemented and locally verified, but not fully complete** until a genuine Stripe sandbox Checkout/payment/signed-webhook exercise succeeds. Automated initiation is mocked; synthetic provider payloads use the real SDK signature validator. No real Stripe transaction is claimed.
 
-The only required human intervention is dedicated Stripe sandbox/test access: set a restricted test key privately in the execution environment, or explicitly authorise an email identity for the official CLI's claimable sandbox provisioning. Do not paste keys into Git or project documentation. The CLI is already available in ignored `.local-tools/node_modules/.bin/stripe.cmd`. No sandbox was created and no user identity sent.
+The test key is now privately available and genuine Checkout creation works. The remaining required intervention is the narrow CLI permission recorded above. Do not paste keys into Git or project documentation. The CLI is already available in ignored `.local-tools/node_modules/.bin/stripe.cmd`. No new sandbox was provisioned and no user identity was used for provisioning.
 
 Resume by checking HEAD/status and the latest successful CI, then follow the Stripe setup steps in phase-3-architecture.md: start CLI forwarding to loopback, export its signing secret privately, restart Django, reserve a paid fictional workshop, complete test-mode hosted Checkout, verify stored matching paid state/private resource access and replay behaviour using actual provider evidence. Record the genuine result, rerun relevant/full checks, commit/push the evidence, and verify final CI/remote/tree. Keep test-only mode. The fictional browser user's password is unusable; create a fresh disposable attendee or use normal registration.
 

@@ -220,7 +220,7 @@ The [original planning wireframes](docs/design/phase-3-wireframes.md) were commi
 - Registration, sign-in/out, own-profile editing and password changes using Django authentication and validation.
 - Permission-provisioned owner studio: create/edit/publish/unpublish, safe capacity changes, booking roster, attendance and private resource upload/removal. Superusers can work across owners.
 - Own booking history, free confirmation, paid pending holds, cancellation and executable expiry cleanup, with database-backed capacity and duplicate protections.
-- Stripe test-only hosted Checkout, server price snapshots, signed event verification, durable replay protection and explicit late-payment refund review. Offline tests pass; a real provider transaction remains unverified.
+- Stripe test-only hosted Checkout, server price snapshots, signed event verification, durable replay protection and explicit late-payment refund review. Offline tests and genuine sandbox Session creation/retrieval pass; hosted payment and signed forwarding remain blocked by the restricted key's missing Debugging Tools Write permission. [Credentialed verification evidence](docs/phase-3-evidence.md#credentialed-continuation--18-october-2026).
 - Authorised private downloads for relevant verified-paid confirmed attendees; files have no public media URL.
 - Reviews only after workshop completion and owner-recorded attendance, own editing/deletion and superuser visibility moderation.
 - Shared responsive styling, accessible labels/help/errors, skip navigation, keyboard focus and clear server-state feedback.
@@ -365,7 +365,7 @@ WCAG 2.2 AA is the design target. Semantic landmarks/headings, a skip link, visi
 
 ## Limitations
 
-Genuine Stripe sandbox Checkout/payment/webhook forwarding remains unverified because no test credentials or signing secret are present. Official CLI provisioning requires an email/authenticated account; no user identity was transmitted automatically. The SDK initiation is mocked in tests and signature validation uses synthetic signed payloads. This gap prevents a full Phase 3 completion claim.
+Genuine Stripe sandbox Checkout creation/retrieval/expiration succeeded using the privately inherited restricted test key. Hosted payment and signed webhook forwarding remain unverified: Stripe rejected CLI listener creation because the key lacks Debugging Tools → Write (`stripecli_session_write`). No signing secret was obtained. Enable that narrow permission to resume with a fresh booking; no new sandbox provisioning or email identity is needed. Automated SDK initiation remains mocked and signature tests use synthetic payloads. This remaining external gap prevents a full Phase 3 completion claim.
 
 SQLite races are tested locally and in Windows CI, but PostgreSQL and production concurrency are not verified. Login has Django's normal behaviour without rate-limiting infrastructure. No email delivery, live payments, automatic refunds, background scheduler or production deployment is configured. Private local file delivery needs production storage/request-size/content controls before release. Accessibility evidence is scoped rather than a full compliance claim. Windows x64 is verified; other operating systems remain unverified. Phase 4 must handle production deployment, database/proxy/storage/scheduler configuration and comprehensive release evidence after the Phase 3 payment gap is resolved.
 
