@@ -80,7 +80,7 @@ def bookings(request):
         .select_related("workshop")
         .order_by("-created_at")
     )
-    return render(request, "workshops/bookings.html", {"bookings": items})
+    return render(request, "workshops/bookings.html", {"bookings": items, "now": timezone.now()})
 
 
 @login_required
