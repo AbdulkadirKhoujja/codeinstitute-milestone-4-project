@@ -2,6 +2,25 @@ from django.test import TestCase
 
 
 class InterfaceTests(TestCase):
+    def test_started_workshop_does_not_offer_ineligible_cancellation(self):
+        from datetime import timedelta
+
+        from django.utils import timezone
+
+        from tests.test_workshops import workshop
+        from workshops.services import reserve
+
+        item = workshop()
+        reserve(item.pk, item.owner)
+        item.starts_at = timezone.now() - timedelta(hours=2)
+        item.ends_at = timezone.now() - timedelta(hours=1)
+        item.save()
+        self.client.force_login(item.owner)
+        response = self.client.get("/workshops/bookings/")
+        self.assertContains(response, "Confirmed")
+        self.assertNotContains(response, "Cancel booking")
+        self.assertContains(response, "Cancellation closes when the workshop starts")
+
     def test_brand_uses_its_visible_text_as_accessible_name(self):
         response = self.client.get("/")
         self.assertNotContains(response, 'aria-label="SkillSeat home"')
