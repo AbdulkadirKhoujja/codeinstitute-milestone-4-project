@@ -1,0 +1,20 @@
+{
+  "name": "skillseat-akkhoujja",
+  "id": "d49ce190-95dc-42a8-a0d8-34f6e38def7e",
+  "region": "eu",
+  "stack": "heroku-24",
+  "generation": "cedar",
+  "assigned_url_not_deployed": "https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/",
+  "formation": [],
+  "addons": [],
+  "available_selected_dynos": [
+    {
+      "name": "Basic",
+      "cost": {
+        "cents": 700,
+        "unit": "monthly"
+      }
+    }
+  ],
+  "byteboard_config_preservation_baseline_saved_privately": true
+}

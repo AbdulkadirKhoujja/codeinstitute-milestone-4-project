@@ -1,0 +1,59 @@
+{
+  "scope": "Initial local audit before accessibility correction",
+  "fetchTime": "2026-10-19T16:00:24.806Z",
+  "audit": {
+    "id": "label-content-name-mismatch",
+    "title": "Elements with visible text labels do not have matching accessible names.",
+    "description": "Visible text labels that do not match the accessible name can result in a confusing experience for screen reader users. [Learn more about accessible names](https://dequeuniversity.com/rules/axe/4.13/label-content-name-mismatch).",
+    "score": 0,
+    "scoreDisplayMode": "binary",
+    "details": {
+      "type": "table",
+      "headings": [
+        {
+          "key": "node",
+          "valueType": "node",
+          "subItemsHeading": {
+            "key": "relatedNode",
+            "valueType": "node"
+          },
+          "label": "Failing Elements"
+        }
+      ],
+      "items": [
+        {
+          "node": {
+            "type": "node",
+            "lhId": "1-0-A",
+            "path": "1,HTML,1,BODY,1,HEADER,0,NAV,0,A",
+            "selector": "body > header > nav > a.brand",
+            "boundingRect": {
+              "top": 18,
+              "bottom": 60,
+              "left": 22,
+              "right": 390,
+              "width": 368,
+              "height": 42
+            },
+            "snippet": "<a class=\"brand\" href=\"/\" aria-label=\"SkillSeat home\">",
+            "nodeLabel": "S\nSkillSeat\n.",
+            "explanation": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+          }
+        }
+      ],
+      "debugData": {
+        "type": "debugdata",
+        "impact": "serious",
+        "tags": [
+          "cat.semantics",
+          "wcag21a",
+          "wcag253",
+          "EN-301-549",
+          "EN-9.2.5.3",
+          "RGAAv4",
+          "RGAA-6.1.5"
+        ]
+      }
+    }
+  }
+}

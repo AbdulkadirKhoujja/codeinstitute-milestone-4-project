@@ -1,5 +1,6 @@
 Creating test database for alias 'default' ('test_skillseat_release')...
-Found 125 test(s).
+
+Found 127 test(s).
 Operations to perform:
   Synchronize unmigrated apps: messages, staticfiles
   Apply all migrations: accounts, admin, auth, contenttypes, sessions, workshops
@@ -32,7 +33,7 @@ Running migrations:
   Applying workshops.0003_resource_review... OK
   Applying workshops.0004_paymentevent_paymentattempt... OK
   Applying workshops.0005_workshop_supported_workshop_price... OK
-  Applying workshops.0006_privateresourceblob...test_anonymous_edit_and_password_change_protected (tests.test_account_management.AccountManagementTests.test_anonymous_edit_and_password_change_protected) ... ok
+test_anonymous_edit_and_password_change_protected (tests.test_account_management.AccountManagementTests.test_anonymous_edit_and_password_change_protected) ... ok
 test_edit_only_own_profile_and_no_privilege_assignment (tests.test_account_management.AccountManagementTests.test_edit_only_own_profile_and_no_privilege_assignment) ... ok
 test_password_change_checks_old_password_and_preserves_session (tests.test_account_management.AccountManagementTests.test_password_change_checks_old_password_and_preserves_session) ... ok
 test_registration_hashes_password_and_ignores_privileges (tests.test_account_management.AccountManagementTests.test_registration_hashes_password_and_ignores_privileges) ... ok
@@ -61,11 +62,13 @@ test_paid_hold_expires_and_releases_seat (tests.test_booking.BookingTests.test_p
 test_explicit_fictional_seed_is_idempotent_and_has_no_login_password (tests.test_demo_data.DemoDataTests.test_explicit_fictional_seed_is_idempotent_and_has_no_login_password) ... ok
 test_database_connects_and_django_migrations_exist (tests.test_foundation.DatabaseFoundationTests.test_database_connects_and_django_migrations_exist) ... ok
 test_local_database_uses_sqlite (tests.test_foundation.DatabaseFoundationTests.test_local_database_uses_sqlite) ... ok
+test_brand_uses_its_visible_text_as_accessible_name (tests.test_interface.InterfaceTests.test_brand_uses_its_visible_text_as_accessible_name) ... ok
 test_full_or_ended_detail_explains_unavailability (tests.test_interface.InterfaceTests.test_full_or_ended_detail_explains_unavailability) ... ok
 test_home_leads_to_discovery_and_registration (tests.test_interface.InterfaceTests.test_home_leads_to_discovery_and_registration) ... ok
 test_owner_forms_have_unique_resource_labels (tests.test_interface.InterfaceTests.test_owner_forms_have_unique_resource_labels) ... ok
 test_registration_uses_block_help_and_programmatic_descriptions (tests.test_interface.InterfaceTests.test_registration_uses_block_help_and_programmatic_descriptions) ... ok
 test_shared_navigation_status_and_styles (tests.test_interface.InterfaceTests.test_shared_navigation_status_and_styles) ... ok
+test_started_workshop_does_not_offer_ineligible_cancellation (tests.test_interface.InterfaceTests.test_started_workshop_does_not_offer_ineligible_cancellation) ... ok
 test_attendee_and_anonymous_cannot_manage (tests.test_ownership.OwnerTests.test_attendee_and_anonymous_cannot_manage) ... ok
 test_capacity_reduction_below_reservations_rejected (tests.test_ownership.OwnerTests.test_capacity_reduction_below_reservations_rejected) ... ok
 test_cross_owner_and_invalid_id_denied (tests.test_ownership.OwnerTests.test_cross_owner_and_invalid_id_denied) ... ok
@@ -159,9 +162,10 @@ test_unknown_environment_is_rejected (tests.test_environment.EnvironmentTests.te
 test_weak_or_placeholder_secrets_are_rejected (tests.test_environment.EnvironmentTests.test_weak_or_placeholder_secrets_are_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 125 tests in 28.174s
+Ran 127 tests in 35.306s
 
 OK
 Destroying test database for alias 'default' ('test_skillseat_release')...
- OK
+
+  Applying workshops.0006_privateresourceblob... OK
 System check identified no issues (0 silenced).

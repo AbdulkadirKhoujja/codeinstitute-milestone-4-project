@@ -1,0 +1,15 @@
+{
+  "scope": "Local anonymous homepage; default mobile navigation; not hosted Heroku evidence",
+  "version": "13.5.0",
+  "fetchTime": "2026-10-19T16:08:31.726Z",
+  "categories": {
+    "performance": 1,
+    "accessibility": 1,
+    "best-practices": 1,
+    "seo": 1,
+    "agentic-browsing": 1
+  },
+  "accessible_name_regression": "Initial extra label-content-name-mismatch audit failed; test captured genuine Red; visible-text fix passed six interface tests and rerun no longer identifies applicable mismatched labels",
+  "failed_accessibility": [],
+  "warnings": []
+}

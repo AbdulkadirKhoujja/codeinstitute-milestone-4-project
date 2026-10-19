@@ -1,0 +1,61 @@
+{
+  "scope": "Actual public GitHub README render at a3cf413, 19 October 2026",
+  "images": [
+    {
+      "alt": "Phase 4 rendering of SkillSeat's original 17 October desktop discovery and detail text wireframe",
+      "complete": true,
+      "naturalWidth": 1100
+    },
+    {
+      "alt": "Actual SkillSeat desktop homepage with custom ticket illustration and discovery action",
+      "complete": true,
+      "naturalWidth": 1264
+    },
+    {
+      "alt": "Actual SkillSeat mobile homepage with wrapped navigation and stacked layout",
+      "complete": true,
+      "naturalWidth": 374
+    },
+    {
+      "alt": "Actual mobile workshop discovery with clearly fictional listings and prices",
+      "complete": true,
+      "naturalWidth": 374
+    },
+    {
+      "alt": "Actual tablet workshop detail with schedule, host and booking context",
+      "complete": true,
+      "naturalWidth": 752
+    },
+    {
+      "alt": "Phase 4 rendering of the original account booking and payment-state planning text",
+      "complete": true,
+      "naturalWidth": 1100
+    },
+    {
+      "alt": "Actual mobile registration form with password guidance and labels",
+      "complete": true,
+      "naturalWidth": 374
+    },
+    {
+      "alt": "Actual mobile free booking confirmation and cancellation control",
+      "complete": true,
+      "naturalWidth": 374
+    },
+    {
+      "alt": "Actual pending paid booking with honest Stripe configuration feedback",
+      "complete": true,
+      "naturalWidth": 752
+    },
+    {
+      "alt": "Phase 4 rendering of the original owner studio planning text",
+      "complete": true,
+      "naturalWidth": 1100
+    },
+    {
+      "alt": "Actual owner workshop form with booking roster and private resource upload",
+      "complete": true,
+      "naturalWidth": 752
+    }
+  ],
+  "mermaid": "All three diagrams rendered; ERD attributes, architecture and booking state labels observed in browser accessibility tree"
+}

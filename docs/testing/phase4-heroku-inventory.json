@@ -1,0 +1,64 @@
+{
+  "scope": "Read-only Heroku inventory, 19 October 2026; no provisioning or changes",
+  "byteboard": {
+    "id": "1883b6b1-ab49-4fba-8956-ba41b26243af",
+    "name": "byteboard-app",
+    "owner_email_matches_authenticated_account": true,
+    "release_version": 18,
+    "updated_at": "2026-09-18T11:16:14Z",
+    "formation": [
+      {
+        "type": "web",
+        "quantity": 1,
+        "size": "Basic"
+      }
+    ],
+    "addons": [
+      {
+        "id": "d389597f-0344-467e-9ddb-72531dc1c855",
+        "name": "postgresql-flexible-35594",
+        "plan": "heroku-postgresql:essential-0",
+        "price": {
+          "cents": 500,
+          "contract": false,
+          "unit": "month"
+        }
+      }
+    ]
+  },
+  "dyno_sizes": [
+    {
+      "name": "Standard-1X",
+      "available": null,
+      "cost": {
+        "cents": 2500,
+        "unit": "monthly"
+      },
+      "memory": 0.5,
+      "dedicated": false,
+      "dynos": null
+    },
+    {
+      "name": "Eco",
+      "available": null,
+      "cost": {
+        "cents": 0,
+        "unit": "monthly"
+      },
+      "memory": 0.5,
+      "dedicated": false,
+      "dynos": null
+    },
+    {
+      "name": "Basic",
+      "available": null,
+      "cost": {
+        "cents": 700,
+        "unit": "monthly"
+      },
+      "memory": 0.5,
+      "dedicated": false,
+      "dynos": null
+    }
+  ]
+}

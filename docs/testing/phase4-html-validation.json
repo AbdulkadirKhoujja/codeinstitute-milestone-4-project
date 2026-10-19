@@ -1,0 +1,21 @@
+{
+  "scope": "Actual local anonymous HTML submitted to W3C Nu API; CSRF values removed",
+  "pages": [
+    {
+      "page": "/",
+      "messages": []
+    },
+    {
+      "page": "/workshops/",
+      "messages": []
+    },
+    {
+      "page": "/accounts/register/",
+      "messages": []
+    },
+    {
+      "page": "/accounts/login/",
+      "messages": []
+    }
+  ]
+}

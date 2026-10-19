@@ -1,0 +1,20 @@
+{
+  "scope": "Actual local browser verification, 19 October 2026; fictional release fixtures, not Heroku",
+  "owner_signin": true,
+  "owner_attendance_recorded_through_ui": true,
+  "owner_download_exact_bytes": "Fictional release handout. No real participant data.",
+  "review_saved_after_owner_attendance": true,
+  "unpaid_direct_resource_status": 404,
+  "safe_missing_workshop_debug_disabled": true,
+  "responsive_owner_and_review": {
+    "viewport_width": 390,
+    "document_width": 375,
+    "horizontal_overflow": false
+  },
+  "keyboard_focus": "Visible on resource remove and own review delete controls; no deletion performed",
+  "limitations": [
+    "No hosted deployment",
+    "No physical devices or screen reader tested",
+    "Completed workshop was a clearly fictional local fixture, not a real event"
+  ]
+}
