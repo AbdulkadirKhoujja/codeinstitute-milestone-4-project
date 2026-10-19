@@ -44,6 +44,26 @@ class AuthenticationBoundaryTests(TestCase):
             reverse("accounts:login") + "?next=" + reverse("accounts:profile"),
         )
 
+    def test_signed_in_users_cannot_access_login_or_registration_forms(self):
+        self.client.force_login(self.user)
+        for name in ("accounts:login", "accounts:register"):
+            with self.subTest(route=name):
+                self.assertRedirects(self.client.get(reverse(name)), reverse("accounts:profile"))
+
+    def test_signed_in_registration_post_cannot_create_another_account(self):
+        self.client.force_login(self.user)
+        response = self.client.post(
+            reverse("accounts:register"),
+            {
+                "username": "unexpected",
+                "password1": "Other-password-73!",
+                "password2": "Other-password-73!",
+            },
+        )
+        self.assertRedirects(response, reverse("accounts:profile"))
+        self.assertFalse(get_user_model().objects.filter(username="unexpected").exists())
+        self.assertEqual(self.client.session["_auth_user_id"], str(self.user.pk))
+
     def test_login_page_has_csrf_token(self):
         response = self.client.get(reverse("accounts:login"))
         self.assertEqual(response.status_code, 200)
