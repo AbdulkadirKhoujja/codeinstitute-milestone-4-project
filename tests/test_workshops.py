@@ -62,6 +62,27 @@ class WorkshopModelTests(TestCase):
 
 
 class DiscoveryTests(TestCase):
+    def test_search_matches_title_description_or_location_and_preserves_input(self):
+        item = workshop()
+        other = workshop(owner=item.owner, title="Woodworking", description="Carve a spoon", location="York")
+        for query in ("POTTERY", "doing", "London"):
+            response = self.client.get("/workshops/", {"q": query})
+            self.assertContains(response, item.title)
+            self.assertNotContains(response, other.title)
+            self.assertContains(response, f'value="{query}"')
+
+    def test_price_filter_and_empty_search_keep_drafts_and_past_events_private(self):
+        free = workshop()
+        paid = workshop(owner=free.owner, title="Paid craft", price_pence=500)
+        workshop(owner=free.owner, title="Secret draft", published=False)
+        for price, included, excluded in (("free", free, paid), ("paid", paid, free)):
+            response = self.client.get("/workshops/", {"price": price})
+            self.assertContains(response, included.title)
+            self.assertNotContains(response, excluded.title)
+            self.assertNotContains(response, "Secret draft")
+        self.assertContains(self.client.get("/workshops/", {"q": "no match"}), "No workshops match")
+        self.assertContains(self.client.get("/workshops/", {"price": "invalid"}), paid.title)
+
     def test_discovery_lists_upcoming_workshops_without_advertising_past_seats(self):
         item = workshop(
             title="Past fictional workshop",
