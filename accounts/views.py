@@ -12,6 +12,8 @@ def profile(request):
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect("accounts:profile")
     form = RegistrationForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         form.save()
