@@ -18,6 +18,19 @@ known = [
 findings = []
 objects = subprocess.check_output(["git", "rev-list", "--objects", "--all"], cwd=root).splitlines()
 count = 0
+current_count = 0
+for filename in subprocess.check_output(["git", "ls-files", "-z"], cwd=root).split(b"\0"):
+    if not filename:
+        continue
+    path = root / os.fsdecode(filename)
+    if not path.is_file():
+        continue
+    current_count += 1
+    data = path.read_bytes().replace(
+        b"postgres://sample:private@host/", b"documented-unit-test-example/"
+    )
+    if pattern.search(data) or any(value in data for value in known):
+        findings.append({"file": os.fsdecode(filename), "kind": "current-source-pattern-review"})
 for item in objects:
     sha = item.split(b" ", 1)[0].decode()
     kind = subprocess.check_output(["git", "cat-file", "-t", sha], cwd=root).strip()
@@ -44,10 +57,11 @@ for document in [root / "README.md", *(root / "docs").rglob("*.md")]:
         if target and not (document.parent / target).exists():
             missing.append({"document": str(document.relative_to(root)), "target": target})
 result = {
+    "current_tracked_files_scanned": current_count,
     "reachable_blobs_scanned": count,
     "credential_pattern_findings": findings,
     "missing_local_markdown_targets": missing,
-    "scope": "Heuristic reachable-blob scan and local Markdown file checks; not proof of absence of every possible credential.",
+    "scope": "Heuristic current tracked-file and reachable-blob scan plus local Markdown checks; not proof of absence of every possible credential.",
 }
 output = root / "docs/testing/phase4-source-audit.json"
 output.write_text(json.dumps(result, indent=2), encoding="utf-8")
