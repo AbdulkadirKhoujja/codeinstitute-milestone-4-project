@@ -54,7 +54,7 @@ Only bin/lib/share were safely extracted into ignored .local-tools. A new passwo
 
 ## Account and billing checkpoint
 
-Official Heroku CLI **11.12.0** is installed locally; `auth:whoami` reports **not logged in**. A request to authenticate the existing ByteBoard account is pending. Public Heroku pricing on 19 October lists Basic at USD 7/month and Postgres Essential-0 at USD 5/month; these are provisional public prices, not an approved purchase or verified account offer. Scheduler dyno usage and actual account eligibility must be checked before a concrete exact-cost approval. No Heroku app/add-on/paid plan has been created or changed.
+At the initial checkpoint, official Heroku CLI **11.12.0** was installed locally and `auth:whoami` reported **not logged in**. The user subsequently authenticated; the later verified inventory and explicit billing decision are recorded below. Public Heroku pricing on 19 October lists Basic at USD 7/month and Postgres Essential-0 at USD 5/month; these are provisional public prices, not an approved purchase or verified account offer. Scheduler dyno usage and actual account eligibility must be checked before a concrete exact-cost approval. No Heroku app/add-on/paid plan has been created or changed.
 
 ## Final local release checks and actual interface findings
 
@@ -77,3 +77,11 @@ A separate **empty, non-running app record** was created: skillseat-akkhoujja, I
 The concrete proposal was USD12/month base with Basic scheduler/verification runtime billed per second (approximately USD0.01/hour), within a USD20/month pre-tax ceiling. The user explicitly answered **Do not provision paid resources**. No billable resource was created; no paid plan, database, scheduler or deployment was attempted. This is an unavoidable authorisation boundary, not a technical permission to work around. Full hosted HTTPS, migrations/storage/restart, scheduled no-traffic expiry and endpoint/payment journeys remain blocked. Reuse this app record if the owner later gives explicit new cost approval; do not create duplicate app records.
 
 The actual learner-specific assessment rubric/submission instructions are still unavailable. The requirements matrix remains clearly best-effort, with no invented institutional identifiers or grade prediction. Phase 4 remains incomplete and not submission-ready until mandatory hosted and authoritative assessment evidence exists.
+
+## Final preservation and handoff checks
+
+- Read-only final Heroku comparison: ByteBoard configuration HMAC unchanged, latest release18, same Basic formation and original add-on ID; public homepage HTTP200. SkillSeat formation/add-ons remain empty. [Actual sanitized comparison](testing/phase4-heroku-preservation.json).
+- Expanded README actual GitHub inspection after d0241c4: **all16 embedded images loaded**, including release account/resource/review/error captures. The original three Mermaid renders were verified separately and not changed. [Rendered image observations](testing/phase4-readme-render.json).
+- Earlier Phase4 CI [39280184246](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39280184246) completed successfully on8f18b0c; Windows/PostgreSQL steps inspected. Latest-code CI [39284481374](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39284481374) remains separately monitored; a queued run is not a success.
+- Only the fictional release fixture accounts were disabled and their workshop unpublished; retained Phase3 sandbox financial records were not modified. The task-created local server and disposable PostgreSQL cluster were stopped gracefully, with local data preserved.
+- [Consolidated release report and full SHA chronology](phase-4-release-report.md). The final delivery identifies its own documentation commit and synchronized remote SHA without creating a self-referential commit hash in this file.

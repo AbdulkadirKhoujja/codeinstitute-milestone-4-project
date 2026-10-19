@@ -18,14 +18,14 @@ The public [Code Institute L5 course page](https://codeinstitute.net/global/web-
 | Production database integrity/concurrency | 127-test full suite passed against real local PostgreSQL; seven real independent-connection races included | Pass | Record CI and hosted engine/version separately; do not equate local PG with Heroku |
 | Dependency vulnerability review | pip-audit 2.10.1 runtime lock audit: no known vulnerabilities | Pass | Point-in-time advisory check, not a guarantee against unknown vulnerabilities |
 | Reachable history credential review | scripts/audit_release.py, sanitised JSON; no unresolved pattern findings | Pass | Heuristic plus exact inherited-value checks; documented synthetic unit-test DSN classified, no history rewritten |
-| README inline planning/final evidence | Original text wireframes rendered as explicitly dated Phase 4 SVGs; actual screenshots inline | Pass | GitHub inspected: all 11 initial images load, all three Mermaid diagrams render; expanded release captures embedded |
+| README inline planning/final evidence | Original text wireframes rendered as explicitly dated Phase 4 SVGs; actual screenshots inline | Pass | GitHub inspected: all 16 embedded images load and all three Mermaid diagrams render |
 | Original planning provenance | Unchanged 17 October planning source, Phase 4 rendering script | Pass | No original mobile image wireframes existed; explicitly state this |
 | Formal HTML/CSS validation | W3C Nu: four local pages, no messages; CSS valid with zero errors/one warning | Pass | POST refusal recorded; documented GET succeeded; hosted validation remains pending |
 | Automated/manual accessibility | Phase 3 DOM/keyboard/contrast; actual local Lighthouse standard categories all 100; brand issue fixed test-first | Partial | Hosted and assistive-technology coverage unavailable; no full WCAG claim |
-| Responsive/browser journeys | Phase 3 authentic mobile/tablet/desktop captures and flows | Partial | Expand release captures and hosted journeys after access |
+| Responsive/browser journeys | Phase 3 captures plus actual release owner/download/attendance/review/mobile/error flows | Partial | Hosted journeys blocked by declined costs |
 | Code quality and regression suite | Ruff, checks and retained 110 Phase 3 cases plus focused release tests | Pass | Continue full SQLite/PG verification after changes |
-| Genuine incremental Git development | Separate Red/Green release, storage, retry, health and abuse-control commits | Pass | Final full SHA chronology will be recorded |
-| CI completion | Windows preserved; separate PostgreSQL job dispatched | Not Verified | Queued jobs are not passing evidence; inspect actual results |
+| Genuine incremental Git development | Separate Red/Green release, storage, retry, health and abuse-control commits | Pass | Full SHA chronology recorded in phase-4-release-report.md |
+| CI completion | Earlier Windows/PostgreSQL run 39280184246 succeeded; final-code run 39284481374 queued | Partial | Final-code and Gunicorn CI result still unverified |
 | Credits/licensing | README credits and implementation choices | Partial | Official source/tool credits reviewed; no repository-wide licence granted. Owner retains licensing decision |
 | Final submission instructions/grade thresholds | Authoritative learner-specific source unavailable | Not Verified | User must provide exact applicable brief/rubric/submission source |
 | Hosted release and submission readiness | Empty separate app record only; no deployed application, dynos or add-ons | Not Verified | Do not declare Phase 4 complete or submission-ready |

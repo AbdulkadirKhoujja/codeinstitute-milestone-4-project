@@ -4,7 +4,7 @@ SkillSeat is the working title for a Code Institute Milestone Project 4 full-sta
 
 ## Project overview
 
-SkillSeat is a Django workshop discovery and booking application. Phase 3 implements the committed core features, with real database, permission, concurrency and browser evidence. Phase 3 is complete with a genuine hosted Stripe sandbox payment and signed webhook verification. Phase 4 release preparation is underway; Heroku deployment and final submission approval remain unverified.
+SkillSeat is a Django workshop discovery and booking application. Phase 3 implements the committed core features, with real database, permission, concurrency and browser evidence. Phase 3 is complete with a genuine hosted Stripe sandbox payment and signed webhook verification. Phase 4 release preparation is underway; Heroku deployment is blocked by declined paid provisioning; final assessment readiness remains unverified.
 
 ## Purpose and intended audience
 
@@ -271,7 +271,7 @@ The following are authentic captures from the running local Django application. 
 ![Local mobile eligible review with explicit simulated-event provenance and own edit/delete controls](docs/design/release/review-community-mobile.jpg)
 ![Actual branded missing-workshop page with debug disabled and safe navigation](docs/design/release/safe-404-desktop.jpg)
 
-At 390px, owner and review pages had document width 375px and no horizontal overflow; keyboard focus is visible on the resource/review controls. The release journey also exposed a stale cancellation action on a completed workshop: the server already denied it, and a new Red/Green interface test now replaces that control with the cancellation deadline. On actual GitHub, all 11 original embedded images loaded at nonzero natural widths and all three Mermaid diagrams rendered; further captures above are checked again after pushing. No physical-device or screen-reader result is claimed.
+At 390px, owner and review pages had document width 375px and no horizontal overflow; keyboard focus is visible on the resource/review controls. The release journey also exposed a stale cancellation action on a completed workshop: the server already denied it, and a new Red/Green interface test now replaces that control with the cancellation deadline. On actual GitHub, all 11 original embedded images loaded at nonzero natural widths and all three Mermaid diagrams rendered; all 16 embedded images including the release captures were confirmed loaded in the actual GitHub render after pushing. No physical-device or screen-reader result is claimed.
 
 ## Features
 
@@ -504,7 +504,7 @@ This configuration check does not verify a real TLS endpoint, proxy, production 
 
 `.github/workflows/foundation.yml` runs on pushes and pull requests to `main`, and supports manual runs. A Windows runner verifies the official NuGet runtime, creates a fresh environment, installs hash-locked dependencies, asserts exact versions and interpreter location, checks dependency integrity, runs lint/format/system/tests/migrations/production checks, and smoke-tests the server. The checkout action is pinned to an immutable official release commit, permissions are read-only, and no repository secret is required. A random check-only key is generated per run.
 
-[Phase 3 Windows CI run 39159120497](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39159120497) completed successfully on `1d8154bef35d36e29164d1f59b7341fa42a586d4`, including the 110-test suite and separate file-backed concurrency run. The post-payment local run again passed **110 tests plus seven separate concurrency tests**. Completion evidence CI [39164323260](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39164323260) also passed on `2aff9d2932c1ca8d0febab1108c3d38e0efb2d89`; all steps were inspected. The final delivery identifies the final documentation commit and its successful run. The earlier real lint failure remains documented; checks were not weakened. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
+[Phase 3 Windows CI run 39159120497](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39159120497) completed successfully on `1d8154bef35d36e29164d1f59b7341fa42a586d4`, including the 110-test suite and separate file-backed concurrency run. The post-payment local run again passed **110 tests plus seven separate concurrency tests**. Completion evidence CI [39164323260](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39164323260) also passed on `2aff9d2932c1ca8d0febab1108c3d38e0efb2d89`; all steps were inspected. These are historical Phase 3 successes. Phase 4 CI results and any pending final-code verification are recorded in the release table below. The earlier real lint failure remains documented; checks were not weakened. CI uses simulated Stripe fixtures and requires no payment secrets. This is verification, not deployment.
 
 ## Deployment
 
@@ -597,7 +597,7 @@ Only an authorised owner/superuser or a relevant paid+confirmed attendee can dow
 | Authentication regressions | 19 account/throttle tests passed |
 | Dependency audit | pip-audit 2.10.1: no known runtime vulnerabilities |
 | Source/history and Markdown target checks | No unresolved findings; synthetic example classified; no history rewriting |
-| GitHub Actions release jobs | Windows preserved; PostgreSQL job dispatched; queued is Not Verified |
+| GitHub Actions release jobs | Earlier Windows/PostgreSQL run [39280184246](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39280184246) succeeded; latest-code run [39284481374](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39284481374) queued at inspection |
 | Heroku hosted release | Blocked — paid provisioning explicitly declined; empty separate app only |
 | Formal learner-specific assessment confirmation | Not Verified — actual rubric/submission source unavailable |
 
@@ -606,3 +606,5 @@ The [requirements-to-evidence matrix](docs/assessment-audit.md) records Pass / P
 ## Licensing status
 
 No repository-wide licence has been granted. Public availability does not itself grant reuse rights. Django-generated boilerplate and third-party dependencies retain their own licences; the credits identify the official sources and tools. Choosing a licence remains the repository owner's decision and is not presented as an assessment pass.
+
+The [Phase 4 checkpoint report](docs/phase-4-release-report.md) consolidates actual release results, the complete implementation-commit chronology and precise continuation steps. The substantive design, model, role, state and verification evidence remains presented directly above.

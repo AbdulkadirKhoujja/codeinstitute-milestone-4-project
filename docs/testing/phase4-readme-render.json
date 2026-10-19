@@ -1,5 +1,5 @@
 {
-  "scope": "Actual public GitHub README render at a3cf413, 19 October 2026",
+  "scope": "Actual public GitHub README render after d0241c4 push, 19 October 2026",
   "images": [
     {
       "alt": "Phase 4 rendering of SkillSeat's original 17 October desktop discovery and detail text wireframe",
@@ -55,7 +55,33 @@
       "alt": "Actual owner workshop form with booking roster and private resource upload",
       "complete": true,
       "naturalWidth": 752
+    },
+    {
+      "alt": "Local desktop sign-in form with explicit username and password labels",
+      "complete": true,
+      "naturalWidth": 1264
+    },
+    {
+      "alt": "Local owner account dashboard with own profile, bookings and studio entry",
+      "complete": true,
+      "naturalWidth": 1280
+    },
+    {
+      "alt": "Local mobile private resource controls, authorisation notice and visible keyboard focus",
+      "complete": true,
+      "naturalWidth": 375
+    },
+    {
+      "alt": "Local mobile eligible review with explicit simulated-event provenance and own edit/delete controls",
+      "complete": true,
+      "naturalWidth": 375
+    },
+    {
+      "alt": "Actual branded missing-workshop page with debug disabled and safe navigation",
+      "complete": true,
+      "naturalWidth": 375
     }
   ],
-  "mermaid": "All three diagrams rendered; ERD attributes, architecture and booking state labels observed in browser accessibility tree"
+  "allImagesLoaded": true,
+  "mermaid": "All three diagrams previously verified rendered in actual GitHub accessibility tree; no diagram source changed"
 }
