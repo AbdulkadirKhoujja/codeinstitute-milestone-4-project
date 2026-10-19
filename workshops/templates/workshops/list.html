@@ -4,9 +4,14 @@
 <p class="eyebrow">MAKE TIME TO GROW</p>
 <h1>Find your next skill.</h1>
 <p>Practical workshops. Inspiring hosts. A place for your next step.</p>
+<form method="get" role="search" aria-label="Find workshops">
+<p><label for="workshop-query">Search skills or location</label><input id="workshop-query" type="search" name="q" maxlength="140" value="{{ query }}"></p>
+<p><label for="workshop-price">Price</label><select id="workshop-price" name="price"><option value="">All prices</option><option value="free"{% if price == 'free' %} selected{% endif %}>Free</option><option value="paid"{% if price == 'paid' %} selected{% endif %}>Paid</option></select></p>
+<button type="submit">Find workshops</button> <a href="{% url 'workshops:list' %}">Clear filters</a>
+</form>
 <div class="cards">
 {% for workshop in workshops %}
 <article class="card"><p>{{ workshop.starts_at|date:"d M Y · H:i" }} UTC</p><h2><a href="{% url 'workshops:detail' workshop.pk %}">{{ workshop.title }}</a></h2><p>{{ workshop.description|truncatewords:25 }}</p><p>With {{ workshop.owner.get_full_name|default:workshop.owner.username }}</p><p>{{ workshop.price_display }} · {{ workshop.available_seats }} places available</p></article>
-{% empty %}<p>New workshops are on their way. Please check back soon.</p>{% endfor %}
+{% empty %}<p>{% if query or price %}No workshops match these filters. Try another search or clear the filters.{% else %}New workshops are on their way. Please check back soon.{% endif %}</p>{% endfor %}
 </div>
 {% endblock %}

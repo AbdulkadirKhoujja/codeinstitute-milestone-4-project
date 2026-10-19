@@ -64,7 +64,9 @@ class WorkshopModelTests(TestCase):
 class DiscoveryTests(TestCase):
     def test_search_matches_title_description_or_location_and_preserves_input(self):
         item = workshop()
-        other = workshop(owner=item.owner, title="Woodworking", description="Carve a spoon", location="York")
+        other = workshop(
+            owner=item.owner, title="Woodworking", description="Carve a spoon", location="York"
+        )
         for query in ("POTTERY", "doing", "London"):
             response = self.client.get("/workshops/", {"q": query})
             self.assertContains(response, item.title)

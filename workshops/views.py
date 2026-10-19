@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db.models import Q
 from django.http import FileResponse, Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -17,13 +18,30 @@ from .services import cancel_booking, expire_bookings, reserve, update_workshop
 
 def listing(request):
     expire_bookings()
+    query = request.GET.get("q", "").strip()[:140]
+    price = request.GET.get("price", "")
+    items = Workshop.objects.filter(published=True, starts_at__gt=timezone.now()).select_related(
+        "owner"
+    )
+    if query:
+        items = items.filter(
+            Q(title__icontains=query)
+            | Q(description__icontains=query)
+            | Q(location__icontains=query)
+        )
+    if price == "free":
+        items = items.filter(price_pence=0)
+    elif price == "paid":
+        items = items.filter(price_pence__gt=0)
+    else:
+        price = ""
     return render(
         request,
         "workshops/list.html",
         {
-            "workshops": Workshop.objects.filter(
-                published=True, starts_at__gt=timezone.now()
-            ).select_related("owner")
+            "workshops": items,
+            "query": query,
+            "price": price,
         },
     )
 

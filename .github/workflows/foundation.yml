@@ -12,11 +12,14 @@ permissions:
 
 jobs:
   postgres-release:
+    strategy:
+      matrix:
+        postgres: ['17', '18']
     runs-on: ubuntu-latest
     timeout-minutes: 15
     services:
       postgres:
-        image: postgres:17
+        image: postgres:${{ matrix.postgres }}
         env:
           POSTGRES_DB: skillseat_ci
           POSTGRES_USER: skillseat_ci
