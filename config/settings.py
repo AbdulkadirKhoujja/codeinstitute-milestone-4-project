@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 from .environment import load_environment
+from .release import load_release
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 environment = load_environment()
@@ -11,6 +12,7 @@ SECRET_KEY = environment.secret_key
 DEBUG = environment.debug
 ALLOWED_HOSTS = environment.allowed_hosts
 PRODUCTION = environment.name == "production"
+release = load_release(os.environ, production=PRODUCTION)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -25,6 +27,7 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -53,6 +56,8 @@ ASGI_APPLICATION = "config.asgi.application"
 
 # Local foundation only; production database selection belongs to release work.
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
+if release.database:
+    DATABASES["default"] = release.database
 if os.environ.get("SKILLSEAT_FILE_TEST_DB") == "1":
     DATABASES["default"]["TEST"] = {"NAME": BASE_DIR / "test-phase3.sqlite3"}
 AUTH_PASSWORD_VALIDATORS = [
@@ -68,6 +73,13 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 PRIVATE_RESOURCE_ROOT = BASE_DIR / "private-resources"
+PRIVATE_RESOURCE_BACKEND = release.storage_backend
+CSRF_TRUSTED_ORIGINS = release.csrf_origins
+SECURE_PROXY_SSL_HEADER = release.proxy_header
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage" if PRODUCTION else "django.contrib.staticfiles.storage.StaticFilesStorage"},
+}
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 STRIPE_TEST_KEY = os.environ.get("STRIPE_TEST_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
@@ -88,4 +100,4 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = PRODUCTION
 SECURE_HSTS_PRELOAD = PRODUCTION
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
-# No forwarded-header trust: configure a known proxy only when deploying.
+# Forwarded proto is trusted only for the explicit Heroku deployment policy.
