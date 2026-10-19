@@ -91,6 +91,12 @@ class Resource(models.Model):
     file = models.FileField(storage=PrivateStorage(), upload_to=resource_path)
 
 
+class PrivateResourceBlob(models.Model):
+    name = models.CharField(max_length=255, primary_key=True)
+    content = models.BinaryField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class PaymentAttempt(models.Model):
     booking = models.OneToOneField(
         Booking, on_delete=models.PROTECT, related_name="payment_attempt"
