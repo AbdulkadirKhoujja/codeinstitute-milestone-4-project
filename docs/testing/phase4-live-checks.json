@@ -1,0 +1,47 @@
+{
+  "runtime_commit": "e06fce0a855a650afd75469ffcd089a1469813b2",
+  "local_django": {
+    "tests": 132,
+    "seconds": 25.619,
+    "status": "PASS"
+  },
+  "javascript": {
+    "node_behavior_tests": 3,
+    "node_syntax": "PASS",
+    "jshint_version": "2.13.6",
+    "jshint_status": "PASS",
+    "first_jshint_finding": "Global strict directive; corrected with function wrapper, no lint suppression"
+  },
+  "tdd": [
+    {
+      "red": "bf99ae4",
+      "green": "8cf5220",
+      "behavior": "Discovery search and free/paid filters",
+      "red_result": "2 failing tests; then 5 discovery tests pass"
+    },
+    {
+      "red": "2157fad",
+      "green": "ca81b89",
+      "behavior": "Anonymous-only login/registration per supplied criterion 3.2",
+      "red_result": "3 failing subcases in 2 tests; full 131 then passed"
+    },
+    {
+      "red": "36625a3",
+      "green": "e06fce0",
+      "behavior": "Custom frontend cancellation confirmation, mandatory requirement 8",
+      "red_result": "3 JS cases failed for absent script and 1 template test failed; final 132 Django + 3 JS passed"
+    }
+  ],
+  "ci_suite_counts": {
+    "windows": 132,
+    "postgres_17": 132,
+    "postgres_18": 132,
+    "additional_windows_file_races": 7
+  },
+  "tooling_observations": [
+    "First local suite lacked configured strong key; rerun with ephemeral private key.",
+    "A later sandbox run could not use sandbox TEMP for filesystem-resource tests; writable workspace TEMP rerun passed. These were not reported as application passes.",
+    "Local uv environment has no pip; uv pip check verified all 17 packages compatible.",
+    "Native confirm dialog automation timed out; cancellation completed. Hosted dismissal not claimed."
+  ]
+}

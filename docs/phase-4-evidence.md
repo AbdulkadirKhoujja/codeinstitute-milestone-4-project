@@ -1,5 +1,7 @@
 # Phase 4 — release and assessment evidence
 
+**Current checkpoint: deployed and core hosted journeys verified; Phase 4 remains incomplete because current hosted Stripe commerce and scheduled no-traffic expiry are unverified.** The chronological notes below preserve earlier observations; the final hosted continuation section and updated release report supersede their old empty-app and unavailable-rubric statements.
+
 ## Baseline and scope — 19 October 2026
 
 Started at `bb0d7cec2c5eace63515fead3939f7e1a8a6f0fe`, clean working tree. The supplied baseline matches HEAD. The unchanged suite passed **110 tests in 12.673s**. Phase 3's genuine sandbox payment and signed webhook record is preserved.
@@ -80,8 +82,20 @@ The actual learner-specific assessment rubric/submission instructions are still 
 
 ## Final preservation and handoff checks
 
-- Read-only final Heroku comparison: ByteBoard configuration HMAC unchanged, latest release18, same Basic formation and original add-on ID; public homepage HTTP200. SkillSeat formation/add-ons remain empty. [Actual sanitized comparison](testing/phase4-heroku-preservation.json).
+- Read-only final Heroku comparison: ByteBoard configuration HMAC unchanged, latest release18, same Basic formation and original add-on ID; public homepage HTTP 200. SkillSeat formation/add-ons remain empty. [Actual sanitized comparison](testing/phase4-heroku-preservation.json).
 - Expanded README actual GitHub inspection after d0241c4: **all16 embedded images loaded**, including release account/resource/review/error captures. The original three Mermaid renders were verified separately and not changed. [Rendered image observations](testing/phase4-readme-render.json).
-- Earlier Phase4 CI [39280184246](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39280184246) completed successfully on8f18b0c; Windows/PostgreSQL steps inspected. Latest-code CI [39284481374](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39284481374) remains separately monitored; a queued run is not a success.
-- Only the fictional release fixture accounts were disabled and their workshop unpublished; retained Phase3 sandbox financial records were not modified. The task-created local server and disposable PostgreSQL cluster were stopped gracefully, with local data preserved.
+- Earlier Phase 4 CI [39280184246](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39280184246) completed successfully on8f18b0c; Windows/PostgreSQL steps inspected. Latest-code CI [39284481374](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39284481374) remains separately monitored; a queued run is not a success.
+- Only the fictional release fixture accounts were disabled and their workshop unpublished; retained Phase 3 sandbox financial records were not modified. The task-created local server and disposable PostgreSQL cluster were stopped gracefully, with local data preserved.
 - [Consolidated release report and full SHA chronology](phase-4-release-report.md). The final delivery identifies its own documentation commit and synchronized remote SHA without creating a self-referential commit hash in this file.
+
+## Final hosted continuation — 19 October 2026
+
+Independently confirmed deployed v16/b546e49 with existing Basic/PostgreSQL 18.4 and no unapplied migrations. The earlier empty-app checkpoint is historical. Reused the existing app/resources without provisioning services or modifying ByteBoard. Full details, actual SHA chronology, release/CI links and remaining blockers are in [the updated release report](phase-4-release-report.md).
+
+Three genuine Red/Green slices corrected discovery filtering, authenticated login/registration access (actual supplied Unit 4 criterion3.2), and absent custom JavaScript (supplied mandatory requirement8). Final runtime e06fce0/v19 passed132 Django tests on Windows/PG17/PG18, three JavaScript behavior tests and JSHint. Actual hosted workflows, final-seat concurrency, own CRUD, authorisation/CSRF, request expiry, throttle and genuine restart/private-byte persistence were exercised. Exact fictional rows/files/sessions were cleaned up; no production database reset.
+
+Actual hosted W3C HTML four pages returned no messages; CSS valid/0 errors/1 font warning. Hosted mobile Lighthouse 13.5.0 returned 100 in all four standard categories. Twelve viewport/page combinations had no horizontal overflow or unlabelled controls; skip-to-main and visible focus worked.22 actual hosted JPEG captures are embedded in README, with header-derived dimensions/hashes in their manifest. Prior local evidence/wireframe provenance is retained. No full WCAG, physical-device or screen-reader claim.
+
+The learner supplied the actual Unit 4 F/650/3528 PDF (printed 55–65) and13 mandatory requirements; [assessment matrix](assessment-audit.md) now uses their real IDs. Hosted payment/content unlock remains PARTIAL because Stripe settings are absent; the endpoint returns503 rather than trusting a forged event. No scheduler is attached, so no-traffic hosted expiration remains NOT VERIFIED. Native confirm-dialog automation timed out; actual cancellation succeeded, dismissal is covered by JS tests but not independently verified in the hosted browser. These are explicit limitations, not fabricated passes.
+
+All final publication checks must complete before delivery; the exact documentation commit, final release and CI URL are reported there. No fifth phase, extra billable resource or artificial commit was created.

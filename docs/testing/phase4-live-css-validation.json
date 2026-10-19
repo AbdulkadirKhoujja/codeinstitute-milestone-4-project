@@ -1,0 +1,11 @@
+{
+  "validity": "true",
+  "errorcount": "0",
+  "warningcount": "1",
+  "messages": [
+    {
+      "type": "warning",
+      "text": "3 0 \u201csystem-ui,-apple-system,\"Segoe UI\",sans-serif\u201d is a vendor extension vendor-extension"
+    }
+  ]
+}

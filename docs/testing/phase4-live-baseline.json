@@ -1,0 +1,48 @@
+{
+  "scope": "Existing SkillSeat only; read-only baseline on 19 October 2026",
+  "release": {
+    "version": 16,
+    "status": "succeeded",
+    "created_at": "2026-10-19T20:40:15Z",
+    "description": "Deploy b546e497"
+  },
+  "deployed_commit": "b546e4976110839f06178264492bf91eb5f9316d",
+  "formation": [
+    {
+      "type": "web",
+      "quantity": 1,
+      "size": "Basic"
+    },
+    {
+      "type": "release",
+      "quantity": 0,
+      "size": "Basic"
+    }
+  ],
+  "addons": [
+    {
+      "service": "heroku-postgresql",
+      "plan": "heroku-postgresql:essential-0",
+      "state": "provisioned"
+    }
+  ],
+  "production_policy": {
+    "DJANGO_ENV": "production",
+    "DJANGO_DEBUG": "false",
+    "DJANGO_DEPLOYMENT": "heroku",
+    "DJANGO_ALLOWED_HOSTS": "skillseat-akkhoujja-e88f42c60993.herokuapp.com",
+    "DJANGO_CSRF_TRUSTED_ORIGINS": "https://skillseat-akkhoujja-e88f42c60993.herokuapp.com",
+    "PAYMENT_ORIGIN": "https://skillseat-akkhoujja-e88f42c60993.herokuapp.com"
+  },
+  "stripe_test_key_present": false,
+  "stripe_webhook_secret_present": false,
+  "postgres_version": "18.4",
+  "unapplied_migrations": [],
+  "record_counts": {
+    "users": 0,
+    "workshops": 0,
+    "bookings": 0,
+    "private_blobs": 0
+  },
+  "django_deploy_check": "passed"
+}

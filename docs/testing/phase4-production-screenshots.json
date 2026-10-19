@@ -1,0 +1,162 @@
+{
+  "origin": "https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/",
+  "capture_date": "2026-10-19",
+  "scope": "Real in-app browser screenshots; viewport emulation, not physical devices. v17 core UI captures and v19 cancellation/empty state; same unchanged page layouts. No generated images.",
+  "fixtures": "Fictional names, example.invalid address, simulated-event attendance and temporary handout. Removed after capture.",
+  "images": [
+    {
+      "file": "docs/design/production/booking-pending-desktop.jpg",
+      "format": "JPEG",
+      "width": 1425,
+      "height": 990,
+      "sha256": "745059b275867bd3d2c7106f7bcee3ad1044d09adc331b39fe3b9cf83b1dba9d"
+    },
+    {
+      "file": "docs/design/production/bookings-mobile.jpg",
+      "format": "JPEG",
+      "width": 375,
+      "height": 812,
+      "sha256": "69701220194a17f9e363e3495589b5f2c842324ea5c40806f80badecc4c83ecb"
+    },
+    {
+      "file": "docs/design/production/cancellation-desktop.jpg",
+      "format": "JPEG",
+      "width": 1425,
+      "height": 990,
+      "sha256": "adacdbb92e9c411179294c8607ae03bb554f72e20ae4781e42332dcf8bf1475a"
+    },
+    {
+      "file": "docs/design/production/checkout-unconfigured-mobile.jpg",
+      "format": "JPEG",
+      "width": 375,
+      "height": 260,
+      "sha256": "9af6ddc1e42861769a301b6d801d0b8d79e39fa8e5fbd01c04cdd0c7bf127816"
+    },
+    {
+      "file": "docs/design/production/detail-desktop.jpg",
+      "format": "JPEG",
+      "width": 1425,
+      "height": 990,
+      "sha256": "7ee4a882253983df2902b13acb8155ebe2e91898329556cc4346c670ba50c905"
+    },
+    {
+      "file": "docs/design/production/detail-mobile.jpg",
+      "format": "JPEG",
+      "width": 375,
+      "height": 812,
+      "sha256": "715e7d421052f3879d6fcc41cc78e1cf69e96bc7425970accbe5a31a15348091"
+    },
+    {
+      "file": "docs/design/production/discovery-desktop.jpg",
+      "format": "JPEG",
+      "width": 1425,
+      "height": 990,
+      "sha256": "0593b5f07efae4079a9eedc6f5710e186db28cc838566d16425be7bd3f422965"
+    },
+    {
+      "file": "docs/design/production/discovery-filter-mobile.jpg",
+      "format": "JPEG",
+      "width": 375,
+      "height": 500,
+      "sha256": "0fda9fccfaddc72a1aabe1c0954ab204918ee8131ea760b8072f31bcf92eb125"
+    },
+    {
+      "file": "docs/design/production/discovery-tablet.jpg",
+      "format": "JPEG",
+      "width": 753,
+      "height": 1004,
+      "sha256": "861d620c2a9e79b9b9f57054c59a890d34ee3973717115a4184c69812da87388"
+    },
+    {
+      "file": "docs/design/production/empty-discovery-desktop.jpg",
+      "format": "JPEG",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "84a6770c5df371afcd3536523efa0369e18af670399e7d78aa2e9d6e3964eb80"
+    },
+    {
+      "file": "docs/design/production/home-desktop.jpg",
+      "format": "JPEG",
+      "width": 1425,
+      "height": 990,
+      "sha256": "b87b466869a80549ded9e89117977cf84bbc111046886983654921c11583d703"
+    },
+    {
+      "file": "docs/design/production/home-mobile.jpg",
+      "format": "JPEG",
+      "width": 375,
+      "height": 812,
+      "sha256": "7c4d4779e470b1fb6ad66d1f82f22d5c3676c4fc092a0ff10035eedac27b940e"
+    },
+    {
+      "file": "docs/design/production/login-desktop.jpg",
+      "format": "JPEG",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "5fd75fc6bf39dc6919d5da46f5a16776aa0543f69fa304371da13fba848ac37e"
+    },
+    {
+      "file": "docs/design/production/login-mobile.jpg",
+      "format": "JPEG",
+      "width": 375,
+      "height": 812,
+      "sha256": "81343f7fe22a5a80abbac6980ce4537f2c9fc8ef2395a2a9807206e75a650576"
+    },
+    {
+      "file": "docs/design/production/owner-edit-tablet.jpg",
+      "format": "JPEG",
+      "width": 753,
+      "height": 523,
+      "sha256": "48e4c0ef845302c9016ea2723c83e212202098fcec5f15ea53772858ab6394b9"
+    },
+    {
+      "file": "docs/design/production/profile-desktop.jpg",
+      "format": "JPEG",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "8d4470bc70b75bb65a71ae075615aacfd79ae4a048d4b9bdfd32f96b435376f0"
+    },
+    {
+      "file": "docs/design/production/profile-mobile.jpg",
+      "format": "JPEG",
+      "width": 375,
+      "height": 812,
+      "sha256": "ee8e8344a4419ec33cd925ab3cbe01156674437135ba892822db4d8f2b65507c"
+    },
+    {
+      "file": "docs/design/production/register-desktop.jpg",
+      "format": "JPEG",
+      "width": 1425,
+      "height": 990,
+      "sha256": "3d4b513fb5f4137fe21ccab27494ec5095e3f84c7426c80b24076211682e01fd"
+    },
+    {
+      "file": "docs/design/production/register-mobile.jpg",
+      "format": "JPEG",
+      "width": 375,
+      "height": 812,
+      "sha256": "a38264fbcb32a81fc2dad743669c332e949337e04620964b3ddab82f77e15745"
+    },
+    {
+      "file": "docs/design/production/resources-tablet.jpg",
+      "format": "JPEG",
+      "width": 753,
+      "height": 1004,
+      "sha256": "c74b99b4ababadb5090677afa2959ca93aa7ad4b053b2c69eda43a8e47c6bcab"
+    },
+    {
+      "file": "docs/design/production/safe-404-desktop.jpg",
+      "format": "JPEG",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "ef9d875ab4cd59dfef92ffb4bee053a17751636bac9152fc9b8d3ec88c5c0b21"
+    },
+    {
+      "file": "docs/design/production/studio-desktop.jpg",
+      "format": "JPEG",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "d4f0f53c5731d41479fc13edae0d1ea672cf0b54a9e1af6da89078f197206578"
+    }
+  ]
+}

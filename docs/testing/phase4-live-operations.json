@@ -1,0 +1,16 @@
+{
+  "scope": "Actual SkillSeat log stream inspected; raw request metadata and log-session URL deliberately excluded",
+  "traceback_detected": false,
+  "heroku_error_codes": [],
+  "gunicorn_boot_seen": true,
+  "restart_seen": true,
+  "asset": {
+    "path": "/static/core/skillseat.a9f627e98414.css",
+    "status": 200,
+    "content_type": "text/css; charset=\"utf-8\"",
+    "cache_control": "max-age=315360000, public, immutable",
+    "has_search_styles": true
+  },
+  "health_status": 200,
+  "intentional_negative_checks": "403 CSRF/owner denial, 404 private denial, 503 unconfigured webhook are expected from controlled tests"
+}

@@ -1,0 +1,13 @@
+{
+  "scope": "Only exact fictional usernames and workshop IDs created by this continuation; payment-attempt guard enforced; no database reset",
+  "temporary_users_remaining": 0,
+  "temporary_workshops_remaining": 0,
+  "final_record_counts": {
+    "users": 0,
+    "workshops": 0,
+    "bookings": 0,
+    "private_blobs": 0
+  },
+  "baseline_counts_match": true,
+  "preserved": "Authentication throttle counters left intact; no pre-existing application records existed at initial baseline"
+}

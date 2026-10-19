@@ -1,38 +1,82 @@
 # Phase 4 release and submission-readiness report
 
-19 October 2026. **Incomplete: required hosted release is blocked by explicitly declined paid provisioning.** No fifth phase is proposed. The core Phase 3 application and its genuine sandbox-payment evidence are retained. Independent release engineering and available local checks are complete at this checkpoint.
+19 October 2026. **Deployment successful; Phase 4 incomplete / not submission-ready.** The current Heroku deployment has no Stripe test key or hosted webhook signing secret, so mandatory commerce/content-unlock verification is still missing. No fifth phase was created.
 
-| Delivery requirement | Actual result |
+## Independently established production baseline
+
+Local and remote `main` both started at `b546e4976110839f06178264492bf91eb5f9316d`, clean. Heroku **v16** had successfully deployed that exact slug commit, with one existing Basic web dyno and one existing Essential-0 PostgreSQL attachment. Actual server version was **18.4**, all migrations were applied, `check --deploy --fail-level WARNING` passed, and the application's user/workshop/booking/private-blob counts were zero. The old declined-provisioning report was therefore stale. [Sanitised actual baseline](testing/phase4-live-baseline.json).
+
+This continuation reused the existing SkillSeat app, attachment and manual build/release arrangement. It did not provision an add-on, scheduler, subscription or extra dyno, reset a database, or modify ByteBoard. The only restart was of the existing SkillSeat web process for the required persistence test. Historical source/evidence and genuine Phase 3 sandbox financial records in the local development database were retained.
+
+## Verified runtime and exact evidence scope
+
+| Item | Actual observed result |
 | --- | --- |
-| Working live SkillSeat URL | None. Assigned empty-app hostname skillseat-akkhoujja-e88f42c60993.herokuapp.com is not a deployed application |
-| Heroku account and ByteBoard | Existing account authenticated; ownership verified. ByteBoard release v18, Basic web dyno, original Essential-0 attachment and private config fingerprint unchanged. Public HTTP200 |
-| Separate app | skillseat-akkhoujja, d49ce190-95dc-42a8-a0d8-34f6e38def7e, EU, Cedar/heroku-24; zero dynos/add-ons |
-| Billing | Actual Basic USD7/month, Essential-0 USD5/month, Scheduler USD0/month plus job runtime. User declined proposed USD12 base / USD20 total pre-tax ceiling. No paid resources provisioned |
-| Production engineering | Explicit Heroku PostgreSQL/TLS/proxy/origin policy; Gunicorn Procfile release/web; WhiteNoise manifest static; startup fail-closed; safe readiness/errors; database-shared HMAC auth limits |
-| Private storage | Heroku mode stores max5MB private bytes in the application's PostgreSQL, never public media. Actual local PostgreSQL restart retained exact bytes. Hosted persistence unverified |
-| Expiration | Idempotent command released one expired hold without HTTP traffic after actual local PG restart. Scheduler not provisioned or configured; recurring execution unverified |
-| Hosted user journeys | None claimed; blocked. Existing Phase 3 provider exercise remains genuine sandbox evidence, not a Heroku deployment |
-| Local browser journeys | Owner sign-in/attendance, exact protected owner download, eligible fictional review, unpaid file denial, debug-disabled error page; responsive/keyboard evidence saved |
-| SQLite full suite | 127 passed, 26.487s; original foundation/core cases retained |
-| PostgreSQL full suite | 127 passed, 35.306s, actual PostgreSQL17.11; seven barrier/independent-connection races included |
-| Separate SQLite file-backed races | 7 passed, 0.667s |
-| Versions/migrations/static | Python3.13.16/Django5.2.18 asserted; no migration drift/unapplied local migrations; new accounts0002/workshops0006 applied; production static collection129 assets/387 processing outputs |
-| Quality/configuration | Ruff lint/format, uv dependency consistency, Django system/deployment checks, real local server smoke and whitespace passed |
-| Security | Existing permissions/payment/replay/CSRF/resource tests retained; shared abuse controls and production policy added. pip-audit2.10.1: no known runtime advisories. Scoped source/history scan: no unresolved credential findings; no history rewriting |
-| Formal validation | W3C Nu four anonymous pages: no messages; W3C CSS valid/0 errors/1 system-font extension warning. First CSS POST refusal recorded; GET succeeded |
-| Lighthouse | 13.5.0 local mobile homepage:100 performance/accessibility/best practices/SEO. Additional brand audit finding corrected through genuine Red/Green; rerun no failed accessibility audits |
-| README visuals |16 actual embedded images loaded on GitHub; three Mermaid diagrams rendered; original text provenance and dated SVG renderings explicit. No invented historical/mobile wireframe or hosted screenshot |
-| Assessment coverage |[Requirements matrix](assessment-audit.md) uses supplied scope and available official context. Authoritative learner-specific MS4 brief/rubric/submission source still missing; no institutional grade/compliance claim |
-| Licensing |No repository-wide licence granted; official dependencies/source/tool credits recorded; owner retains licensing decision |
-| CI |[Earlier Windows and PostgreSQL run39280184246](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39280184246) succeeded on8f18b0c; all steps inspected. [Latest-code run39284481374](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39284481374) was queued at inspection. New Linux Gunicorn smoke is not yet claimed passed |
+| Public URL | https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/ |
+| Heroku app | `skillseat-akkhoujja`, EU, heroku-24/Cedar |
+| Runtime verification SHA | `e06fce0a855a650afd75469ffcd089a1469813b2` |
+| Runtime verification release | **v19**, succeeded, 19 October 2026 21:01:31 UTC |
+| Previous continuation deployments | v17 discovery filters (`8cf5220`); v18 anonymous-only auth (`ca81b89`), both succeeded |
+| Production database | Existing own Essential-0 attachment; actual PostgreSQL **18.4**; no unapplied migrations |
+| Production security | DEBUG false, explicit host/origin, Heroku proxy policy, secure cookies, HSTS/HTTPS, CSRF/owner/resource denials, shared throttle verified |
+| Static and logs | Hashed CSS/JS/favicon HTTP 200; immutable CSS caching; inspected app log window contains no traceback or Heroku H error code; expected negative-test403/404/503 are documented |
+| Current hosted functional checks | **35 PASS** observations in the current recorded HTTP/DB journey set; see exact items and fixture caveats below |
+| Genuine restart persistence | Existing web dyno restarted; exact fictional private bytes/blob SHA and authenticated owner download survived |
+| Cleanup | Exact fixture users/workshops/bookings/reviews/private bytes/sessions removed; domain-record counts match zero baseline; auth counters retained |
+| Full local Django suite | **132 passed in 25.619s**, using a writable workspace TEMP |
+| Windows CI | **132 passed in 6.023s**, plus seven file-backed races in 0.323s |
+| PostgreSQL 17 CI | **132 passed in 6.830s**, including seven independent-connection races; actual Linux Gunicorn smoke passed |
+| PostgreSQL 18 CI | **132 passed in 8.966s**, including seven independent-connection races; actual Linux Gunicorn smoke passed |
+| Frontend JavaScript | Three Node behavior tests, Node syntax and JSHint 2.13.6 pass; served as hashed static source |
+| Other checks | Ruff lint/format, uv dependency consistency (17 packages), system/deploy checks, migration consistency and whitespace pass |
+| Runtime CI | [39324116798](https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39324116798): Windows + PG17 + PG18 all success |
+| Earlier queued CI | Runs 39284481374 and39285069472 are now success; 39322577679 filters and39323852089 auth correction also success |
+| Hosted W3C HTML | Actual home/discovery/register/login HTML: no messages; transient CSRF tokens removed before submission |
+| W3C CSS | Valid, zero errors, one system-font vendor-extension warning |
+| Hosted Lighthouse 13.5.0 | Mobile actual public home: **100 performance/accessibility/best practices/SEO**, no failing accessibility audits; FCP/LCP0.9s, CLS0, TBT0ms |
+| Responsive and keyboard | Twelve hosted page/size combinations at390×844,768×1024,1440×1000 without horizontal overflow, unlabelled controls or unnamed buttons; skip link focuses main; visible focus checked |
+| Production images | **22 genuine captures**, inline README; fictional/sanitised records only; JPEG headers/dimensions/hash manifest checked |
+| Assessment sources | Supplied actual Unit 4 specification F/650/3528, pp55–65; all26 pass criteria and7 merit criteria mapped, plus all13 mandatory requirements |
 
-## Genuine engineering corrections
+The tables identify a **verification snapshot** rather than attempting to embed a Git commit's own hash within itself. The final documentation-only publication retains this runtime code; its exact final SHA, Heroku release and completed CI URL are recorded in the delivery response and actual provider histories. It must be deployed and checked before delivery; a queued run is not treated as success.
 
-Tests preceded release-policy, database-storage, PostgreSQL retry, readiness/error and shared-throttle behavior. Actual browser/Lighthouse findings also produced separate genuine Red/Green commits: brand accessible-name mismatch and cancellation offered after workshop start. No tests were removed or weakened. Full raw test results, before/after Lighthouse details, validation JSON, actual browser observations and sanitized Heroku inventory/preservation evidence are under `docs/testing/phase4-*`.
+## Actual hosted journeys and limitations
 
-## Chronological Phase 4 commits through this report checkpoint
+The current v19 run exercised registration of three fictional users, secure-cookie login, own profile editing, logout, anonymous-only login/registration GET redirects and authenticated registration POST rejection, attendee studio denial, missing-CSRF rejection, invalid form feedback, owner draft creation/edit/publication, non-owner edit denial and combined text/price filtering.
 
-The report's own documentation commit and final synchronized SHA are identified in the delivery response. The following full hashes are actual committed history, not planned commits:
+Two independently authenticated public requests competed for a one-seat free workshop. Exactly one confirmed booking and one reserved place resulted. Another user's cancellation was denied; own cancellation released capacity. A paid fixture created a pending hold, Checkout clearly reported missing configuration and no paid flag was granted. The unconfigured webhook rejected input with 503. Moving only the fictional hold's expiry timestamp into the past and issuing a real discovery request expired it and restored capacity. This proves request-triggered cleanup, **not** unattended scheduled execution.
+
+An owner uploaded/downloaded the exact fictional handout; anonymous access redirected to login and unpaid access returned 404. A simulated event was deliberately backdated, attendance recorded through hosted owner POST, and the attendee created then edited/deleted a review through hosted forms. Resource deletion through its owner form also removed database bytes. No real attendance or payment was claimed. Temporary future dates used for representative screenshot layouts were restored/backdated only on these controlled fixtures.
+
+Native browser cancellation completed and a real screenshot records its success. The in-app browser's CDP timed out while operating `window.confirm`; hosted dismissal is **NOT VERIFIED**. The three isolated JavaScript behavior cases verify acceptance/dismissal and ordinary/prevented forms. A repeated throttle probe initially reused an already-throttled name, invalidating its fresh-bucket expectation; a fresh nonexistent alias verified five failed attempts followed by 429 with Retry-After/no-store without resetting production counters. These tooling observations are retained, not disguised as product fixes.
+
+Current successful Stripe Checkout, signed fulfillment, confirmation, rejected/replayed/late/expired provider events and paid-attendee resource download are **NOT VERIFIED on Heroku**. Both `STRIPE_TEST_KEY` and `STRIPE_WEBHOOK_SECRET` are absent. Earlier genuine Phase 3 sandbox payment/signature/replay evidence and deterministic tests remain valid in their own scope; they are not relabelled as current hosted passes. No live payment was initiated.
+
+No scheduler is attached, and the user prohibited provisioning more services/dynos. Scheduled no-traffic expiration remains **NOT VERIFIED**. Physical devices, Firefox/Safari, screen readers and full WCAG compliance are also not claimed. The hosted site honestly shows an empty workshop state following fixture cleanup.
+
+## Genuine corrections, with Red → Green evidence
+
+1. Missing discovery filtering: two newly failing tests preceded case-insensitive title/description/location search and free/paid filters. Five discovery tests passed; 129-test suite passed; CI gained PostgreSQL 18 coverage alongside17.
+2. Supplied Unit 4 criterion3.2: two regression tests produced three failing subcases for authenticated access/account creation. The LoginView redirect and early registration guard fixed them; 131 tests passed and real hosted GET/POST checks passed.
+3. Supplied mandatory requirement8: three JavaScript behavior tests failed because the custom script was absent, and the template integration test failed. Progressive cancellation confirmation and its external deferred script then passed; final132 Django +3 JavaScript tests passed. JSHint's global-strict finding was corrected with a function wrapper, without suppressing the rule. Existing server-side CSRF/permission checks were preserved.
+
+The first local test attempt lacked an explicit strong development key; a later sandbox TEMP restriction caused filesystem-test errors. Rerunning with an ephemeral private key and writable workspace TEMP produced the actual passing results. The uv environment has no pip; dependency consistency was checked correctly with `uv pip check`. No failed execution is described as a pass.
+
+## README, visuals and assessment audit
+
+The current ByteBoard README was fetched read-only as a presentation reference. SkillSeat's main README now prominently links the live application and includes substantial purpose/stories/features, original planning provenance, wireframes, inline production desktop/mobile/tablet/account/owner/booking/resource/error/empty screenshots, ERD/architecture/state diagrams, role/payment rules, actual validation/results and full existing-app deployment/database instructions. The22 production captures are separate from preserved historical local captures. The supplied source PDF was hashed and inspected, not republished in the public repository.
+
+[Assessment matrix](assessment-audit.md): all26 actual pass criteria,7 merit criteria and13 supplied mandatory requirements trace implementation → tests → evidence → status. **Mandatory6 / Unit 4 4.1–4.2 remain PARTIAL** because hosted commerce/content unlock is unverified. Broader accessibility/testing characteristics remain PARTIAL in their stated scope. The rubric is now available; the prior claim that it was unavailable is superseded. No grade prediction is made.
+
+## Completion decision and remaining work
+
+**Do not mark Phase 4 complete or claim full submission readiness.** Deployment, core CRUD/auth/booking, production PostgreSQL 18 compatibility, restart persistence, documentation and available CI are verified. Remaining essential work is to configure existing Stripe sandbox credentials and the real hosted signing secret privately, then execute the actual hosted payment/provider-event/paid-resource journey. Do not paste credentials into chat, source or evidence. Verify scheduled no-traffic expiration only under an authorised arrangement; do not provision an extra resource as a workaround. Record native-dialog/browser/assistive-technology limits proportionately.
+
+The former provisioning refusal is preserved as historical context only: the previous checkpoint had an empty app. By this continuation's baseline, the owner had successfully deployed v16 with its own database/web process. No further resource was bought, no other project changed and no database reset occurred.
+
+## Genuine Phase 4 commit history
+
+Original release-engineering commits retained unchanged:
 
 ```text
 49802e700dea527f8fd484a17b929721d699bace docs: establish Phase 4 release plan and verified baseline
@@ -57,12 +101,27 @@ c31e504c7d42b5ee1458bb1919a42a3a4788a163 fix: show cancellation deadline on star
 d0241c47271b953b2f91aa3f64f8fb3a79dcf222 docs: record final local release checks and declined Heroku provisioning
 ```
 
-## Precise continuation and authorisation boundary
+The continuation began from `b546e4976110839f06178264492bf91eb5f9316d`. Six implementation/TDD commits through the verified runtime:
 
-1. Paid provisioning is declined. Do not provision a database/dyno/scheduler, deploy a billable process, substitute another provider, or reuse ByteBoard resources without new explicit user authorisation. Preserve the existing empty SkillSeat app record.
-2. If the owner later approves exact current costs, reconfirm plans/budget and provision only that app's own Basic/PostgreSQL/Scheduler. Set independently generated Django secrets and explicitly scoped production settings privately; preserve test-only Stripe policy and acquire a dedicated hosted test-webhook signing secret through an authorised flow.
-3. Deploy verified synchronized main, verify build/release migrations/static/HTTPS/headers, actual PG version/connection, scoped roles and all hosted user journeys; verify private bytes and database rows survive a real SkillSeat dyno restart. Run and observe scheduled no-traffic expiry, inspect logs, test-only payment verification/replay/late states, resources and eligible reviews. Record actual results.
-4. Obtain the actual applicable learner brief/rubric/submission source and reconcile each real criterion with the existing matrix. Do not invent identifiers or substitute student READMEs for institutional criteria.
-5. Inspect final-code CI to completion, fix real failures, rerun affected/full checks as warranted, update evidence, push and confirm clean synchronized main. Hosted and institutional evidence gaps prevent Phase4 completion/submission readiness.
+```text
+bf99ae4d0c40e3e465cd601dcbf1fe700c4a6e68 test: capture missing discovery search and price filters
+8cf522097601f7baac7b8465c7e3390f611a810f feat: add accessible workshop discovery filters and verify PostgreSQL 18
+2157fad3a919188a7b798a59901ff606840ef1dc test: enforce anonymous-only authentication pages from Unit 4 criterion 3.2
+ca81b890ac08d3dfa1013178414945f8db2eacdb fix: restrict login and registration forms to anonymous users
+36625a395b128894b164332b01230a8f8b21e1f3 test: specify cancellation confirmation as a frontend enhancement
+e06fce0a855a650afd75469ffcd089a1469813b2 feat: confirm booking cancellation with tested custom JavaScript
+```
 
-The two local fictional release fixture users have been disabled with unusable passwords, their owner permission removed and workshop unpublished; the original Phase3 sandbox financial audit remains untouched. The task-created local Django server and disposable PostgreSQL cluster were stopped gracefully; data is preserved under ignored `.local-tools` for reproducibility. No unrelated service was stopped.
+The final evidence/documentation publication commits are identified in delivery after review, push, rendered-README verification and deployment. No manufactured commits or history rewriting were used.
+
+## Evidence index
+
+- `testing/phase4-live-baseline.json`: initial actual v16 release, policy, PG18.4/migrations and zero-record baseline.
+- `testing/phase4-live-deployment.json`: v19 runtime build/release result and full source SHA.
+- `testing/phase4-live-journeys.json`: exact current hosted positives/negatives, simulated-fixture caveats and browser/tool observations.
+- `testing/phase4-live-operations.json`, `phase4-live-links.json`: sanitised logs, readiness and actual public anchors/static assets.
+- `testing/phase4-live-cleanup.json`: scoped deletion and restored baseline counts.
+- `testing/phase4-live-ci.json`, `phase4-live-checks.json`, `phase4-live-sqlite-tests.txt`: runtime jobs, TDD and actual local output.
+- `testing/phase4-live-*-validation.json`, `phase4-live-lighthouse.json`, `phase4-live-responsive.json`: actual hosted audits, separated from historical local files.
+- `testing/phase4-production-screenshots.json`: capture origin/provenance, file format/dimensions and hashes.
+- `testing/phase4-assessment-source.json`: supplied institutional source fingerprint and scope.

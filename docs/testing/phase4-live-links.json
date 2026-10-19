@@ -1,0 +1,47 @@
+{
+  "scope": "Every same-origin anchor and static asset from actual anonymous home/discovery/login/registration HTML; GET only, redirects followed. Authenticated object routes covered by separate fixture journeys and Django tests.",
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "is_asset": false
+    },
+    {
+      "path": "/accounts/login/",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "is_asset": false
+    },
+    {
+      "path": "/accounts/register/",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "is_asset": false
+    },
+    {
+      "path": "/static/core/actions.49fe77940633.js",
+      "status": 200,
+      "content_type": "text/javascript; charset=\"utf-8\"",
+      "is_asset": true
+    },
+    {
+      "path": "/static/core/favicon.6097757708f8.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "is_asset": true
+    },
+    {
+      "path": "/static/core/skillseat.a9f627e98414.css",
+      "status": 200,
+      "content_type": "text/css; charset=\"utf-8\"",
+      "is_asset": true
+    },
+    {
+      "path": "/workshops/",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "is_asset": false
+    }
+  ]
+}

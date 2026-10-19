@@ -1,0 +1,89 @@
+{
+  "scope": "Actual hosted Chromium in-app browser, emulated viewports; not physical-device or screen-reader testing",
+  "pages": [
+    {
+      "document": 375,
+      "path": "/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 390
+    },
+    {
+      "document": 375,
+      "path": "/workshops/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 390
+    },
+    {
+      "document": 375,
+      "path": "/accounts/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 390
+    },
+    {
+      "document": 375,
+      "path": "/workshops/bookings/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 390
+    },
+    {
+      "document": 753,
+      "path": "/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 768
+    },
+    {
+      "document": 753,
+      "path": "/workshops/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 768
+    },
+    {
+      "document": 768,
+      "path": "/accounts/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 768
+    },
+    {
+      "document": 753,
+      "path": "/workshops/bookings/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 768
+    },
+    {
+      "document": 1425,
+      "path": "/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 1440
+    },
+    {
+      "document": 1425,
+      "path": "/workshops/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 1440
+    },
+    {
+      "document": 1440,
+      "path": "/accounts/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 1440
+    },
+    {
+      "document": 1425,
+      "path": "/workshops/bookings/",
+      "unlabelled": 0,
+      "unnamedButtons": 0,
+      "viewport": 1440
+    }
+  ]
+}

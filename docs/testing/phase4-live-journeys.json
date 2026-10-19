@@ -1,0 +1,198 @@
+{
+  "scope": "Real public Heroku HTTP with controlled fictional fixtures; direct database reads verify effects. No synthetic paid confirmation.",
+  "results": [
+    {
+      "journey": "Register fictional evidence_host_20261019",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Register fictional evidence_alex_20261019",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Register fictional evidence_robin_20261019",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Login, secure session cookie",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Profile update isolated to own account",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Authenticated login and registration redirect to own profile",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Authenticated registration POST cannot create account",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Attendee studio denied",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Missing CSRF rejected",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Workshop form validation",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Owner create draft 0",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Owner edit and publish 0",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Owner create draft 1500",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Owner edit and publish 1500",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Nonowner edit denied",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Discovery search and price filters",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Hosted concurrent final-seat capacity",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Other attendee cancellation denied",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Booking cancellation releases capacity",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Early review rejected",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Unconfigured Stripe fails safely",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Unconfigured webhook fails closed",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Expired pending hold released on request",
+      "status": "PASS",
+      "detail": "Fixture timestamp moved into the past; request-triggered expiry, not scheduler proof"
+    },
+    {
+      "journey": "Private resource upload and authorised owner download",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Unpaid resource access denied",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Anonymous private access redirects to login",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Recorded attendance enables eligible review",
+      "status": "PASS",
+      "detail": "Only this temporary workshop was backdated; no real attendance claimed"
+    },
+    {
+      "journey": "Genuine web dyno restart preserves database and private bytes",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "HTTPS and security headers",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "HTTP redirects to HTTPS",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Logout ends authenticated access",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "journey": "Review edit and read updated content",
+      "status": "PASS",
+      "detail": "Real hosted CSRF-protected POST; only temporary fictional fixture; PostgreSQL effect verified"
+    },
+    {
+      "journey": "Own review deletion",
+      "status": "PASS",
+      "detail": "Real hosted CSRF-protected POST; only temporary fictional fixture; PostgreSQL effect verified"
+    },
+    {
+      "journey": "Owner resource deletion also removes private bytes",
+      "status": "PASS",
+      "detail": "Real hosted CSRF-protected POST; only temporary fictional fixture; PostgreSQL effect verified"
+    },
+    {
+      "journey": "Hosted shared authentication throttle",
+      "status": "PASS",
+      "detail": "Five failed attempts to nonexistent fictional username; subsequent HTTP429 with Retry-After and no-store. No existing account locked."
+    }
+  ],
+  "verified_runtime_commit": "e06fce0a855a650afd75469ffcd089a1469813b2",
+  "verified_release": 19,
+  "browser_confirmation": {
+    "outcome": "Actual browser cancellation succeeded; screenshot retained",
+    "limitation": "In-app browser CDP timed out while operating native window.confirm. Dismissal was not independently verified in the hosted browser; accept/dismiss behavior passes the isolated JavaScript tests."
+  },
+  "harness_observations": [
+    {
+      "observation": "Repeated probe reused an already throttled alias; fresh-bucket expectation failed without indicating an application defect. Counters were preserved.",
+      "prior_results": [
+        {
+          "journey": "Hosted shared authentication throttle",
+          "status": "FAIL",
+          "detail": "Five failed attempts to nonexistent fictional username; subsequent HTTP429 with Retry-After and no-store. No existing account locked."
+        }
+      ]
+    }
+  ]
+}
