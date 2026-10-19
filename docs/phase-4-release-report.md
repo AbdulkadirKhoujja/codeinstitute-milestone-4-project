@@ -35,7 +35,7 @@ This continuation reused the existing SkillSeat app, attachment and manual build
 | W3C CSS | Valid, zero errors, one system-font vendor-extension warning |
 | Hosted Lighthouse 13.5.0 | Mobile actual public home: **100 performance/accessibility/best practices/SEO**, no failing accessibility audits; FCP/LCP0.9s, CLS0, TBT0ms |
 | Responsive and keyboard | Twelve hosted page/size combinations at390×844,768×1024,1440×1000 without horizontal overflow, unlabelled controls or unnamed buttons; skip link focuses main; visible focus checked |
-| Production images | **22 genuine captures**, inline README; fictional/sanitised records only; JPEG headers/dimensions/hash manifest checked |
+| Production images | **22 genuine captures**, inline README; fictional/sanitised records only; JPEG headers/dimensions/hash manifest checked. Actual GitHub inspection at8cdfb74: all38 inline images loaded and all three Mermaid diagrams rendered |
 | Assessment sources | Supplied actual Unit 4 specification F/650/3528, pp55–65; all26 pass criteria and7 merit criteria mapped, plus all13 mandatory requirements |
 
 The tables identify a **verification snapshot** rather than attempting to embed a Git commit's own hash within itself. The final documentation-only publication retains this runtime code; its exact final SHA, Heroku release and completed CI URL are recorded in the delivery response and actual provider histories. It must be deployed and checked before delivery; a queued run is not treated as success.

@@ -1,87 +1,249 @@
 {
-  "scope": "Actual public GitHub README render after d0241c4 push, 19 October 2026",
-  "images": [
+  "diagramFrames": [
+    {
+      "src": "https://viewscreen.githubusercontent.com/markdown/mermaid?docs_host=https%3A%2F%2Fdocs.github.com&color_mode=light#84e2edd0-7530-44be-8103-5b06a56ff3cf",
+      "title": "File display"
+    },
+    {
+      "src": "https://viewscreen.githubusercontent.com/markdown/mermaid?docs_host=https%3A%2F%2Fdocs.github.com&color_mode=light#e42c6ed5-d72a-4438-a686-50363339775f",
+      "title": "File display"
+    },
+    {
+      "src": "https://viewscreen.githubusercontent.com/markdown/mermaid?docs_host=https%3A%2F%2Fdocs.github.com&color_mode=light#8d69675d-8b40-4f15-a1d0-98f6c9cd954b",
+      "title": "File display"
+    }
+  ],
+  "readmeImages": [
+    {
+      "alt": "Hosted desktop homepage",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/home-desktop.jpg",
+      "width": 1425
+    },
+    {
+      "alt": "Hosted mobile homepage and wrapping navigation",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/home-mobile.jpg",
+      "width": 375
+    },
+    {
+      "alt": "Hosted workshop discovery with fictional listings",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/discovery-desktop.jpg",
+      "width": 1425
+    },
+    {
+      "alt": "Hosted mobile text and paid-price filter controls",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/discovery-filter-mobile.jpg",
+      "width": 375
+    },
+    {
+      "alt": "Hosted desktop workshop detail and booking interface",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/detail-desktop.jpg",
+      "width": 1425
+    },
+    {
+      "alt": "Hosted mobile workshop detail",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/detail-mobile.jpg",
+      "width": 375
+    },
+    {
+      "alt": "Hosted labelled desktop registration form",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/register-desktop.jpg",
+      "width": 1425
+    },
+    {
+      "alt": "Hosted mobile registration form",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/register-mobile.jpg",
+      "width": 375
+    },
+    {
+      "alt": "Hosted desktop sign-in form with no credentials entered",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/login-desktop.jpg",
+      "width": 1440
+    },
+    {
+      "alt": "Hosted mobile sign-in form",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/login-mobile.jpg",
+      "width": 375
+    },
+    {
+      "alt": "Hosted fictional owner profile and studio entry",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/profile-desktop.jpg",
+      "width": 1440
+    },
+    {
+      "alt": "Hosted fictional attendee profile",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/profile-mobile.jpg",
+      "width": 375
+    },
+    {
+      "alt": "Hosted pending booking with test-mode checkout control",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/booking-pending-desktop.jpg",
+      "width": 1425
+    },
+    {
+      "alt": "Hosted confirmed and expired booking states",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/bookings-mobile.jpg",
+      "width": 375
+    },
+    {
+      "alt": "Hosted tablet discovery",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/discovery-tablet.jpg",
+      "width": 753
+    },
+    {
+      "alt": "Hosted owner studio with only the fictional owner's workshop records",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/studio-desktop.jpg",
+      "width": 1440
+    },
+    {
+      "alt": "Hosted tablet workshop editor",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/owner-edit-tablet.jpg",
+      "width": 753
+    },
+    {
+      "alt": "Hosted private-resource controls and visible keyboard focus; no file contents exposed",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/resources-tablet.jpg",
+      "width": 753
+    },
+    {
+      "alt": "Actual hosted feedback that Stripe test payments are not configured",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/checkout-unconfigured-mobile.jpg",
+      "width": 375
+    },
+    {
+      "alt": "Actual successful hosted booking cancellation",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/cancellation-desktop.jpg",
+      "width": 1425
+    },
+    {
+      "alt": "Actual safe hosted 404 page with recovery navigation",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/safe-404-desktop.jpg",
+      "width": 1440
+    },
+    {
+      "alt": "Actual production discovery after temporary fictional data was cleaned up",
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/production/empty-discovery-desktop.jpg",
+      "width": 1440
+    },
     {
       "alt": "Phase 4 rendering of SkillSeat's original 17 October desktop discovery and detail text wireframe",
-      "complete": true,
-      "naturalWidth": 1100
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/wireframes/discovery-original-text.svg",
+      "width": 1100
     },
     {
       "alt": "Actual SkillSeat desktop homepage with custom ticket illustration and discovery action",
-      "complete": true,
-      "naturalWidth": 1264
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/final/home-desktop.jpg",
+      "width": 1264
     },
     {
       "alt": "Actual SkillSeat mobile homepage with wrapped navigation and stacked layout",
-      "complete": true,
-      "naturalWidth": 374
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/final/home-mobile.jpg",
+      "width": 374
     },
     {
       "alt": "Actual mobile workshop discovery with clearly fictional listings and prices",
-      "complete": true,
-      "naturalWidth": 374
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/final/discovery-mobile.jpg",
+      "width": 374
     },
     {
       "alt": "Actual tablet workshop detail with schedule, host and booking context",
-      "complete": true,
-      "naturalWidth": 752
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/final/detail-tablet.jpg",
+      "width": 752
     },
     {
       "alt": "Phase 4 rendering of the original account booking and payment-state planning text",
-      "complete": true,
-      "naturalWidth": 1100
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/wireframes/booking-original-text.svg",
+      "width": 1100
     },
     {
       "alt": "Actual mobile registration form with password guidance and labels",
-      "complete": true,
-      "naturalWidth": 374
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/final/register-mobile.jpg",
+      "width": 374
     },
     {
       "alt": "Actual mobile free booking confirmation and cancellation control",
-      "complete": true,
-      "naturalWidth": 374
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/final/booking-confirmed-mobile.jpg",
+      "width": 374
     },
     {
       "alt": "Actual pending paid booking with honest Stripe configuration feedback",
-      "complete": true,
-      "naturalWidth": 752
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/final/payment-unconfigured-tablet.jpg",
+      "width": 752
     },
     {
       "alt": "Phase 4 rendering of the original owner studio planning text",
-      "complete": true,
-      "naturalWidth": 1100
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/wireframes/owner-original-text.svg",
+      "width": 1100
     },
     {
       "alt": "Actual owner workshop form with booking roster and private resource upload",
-      "complete": true,
-      "naturalWidth": 752
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/final/owner-edit-tablet.jpg",
+      "width": 752
     },
     {
       "alt": "Local desktop sign-in form with explicit username and password labels",
-      "complete": true,
-      "naturalWidth": 1264
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/release/login-desktop.jpg",
+      "width": 1264
     },
     {
       "alt": "Local owner account dashboard with own profile, bookings and studio entry",
-      "complete": true,
-      "naturalWidth": 1280
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/release/account-owner-desktop.jpg",
+      "width": 1280
     },
     {
       "alt": "Local mobile private resource controls, authorisation notice and visible keyboard focus",
-      "complete": true,
-      "naturalWidth": 375
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/release/owner-private-resources-mobile.jpg",
+      "width": 375
     },
     {
       "alt": "Local mobile eligible review with explicit simulated-event provenance and own edit/delete controls",
-      "complete": true,
-      "naturalWidth": 375
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/release/review-community-mobile.jpg",
+      "width": 375
     },
     {
       "alt": "Actual branded missing-workshop page with debug disabled and safe navigation",
-      "complete": true,
-      "naturalWidth": 375
+      "loaded": true,
+      "src": "/AbdulkadirKhoujja/codeinstitute-milestone-4-project/raw/main/docs/design/release/safe-404-desktop.jpg",
+      "width": 375
     }
   ],
-  "allImagesLoaded": true,
-  "mermaid": "All three diagrams previously verified rendered in actual GitHub accessibility tree; no diagram source changed"
+  "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project",
+  "checkedCommit": "8cdfb74",
+  "scope": "Actual rendered GitHub README after hosted-evidence publication; all 38 inline images loaded with nonzero natural widths, including all 22 new production captures. Three Mermaid frames and rendered diagram labels inspected."
 }

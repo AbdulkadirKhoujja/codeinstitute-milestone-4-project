@@ -246,7 +246,7 @@ The original discovery/detail planning expected a route from workshop cards to a
 ![Actual safe hosted 404 page with recovery navigation](docs/design/production/safe-404-desktop.jpg)
 ![Actual production discovery after temporary fictional data was cleaned up](docs/design/production/empty-discovery-desktop.jpg)
 
-The [capture manifest](docs/testing/phase4-production-screenshots.json) records file dimensions and SHA-256 hashes. These are screenshots, not reconstructed designs. The dated original wireframes and local implementation history follow.
+The [capture manifest](docs/testing/phase4-production-screenshots.json) records file dimensions and SHA-256 hashes. These are screenshots, not reconstructed designs. The dated original wireframes and local implementation history follow. Actual GitHub inspection after publication `8cdfb74` confirmed all **38 inline images** loaded (including all **22 production captures**) and all **three Mermaid diagrams** rendered.
 
 ## Design and wireframes
 
