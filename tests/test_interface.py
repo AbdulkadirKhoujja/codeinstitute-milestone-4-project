@@ -2,6 +2,17 @@ from django.test import TestCase
 
 
 class InterfaceTests(TestCase):
+    def test_eligible_cancellation_loads_progressive_confirmation(self):
+        from tests.test_workshops import workshop
+        from workshops.services import reserve
+
+        item = workshop()
+        reserve(item.pk, item.owner)
+        self.client.force_login(item.owner)
+        response = self.client.get("/workshops/bookings/")
+        self.assertContains(response, 'data-confirm="Cancel your booking?')
+        self.assertContains(response, 'src="/static/core/actions.js" defer')
+
     def test_started_workshop_does_not_offer_ineligible_cancellation(self):
         from datetime import timedelta
 
