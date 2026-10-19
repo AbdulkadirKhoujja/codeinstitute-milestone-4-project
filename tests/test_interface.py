@@ -2,6 +2,11 @@ from django.test import TestCase
 
 
 class InterfaceTests(TestCase):
+    def test_brand_uses_its_visible_text_as_accessible_name(self):
+        response = self.client.get("/")
+        self.assertNotContains(response, 'aria-label="SkillSeat home"')
+        self.assertContains(response, 'class="brand-mark" aria-hidden="true"')
+
     def test_owner_forms_have_unique_resource_labels(self):
         from django.contrib.auth.models import Permission
 
