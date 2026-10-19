@@ -1,0 +1,6 @@
+{
+  "reachable_blobs_scanned": 261,
+  "credential_pattern_findings": [],
+  "missing_local_markdown_targets": [],
+  "scope": "Heuristic reachable-blob scan and local Markdown file checks; not proof of absence of every possible credential."
+}

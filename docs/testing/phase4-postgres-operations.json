@@ -1,0 +1,11 @@
+{
+  "database": "PostgreSQL 17.11, disposable loopback cluster",
+  "full_suite": {
+    "tests": 125,
+    "result": "passed",
+    "seconds": 28.174
+  },
+  "private_bytes_survived_actual_server_restart": true,
+  "expired_hold_released_without_http_traffic": true,
+  "production_heroku_database_verified": false
+}

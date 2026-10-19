@@ -4,7 +4,7 @@ SkillSeat is the working title for a Code Institute Milestone Project 4 full-sta
 
 ## Project overview
 
-SkillSeat is a Django workshop discovery and booking application. Phase 3 implements the committed core features, with real database, permission, concurrency and browser evidence. Phase 3 is complete with a genuine hosted Stripe sandbox payment and signed webhook verification. Phase 4 has not begun.
+SkillSeat is a Django workshop discovery and booking application. Phase 3 implements the committed core features, with real database, permission, concurrency and browser evidence. Phase 3 is complete with a genuine hosted Stripe sandbox payment and signed webhook verification. Phase 4 release preparation is underway; Heroku deployment and final submission approval remain unverified.
 
 ## Purpose and intended audience
 
@@ -18,11 +18,11 @@ The intended audiences are:
 
 ## Current development status
 
-- Phases 1 and 2 are verified. Phase 3 implementation and genuine sandbox payment verification are complete. Phase 4 has not begun.
-- Python 3.13.16 and Django 5.2.18 are installed and verified in the ignored project `.venv`. Runtime recovery, test-first increments, migration checks, CI, and limitations are recorded in [the Phase 2 log](docs/phase-2-evidence.md).
-- The established custom user and production security defaults are preserved. `workshops` adds discovery, controlled ownership, atomic bookings, test-only Checkout, private resources and attendance-gated reviews.
-- The unchanged baseline passed 42 tests before development. The expanded suite and separate file-backed SQLite races are recorded in [Phase 3 evidence](docs/phase-3-evidence.md). The obsolete foundation home-page planning assertion now checks the working discovery link; no foundation test case was deleted.
-- Planning wireframes and real browser captures are separate in [design evidence](docs/design/phase-3-verification.md). No production deployment has occurred.
+- Phases 1–3 are complete within their recorded development scope, including a genuine hosted Stripe sandbox payment and signed fulfillment. Phase 4 is in progress.
+- **SkillSeat live Heroku URL: not yet available.** The existing ByteBoard account must be authenticated before its available plans and exact-cost approval can be confirmed. No SkillSeat billable resource has been created; ByteBoard is unchanged.
+- Python **3.13.16** and Django **5.2.18** are preserved. The original 110 tests passed before release work. The current **125-test suite passed on real disposable PostgreSQL 17.11**, including seven independent-connection races.
+- Heroku configuration, hash-locked production installation, private database storage, health checks, safe error pages and shared authentication throttling are implemented. Real hosted deployment, scheduler execution and hosted restart checks remain pending.
+- The authoritative learner-specific MS4 rubric/submission instructions are unavailable. The requirements-based audit below does not claim an institutional grade.
 
 ## Planned product scope
 
@@ -40,7 +40,7 @@ No optional enhancements are committed at this stage. They will only be consider
 
 ## User stories and acceptance criteria
 
-These stories define the agreed acceptance requirements. The [acceptance evidence map](docs/phase-3-architecture.md#acceptance-evidence-map) connects each story to implementation and real tests, and identifies the external payment gap.
+These stories define the agreed acceptance requirements. The [acceptance evidence map](docs/phase-3-architecture.md#acceptance-evidence-map) connects each story to implementation and real tests, and records the completed genuine sandbox exercise.
 
 ### Committed core stories
 
@@ -212,7 +212,54 @@ Documentation will evolve with the real implementation. Planned documentation in
 
 ## Design and wireframes
 
-The [original planning wireframes](docs/design/phase-3-wireframes.md) were committed before business interface implementation. [Final design verification](docs/design/phase-3-verification.md) links real screenshots, browser journeys, viewport measurements, accessibility observations and planned-versus-implemented differences. These are separate artefacts; generated visual mockups are not used as evidence of working screens.
+The original planning artefact was committed on **17 October 2026 before implementation**. It contains text wireframes, rather than image files. The SVGs below were rendered from that unchanged text during Phase 4 on **19 October** using `scripts/render_planning.py`; the rendering dates are printed on the images. They are not retroactively invented historical image wireframes. **No separate original mobile image wireframes existed.** Mobile intent was documented as wrapping navigation, stacked cards/detail columns, labelled forms and touch-friendly controls.
+
+| Journey | Original planning | Authentic implemented evidence | Outcome |
+| --- | --- | --- | --- |
+| Home/discovery/detail | Original desktop text, rendered below | Desktop home, mobile discovery, tablet detail | Clear discovery entry, cards and a booking sidebar; stacks on narrow screens |
+| Account/booking/payment | Original journey text, rendered below | Registration, confirmed booking, pending/payment feedback | One account dashboard and explicit server payment state |
+| Owner management | Original studio text, rendered below | Owner editing/roster/resource screen | Separate owner boundary, mobile-friendly sequential sections |
+| Mobile | Responsive intent in the original text; no standalone image wireframe | Actual mobile home, discovery and registration | Navigation wraps; forms and cards remain within the viewport |
+
+### Home, discovery and workshop details
+
+**Planning evidence → implementation → outcome**
+
+![Phase 4 rendering of SkillSeat's original 17 October desktop discovery and detail text wireframe](docs/design/wireframes/discovery-original-text.svg)
+
+The following are authentic **local Django application** screenshots captured during Phase 3 verification, not Heroku screenshots. Hosted replacements cannot be claimed before deployment.
+
+![Actual SkillSeat desktop homepage with custom ticket illustration and discovery action](docs/design/final/home-desktop.jpg)
+
+![Actual SkillSeat mobile homepage with wrapped navigation and stacked layout](docs/design/final/home-mobile.jpg)
+
+![Actual mobile workshop discovery with clearly fictional listings and prices](docs/design/final/discovery-mobile.jpg)
+
+![Actual tablet workshop detail with schedule, host and booking context](docs/design/final/detail-tablet.jpg)
+
+The final page retains the planned hierarchy but adds an original CSS ticket illustration and a three-step introduction. Workshop cards show fictional host, UTC schedule, GBP price and seats. Discovery now excludes started workshops; their published detail pages retain reviews without advertising bookable seats. Existing attendees are directed to their booking management rather than another reservation attempt.
+
+### Accounts, bookings and payment states
+
+![Phase 4 rendering of the original account booking and payment-state planning text](docs/design/wireframes/booking-original-text.svg)
+
+![Actual mobile registration form with password guidance and labels](docs/design/final/register-mobile.jpg)
+
+![Actual mobile free booking confirmation and cancellation control](docs/design/final/booking-confirmed-mobile.jpg)
+
+![Actual pending paid booking with honest Stripe configuration feedback](docs/design/final/payment-unconfigured-tablet.jpg)
+
+The final flow uses Django forms, own-account controls and clear state feedback. Browser review exposed duplicated labels and invalid help-text structure; unique resource IDs and block help with aria-describedby corrected them. The payment-error screenshot is a historical configuration-denial checkpoint, not a successful payment screenshot. Phase 3 subsequently completed the genuine hosted sandbox exercise. Checkout initiation guidance is now four minutes after reservation to retain Stripe's minimum session lifetime plus a safety margin.
+
+### Owner studio and protected resources
+
+![Phase 4 rendering of the original owner studio planning text](docs/design/wireframes/owner-original-text.svg)
+
+![Actual owner workshop form with booking roster and private resource upload](docs/design/final/owner-edit-tablet.jpg)
+
+The sequential edit → roster → resource layout replaces a dense table so controls remain usable on mobile. A trusted administrator grants the owner permission; form fields cannot assign ownership. Resource downloads always pass object-level checks. Private bytes now persist in the separately configured production database rather than an ephemeral dyno directory.
+
+Release-specific login, account dashboard, resource-download and review screenshots are being collected separately. No original planning image or hosted result is invented to fill an evidence gap. Supplementary provenance and detailed observations remain in the design evidence, while these actual assets are embedded here for the assessor.
 
 ## Features
 
@@ -227,27 +274,123 @@ The [original planning wireframes](docs/design/phase-3-wireframes.md) were commi
 
 ## Data model
 
-`accounts.User` retains the Phase 2 AbstractUser model and Django's password/group/permission behaviour. All user references use AUTH_USER_MODEL. Workshop, Booking, PaymentAttempt, PaymentEvent, Resource and Review form the core domain. Prices use integer GBP pence; dates are aware UTC. Database constraints enforce capacity, date ordering, active-booking uniqueness, valid states and ratings. See the [relationship diagram, constraints and state machines](docs/phase-3-architecture.md).
+The established `accounts.User` remains a Django AbstractUser. All user relationships use AUTH_USER_MODEL. The diagram shows actual foreign-key relationships; PrivateResourceBlob and AuthThrottle are independent storage/operational tables.
+
+```mermaid
+erDiagram
+    User ||--o{ Workshop : owns
+    User ||--o{ Booking : reserves
+    Workshop ||--o{ Booking : contains
+    Booking ||--o| PaymentAttempt : tracks
+    Workshop ||--o{ Resource : provides
+    Workshop ||--o{ Review : receives
+    User ||--o{ Review : writes
+    Workshop {
+        bigint id PK
+        int capacity
+        int reserved
+        int price_pence
+        datetime starts_at
+        datetime ends_at
+        boolean published
+    }
+    Booking {
+        bigint id PK
+        string status
+        int amount_pence
+        datetime expires_at
+        boolean paid
+        boolean attended
+        boolean refund_required
+    }
+    PaymentEvent {
+        string event_id UK
+        string event_type
+        datetime received_at
+    }
+    PrivateResourceBlob {
+        string name PK
+        binary content
+        datetime created_at
+    }
+    AuthThrottle {
+        string key PK
+        int failures
+        datetime expires_at
+    }
+```
+
+| Constraint/decision | Application guarantee |
+| --- | --- |
+| Workshop capacity >=1 and reserved <= capacity | Counters cannot describe an oversold workshop |
+| Ends after starts; aware UTC dates | Ordered schedules; every interface labels UTC |
+| Integer GBP pence, 0 or 50–99,999,999 | No floating-point payment amounts; free is explicit |
+| Partial unique active attendee/workshop booking | At most one pending/confirmed booking; terminal history retained |
+| Pending has expiry/positive amount; paid-price confirmation requires paid=true | Invalid stored combinations rejected |
+| Unique Checkout Session and unique event receipt | Stored payment identity and durable webhook replay protection |
+| Review unique per attendee/workshop; rating 1–5 | Database-backed review uniqueness/rating bounds |
+| Protected financial/user relationships | Referenced owners/attendees and financial records are not silently deleted |
+
+`Resource.file` is a private storage key, not a public URL or database foreign key to the blob table. Heroku policy selects database bytes (maximum 5 MB/file), while ordinary local development retains private filesystem storage. This avoids another paid storage provider, but consumes the application's database quota. Actual local PostgreSQL restart preserved the stored handout bytes. A Heroku restart has not yet been tested.
 
 ## Application architecture
 
-`config/` owns validated settings and entry points; `core/` owns the public landing page, shared CSS and response headers; `accounts/` owns the custom user and account workflows. `workshops/` owns models, forms, scoped views, private storage, transactional booking services, Stripe integration and management commands. Templates remain conventional Django HTML with CSS, with no frontend framework or external font dependency. Tests live in `tests/`. SQLite shared-memory and file-backed independent-connection races are verified; production PostgreSQL is not tested. [Operating policies](docs/phase-3-architecture.md) explain the guarantees and limits.
+```mermaid
+flowchart LR
+    Browser[Browser: semantic HTML and CSS] --> Router[Heroku HTTPS router: deployment pending]
+    Router --> WSGI[Gunicorn and Django]
+    WSGI --> Accounts[Accounts and controlled owner roles]
+    WSGI --> Domain[Workshop forms, views and transactional services]
+    WSGI --> Static[WhiteNoise: collected static manifest]
+    Domain --> PG[(SkillSeat PostgreSQL)]
+    Domain --> Private[Authorised private attachment response]
+    Private --> PG
+    Domain --> Stripe[Stripe hosted Checkout: test mode only]
+    Stripe --> Webhook[Raw signature validation and idempotent receipt]
+    Webhook --> PG
+    Scheduler[Heroku scheduler: not configured yet] --> Expire[expire_bookings command]
+    Expire --> PG
+```
+
+`config` owns environment/release policy; `core` owns the public interface, readiness and response headers; `accounts` owns user/account forms and database-shared abuse limits; `workshops` owns the domain, storage and payment services. Templates are server-rendered without a frontend framework or remote font dependency. The PostgreSQL diagram describes the prepared deployment design; it is not evidence of a completed Heroku release.
+
+Heroku mode must be explicit and rejects missing PostgreSQL/HTTPS origin configuration. Only that mode trusts forwarded protocol, requires database TLS and selects persistent database storage. Local mode remains SQLite by default and distrusts proxy headers. `/health/` performs a read-only database probe and returns generic 200/503 JSON without exposing connection details.
 
 ## Routes
 
-| Route | Name | Access |
-| --- | --- | --- |
-| `/` | `core:home` | Public discovery landing page |
-| `/accounts/login/` | `accounts:login` | Public sign-in, CSRF-protected POST |
-| `/accounts/logout/` | `accounts:logout` | POST with CSRF token |
-| `/accounts/` | `accounts:profile` | Authenticated user's own identity |
-| `/admin/` | `admin:index` | Active staff users with Django permissions |
-
-The [complete Phase 3 route/permission table](docs/phase-3-architecture.md#roles-routes-and-boundaries) covers registration, account editing, studio, bookings, checkout, signed webhooks, resources and reviews.
+| Route | Access / operation |
+| --- | --- |
+| `/`, `/workshops/`, `/workshops/<id>/` | Public home/upcoming published discovery/detail |
+| `/accounts/register/`, `/accounts/login/` | Validated attendee registration/authentication; abuse limited |
+| `/accounts/`, `/accounts/edit/`, `/accounts/password/` | Authenticated user's own identity/profile/password |
+| `/accounts/logout/` | CSRF-protected POST only |
+| `/workshops/<id>/book/` | Authenticated POST; server price and capacity |
+| `/workshops/bookings/` | Own history and server payment state |
+| `/workshops/bookings/<id>/cancel/`, `.../checkout/` | Own booking, POST only |
+| `/workshops/studio/`, `.../new/`, `.../<id>/` | Granted owner permission; own rows, superusers across rows |
+| `/workshops/studio/<id>/resources/` | Authorised upload, POST only |
+| `/workshops/studio/bookings/<id>/attend/` | Authorised owner records attendance after end, POST only |
+| `/workshops/resources/<id>/` | Relevant verified-paid confirmed attendee or authorised owner/superuser |
+| `/workshops/resources/<id>/delete/` | Authorised owner, POST only |
+| `/workshops/<id>/review/`, `/workshops/reviews/<id>/delete/` | Eligible own review; deletion POST only |
+| `/workshops/payments/webhook/` | POST, real Stripe signature/timestamp; sole CSRF exemption |
+| `/admin/` | Django staff boundary; financial audit read-only, review moderation superuser-only |
+| `/health/` | Public generic read-only readiness probe; no-store |
 
 ## Technology stack
 
-Python 3.13.16 and Django 5.2.18 LTS are unchanged. Django's test runner and Ruff 0.17.1 remain the tools. Stripe SDK 16.0.0 is deliberately added, with its HTTP/typing dependencies hash-locked in requirements.lock. Its API version is explicitly pinned to `2026-09-30.endive`. No PostgreSQL driver, frontend framework or hosting dependency is introduced. The optional Stripe CLI 1.54.0 was used locally to inspect sandbox provisioning; ignored local tooling is not needed by CI.
+| Technology | Actual version/use |
+| --- | --- |
+| Python / Django | 3.13.16 / 5.2.18, unchanged approved runtime |
+| Stripe SDK | 16.0.0, explicitly pinned API 2026-09-30.endive, test mode only |
+| Gunicorn / WhiteNoise | 26.2.0 / 6.12.0, prepared production WSGI/static serving |
+| dj-database-url / Psycopg | 3.1.2 / 3.3.6 with binary driver, PostgreSQL selection |
+| PostgreSQL | Actual disposable local 17.11 tested; Heroku version not yet provisioned |
+| SQLite | Preserved local default and regression backend |
+| Ruff | 0.17.1, lint/format checks |
+| HTML/CSS | Django templates and original responsive CSS; no application JavaScript |
+
+`requirements.in` contains deliberate direct pins. `requirements.lock` freezes transitive packages with hashes. Heroku's standard `requirements.txt` delegates to the hash lock with --require-hashes, so default platform installs are reproducible. CI installs the same lock. Optional ignored local CLI/audit tools are not application dependencies.
 
 ## Local setup
 
@@ -308,7 +451,7 @@ After migrations, `manage.py seed_demo` creates three explicitly fictional works
 
 Run `manage.py expire_bookings` to release unpaid 35-minute holds. Discovery/reservation/dashboard requests also perform cleanup. No background scheduler is assumed. Private uploads are stored under ignored `private-resources/`, with a 5 MB form limit and authorised attachment responses. Do not expose this folder through a web server. [Stripe setup and policies](docs/phase-3-architecture.md#stripe-test-mode-setup) explain hosted Checkout, signed local forwarding, pending/late events and manual test-refund review.
 
-`requirements.txt` remains the approved Django pin. `requirements.lock` additionally freezes its transitive dependencies with hashes and a Windows marker for `tzdata`. `requirements-dev.txt`/`.lock` add only Ruff 0.17.1 for linting and formatting. Install from the lock files for reproducibility. When deliberately updating dependencies, regenerate with `uv pip compile requirements.txt --universal --generate-hashes --output-file requirements.lock` and the equivalent command for `requirements-dev.txt`; review and test the resulting diff. Do not change the approved runtime pins incidentally.
+`requirements.in` retains the approved Django pin; `requirements.txt` is the hash-enforcing Heroku entrypoint. `requirements.lock` additionally freezes its transitive dependencies with hashes and a Windows marker for `tzdata`. `requirements-dev.txt`/`.lock` add only Ruff 0.17.1 for linting and formatting. Install from the lock files for reproducibility. When deliberately updating dependencies, regenerate with `uv pip compile requirements.in --universal --generate-hashes --output-file requirements.lock` and the equivalent command for `requirements-dev.txt`; review and test the resulting diff. Do not change the approved runtime pins incidentally.
 
 ## Testing
 
@@ -351,23 +494,50 @@ This configuration check does not verify a real TLS endpoint, proxy, production 
 
 ## Deployment
 
-SkillSeat has not been deployed. Deployment targets, production configuration, release steps, and verification evidence will be documented after they are decided and tested.
+**SkillSeat has not yet been deployed. No live SkillSeat Heroku URL, app ID, release ID, database attachment or scheduler installation is claimed.** The existing account's CLI currently reports not logged in. ByteBoard's separate public app remains the reference and was not modified or used as SkillSeat storage.
+
+Prepared release configuration:
+
+- Existing `.python-version` remains 3.13.16; Heroku officially supports Python 3.13, subject to its latest-patch policy at build time.
+- `Procfile` release runs migrations; web runs Gunicorn with two workers/two threads, bounded timeout and stdout/stderr logs. No credentials are placed in process definitions.
+- Heroku's normal pip entrypoint enforces requirements.lock hashes.
+- `DJANGO_ENV=production`, `DJANGO_DEPLOYMENT=heroku`, strong DJANGO_SECRET_KEY, explicit hosts and HTTPS CSRF trusted origins are required. DATABASE_URL must reference SkillSeat's own PostgreSQL attachment; production SSL is required.
+- WhiteNoise serves collected manifest static assets. Private files never use static/media URLs and persist as private database bytes.
+- The idempotent `python manage.py expire_bookings` releases unpaid holds and prunes expired authentication counters. A real Heroku-compatible schedule is still required; no background scheduler is assumed.
+- Stripe settings remain test-only. PAYMENT_ORIGIN must be the actual HTTPS SkillSeat origin. Hosted webhook endpoint configuration and its signing secret remain unverified.
+
+After existing-account login and **exact-cost approval**, the deployment operator must inspect app/plan/billing availability, create a separate app (Europe if appropriate), attach its own PostgreSQL, privately set configuration, deploy verified main, inspect build/release/migrations, configure scheduled expiry, and execute the full hosted/restart checklist. Do not reuse ByteBoard's application, database or secrets. Public pricing is only a proposal until the account and selected resource costs are confirmed; no billable provisioning is pre-approved by this document.
+
+Hosted verification must include HTTPS discovery, accounts, owner CRUD, booking/cancellation/capacity/expiry, actual PostgreSQL persistence, test-only payments/signatures/replay, protected resources, reviews, static assets, responsive/security behaviour and restart persistence. The assessment-readiness status remains Not Verified until this evidence exists.
 
 ## Security
 
-Secrets, credentials, local databases, environment files, uploads, and generated deployment artefacts must not enter Git history. `.gitignore` protects local artefacts. Production defaults enforce HTTPS redirects, secure session/CSRF cookies, HTTP-only sessions, SameSite Lax, frame denial, content-type protection, and one-year HSTS with subdomains and the preload directive. Do not use production mode on a plain-HTTP development server. Before deployment, confirm that the real domain and every subdomain support HTTPS; the directive does not itself submit a domain to a preload list. Forwarded proxy headers are deliberately not trusted until a specific deployment is configured.
+Environment secrets and local data are ignored. Production retains HTTPS redirects, secure HTTP-only/SameSite cookies, HSTS, frame denial, nosniff and a restrictive application CSP. Only explicit Heroku mode trusts the router protocol. CSRF trusted origins must be explicit HTTPS origins without credentials, wildcards or paths.
 
-Missing/weak secrets, production debug mode, malformed booleans and missing/invalid hosts prevent startup. Django's password validators, safe login redirects, session handling and CSRF remain. Object-level owner/account/resource/review checks are enforced server-side and tested with forged identifiers and ownership fields. Capacity/financial audit admin is read-only; superusers moderate visibility. Signed webhooks are the only CSRF exemption. Test-mode event flags, exact server amounts and durable event receipts protect fulfillment. Private pages use no-store; application pages use a restrictive CSP. Production infrastructure still requires release review.
+Object-level checks scope owners, accounts, bookings, reviews and resources on the server. Forms exclude privileged ownership/payment/visibility fields. Django validates passwords and safe login redirects. Financial admin is read-only. State changes use CSRF-protected POST, except raw signed Stripe webhooks. Test-mode flags, exact server amounts/references, stored Session IDs and unique event receipts protect fulfillment. Cancelled/expired holds never regain seats or resource access from late notifications; administrative test-refund review is explicit.
+
+Authentication abuse controls now use shared database counters keyed by HMAC rather than plaintext IP/username: five failed login attempts per address/username and thirty per address in fifteen minutes; ten registration requests per address/hour. Admin login shares the login controls. Local mode ignores spoofed forwarding headers; explicit Heroku mode uses the router-appended rightmost address. Limits return 429 with Retry-After and no-store, expire naturally and are pruned by the maintenance command. This is a bounded application control, not a complete network DDoS defence.
+
+`pip-audit` 2.10.1 reported **no known vulnerabilities** in the runtime lock on 19 October 2026. Reachable-history/current-source scanning uses credential patterns and exact privately inherited values, prints no secrets and preserves history. A synthetic unit-test DSN was reviewed and classified; no unresolved credential finding remained. These are scoped checks, not proof against every possible unknown vulnerability or secret format.
 
 ## Accessibility
 
-WCAG 2.2 AA is the design target. Semantic landmarks/headings, a skip link, visible keyboard focus, explicit labels, associated help/errors, native controls, live status feedback and responsive wrapping are implemented. Actual browser measurements, keyboard observations, contrast calculations, captures and limitations are in [design verification](docs/design/phase-3-verification.md). Browser review found and fixed duplicate form IDs. These scoped checks do not establish full WCAG compliance or a screen-reader audit.
+WCAG 2.2 AA is the design target. The interface uses semantic landmarks/headings, a skip link, visible focus, explicit labels, associated help/errors, native controls, live status feedback and responsive wrapping. Phase 3's actual browser audit covered five pages at 320, 390, 768 and 1280px: all twenty combinations had one H1/main, no horizontal overflow, duplicate IDs, unlabelled fields, missing description targets or unnamed buttons. Keyboard execution verified skip-to-main and tab focus.
+
+| Selected computed colour pair | Contrast |
+| --- | ---: |
+| Ink #183c36 / paper #f8f7f2 | 11.26:1 |
+| White / teal #145f50 | 7.55:1 |
+| Muted #4f625a / paper | 6.07:1 |
+| Accent/focus #b8431d / paper | 5.07:1 |
+
+Phase 4 formal HTML/CSS, Lighthouse and expanded journey checks are in progress. No scores, validator passes, screen-reader coverage or full WCAG compliance are invented. Final hosted and assistive-technology verification remains outstanding.
 
 ## Limitations
 
-A genuine £25 GBP hosted sandbox payment and signed CLI-forwarded webhook passed on 18 October 2026 using the replacement restricted test key. Checkout creation/retrieval and Debugging Tools Write were proven by successful operations. The application confirmed the paid booking, preserved capacity, authorised the protected download and rejected invalid signatures; two captured genuine-event replays produced no duplicate receipt or state change. Credentials and signing secrets were never committed. Automated provider fixtures remain synthetic and are distinguished from [actual provider evidence](docs/phase-3-evidence.md#completed-manual-sandbox-payment--18-october-2026).
+Heroku authentication, exact-cost approval, separate provisioning, actual hosted URL/release/database attachment, configured schedule and full HTTPS/restart journeys remain outstanding. The authoritative learner-specific assessment rubric/submission instructions are unavailable; the audit is best-effort against supplied requirements. Current screenshots are authentic local captures, not hosted evidence.
 
-SQLite races are tested locally and in Windows CI, but PostgreSQL and production concurrency are not verified. Login has Django's normal behaviour without rate-limiting infrastructure. No email delivery, live payments, automatic refunds, background scheduler or production deployment is configured. Private local file delivery needs production storage/request-size/content controls before release. Accessibility evidence is scoped rather than a full compliance claim. Windows x64 is verified; other operating systems remain unverified. Phase 4 must handle production deployment, database/proxy/storage/scheduler configuration and comprehensive release evidence following the completed Phase 3 sandbox exercise.
+Actual local PostgreSQL 17.11 operations, full tests, connection races and restart/private-byte/expiry checks passed. They do not claim Heroku database or infrastructure verification. No live payments, automatic refunds or email delivery service is introduced. Private bytes consume database quota and are limited to 5 MB/file; larger-scale storage/quotas/content scanning would require further design. Application rate limits do not replace network protection. Scoped accessibility evidence does not establish full WCAG compliance or physical-device/screen-reader coverage. Phase 4 is the final phase and is not complete or submission-ready while required release evidence is missing.
 
 ## Credits
 
@@ -380,3 +550,40 @@ Phase 3 used [Stripe Checkout creation](https://docs.stripe.com/api/checkout/ses
 Phase 2 showed why runtime availability must be proved separately from dependency compatibility: the approved versions were compatible, but the bundled uv download list and sandboxed installer prevented installation. Verifying the official NuGet package against its catalog hash provided an isolated runtime without replacing existing installations. Authentication was decided before persistent migrations, and test-first environment/routing/authentication increments preserved evidence of actual failures and fixes. Production checks are useful configuration evidence, but they do not substitute for deployment validation.
 
 Phase 3 made transaction boundaries concrete: independent SQLite connections exposed lock errors that sequential tests could not reveal. Atomic conditional counter updates, rollback and bounded lock retries preserve capacity without claiming SQLite row locking. Signed provider events, rather than redirects, determine payment access; late success deliberately becomes refund review. Browser inspection caught duplicate form IDs that ordinary view tests missed, leading to specific regression tests and semantic shared form rendering. A real CI failure also exposed an unstaged lint fix, reinforcing the need to verify staged content. The separate Red/Green commits and [chronological history](docs/phase-3-commits.md) preserve these actual development steps.
+
+
+## Booking, payment, resources and reviews — operating policies
+
+```mermaid
+stateDiagram-v2
+    [*] --> Confirmed: free reservation
+    [*] --> Pending: paid reservation / 35 minute seat hold
+    Pending --> Confirmed: signed matching paid notification before expiry
+    Pending --> Expired: deadline or provider expiry
+    Pending --> Cancelled: attendee cancellation or asynchronous failure
+    Confirmed --> Cancelled: own cancellation before workshop start
+```
+
+Every active booking consumes one seat. Reservation atomically increments only below capacity, then creates the booking in the same transaction; duplicates/failures roll back the counter. Cancellation/expiry conditionally transition once before decrementing. Capacity edits require reserved <= proposed capacity in the UPDATE. SQLite lock contention and PostgreSQL deadlock/serialization conflicts retry the entire operation within a bounded policy. Real independent connections verified final-seat, duplicate, cancellation, expiry, capacity-edit and payment races on PostgreSQL; no SQLite select_for_update guarantee is assumed.
+
+Paid Checkout snapshots trusted GBP pence, uses stable idempotency and records the Session. Start within four minutes so Stripe's minimum remaining lifetime plus a safety margin fits the 35-minute hold. Redirects only display server state; raw signed, timestamp-validated, test-mode events with matching Session, amount, currency and reference grant payment. Duplicate receipts are no-ops. Unpaid/failed/expired events cannot grant resources. Late or mismatched success sets refund review without restoring a seat; the operator reconciles the test Dashboard and arranges any appropriate test refund manually. No live or automatic refunds are made.
+
+Only an authorised owner/superuser or a relevant paid+confirmed attendee can download a private attachment. No public media route is registered. Cancellation, expiry or unpaid/unrelated identity revokes access. Reviews require confirmation, workshop end and explicit host-recorded attendance; trimmed bodies are 10–2000 characters, ratings 1–5, one own review per workshop. Superusers control visibility; editing a hidden review does not republish it.
+
+## Release verification and assessment readiness
+
+| Executed check, 19 October 2026 | Actual result / scope |
+| --- | --- |
+| Unchanged Phase 3 baseline | 110 passed before release changes |
+| Actual PostgreSQL 17.11 full suite | 125 passed in 28.174s; seven real connection races included |
+| Private storage after real local database restart | Exact handout bytes retained, then probe removed |
+| No-traffic expiry after restart | One expired hold released; capacity restored |
+| Production configuration contracts | Explicit Heroku/PG/TLS/origin/proxy/storage rules pass |
+| Authentication regressions | 19 account/throttle tests passed |
+| Dependency audit | pip-audit 2.10.1: no known runtime vulnerabilities |
+| Source/history and Markdown target checks | No unresolved findings; synthetic example classified; no history rewriting |
+| GitHub Actions release jobs | Windows preserved; PostgreSQL job dispatched; queued is Not Verified |
+| Heroku hosted release | Not Verified — authentication/provisioning not completed |
+| Formal learner-specific assessment confirmation | Not Verified — actual rubric/submission source unavailable |
+
+The [requirements-to-evidence matrix](docs/assessment-audit.md) records Pass / Partial / Fail / Not Verified, implementation, evidence, gaps and remediations. It uses the user's actual requirements and available official context, not invented institutional criterion IDs. The public Code Institute course page confirms the four-project/Django course context but is not an assessment rubric. Submission readiness is **Not Verified** until the authoritative audit and mandatory hosted release are complete.
