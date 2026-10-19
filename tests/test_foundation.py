@@ -50,4 +50,9 @@ class DatabaseFoundationTests(TestCase):
         self.assertIn("django_migrations", connection.introspection.table_names())
 
     def test_local_database_uses_sqlite(self):
-        self.assertEqual(connection.vendor, "sqlite")
+        expected = (
+            "postgresql"
+            if settings.DATABASES["default"]["ENGINE"].endswith("postgresql")
+            else "sqlite"
+        )
+        self.assertEqual(connection.vendor, expected)

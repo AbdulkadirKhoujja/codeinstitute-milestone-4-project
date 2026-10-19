@@ -78,7 +78,11 @@ CSRF_TRUSTED_ORIGINS = release.csrf_origins
 SECURE_PROXY_SSL_HEADER = release.proxy_header
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage" if PRODUCTION else "django.contrib.staticfiles.storage.StaticFilesStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        if PRODUCTION
+        else "django.contrib.staticfiles.storage.StaticFilesStorage"
+    },
 }
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 STRIPE_TEST_KEY = os.environ.get("STRIPE_TEST_KEY", "")

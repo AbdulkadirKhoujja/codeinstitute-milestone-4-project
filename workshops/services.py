@@ -13,7 +13,7 @@ from .models import Booking, Workshop
 
 
 def retry_contention(function):
-    """Retry whole transactions only for transient SQLite lock contention."""
+    """Retry whole operations for SQLite locks and PostgreSQL transaction conflicts."""
 
     @wraps(function)
     def wrapped(*args, **kwargs):
@@ -21,7 +21,8 @@ def retry_contention(function):
             try:
                 return function(*args, **kwargs)
             except OperationalError as exc:
-                if "locked" not in str(exc).lower():
+                sqlstate = getattr(exc.__cause__, "sqlstate", None)
+                if sqlstate not in ("40001", "40P01") and "locked" not in str(exc).lower():
                     raise
                 if attempt == 7:
                     raise ValidationError("The service is busy. Please try again.") from exc

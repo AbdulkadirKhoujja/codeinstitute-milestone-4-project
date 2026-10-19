@@ -11,6 +11,47 @@ permissions:
   contents: read
 
 jobs:
+  postgres-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: skillseat_ci
+          POSTGRES_USER: skillseat_ci
+          POSTGRES_PASSWORD: ci-only-disposable-password
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U skillseat_ci -d skillseat_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DJANGO_ENV: development
+      DATABASE_URL: postgres://skillseat_ci:ci-only-disposable-password@localhost:5432/skillseat_ci
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13.16'
+      - name: Install the production hash entrypoint and development tools
+        run: python -m pip install -r requirements.txt --require-hashes -r requirements-dev.lock
+      - name: Generate transient check-only secret
+        run: python -c "import os,secrets; key=secrets.token_urlsafe(64); print('::add-mask::'+key); open(os.environ['GITHUB_ENV'],'a').write('DJANGO_SECRET_KEY='+key+'\n')"
+      - name: Verify runtime and PostgreSQL connection
+        run: |
+          python -c "import sys,django; assert sys.version_info[:3]==(3,13,16); assert django.get_version()=='5.2.18'"
+          python manage.py shell -c "from django.db import connection; connection.ensure_connection(); assert connection.vendor=='postgresql'; print('Actual PostgreSQL connection verified')"
+      - name: Full suite including independent PostgreSQL connection races
+        run: python manage.py test -v 2 --noinput
+      - name: Migrations, static collection and dependencies
+        run: |
+          python manage.py migrate --noinput
+          python manage.py makemigrations --check --dry-run
+          python manage.py collectstatic --noinput
+          python manage.py expire_bookings
+          python -m pip check
   windows-foundation:
     runs-on: windows-latest
     timeout-minutes: 15
