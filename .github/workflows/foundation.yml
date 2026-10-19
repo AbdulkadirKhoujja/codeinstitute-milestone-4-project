@@ -87,6 +87,10 @@ jobs:
         run: .venv/Scripts/ruff.exe check .
       - name: Check formatting
         run: .venv/Scripts/ruff.exe format --check .
+      - name: Verify custom frontend JavaScript
+        run: |
+          node --check core/static/core/actions.js
+          node --test tests/js/confirm.test.cjs
       - name: Django system checks
         run: .venv/Scripts/python.exe manage.py check
       - name: Test foundation and Phase 3 contracts including real connection races
