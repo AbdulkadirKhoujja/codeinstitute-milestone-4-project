@@ -1,4 +1,4 @@
-"""Start the real development server on loopback and verify its home page."""
+"""Start Django or the Linux release WSGI server and verify a real HTTP response."""
 
 import os
 import socket
@@ -19,8 +19,24 @@ def main():
         listener.bind(("127.0.0.1", 0))
         port = listener.getsockname()[1]
     with tempfile.TemporaryFile(mode="w+b") as log:
+        command = [sys.executable, "manage.py", "runserver", f"127.0.0.1:{port}", "--noreload"]
+        if "--gunicorn" in sys.argv:
+            command = [
+                sys.executable,
+                "-m",
+                "gunicorn",
+                "config.wsgi:application",
+                "--bind",
+                f"127.0.0.1:{port}",
+                "--workers",
+                "2",
+                "--threads",
+                "2",
+                "--timeout",
+                "30",
+            ]
         server = subprocess.Popen(
-            [sys.executable, "manage.py", "runserver", f"127.0.0.1:{port}", "--noreload"],
+            command,
             cwd=root,
             stdout=log,
             stderr=subprocess.STDOUT,
@@ -36,7 +52,7 @@ def main():
                         body = response.read().decode("utf-8")
                         if response.status != 200 or "<h1>SkillSeat</h1>" not in body:
                             raise RuntimeError("Unexpected development server response.")
-                        print("Development server smoke check: HTTP 200, SkillSeat home verified.")
+                        print("Real server smoke check: HTTP 200, SkillSeat home verified.")
                         return
                 except urllib.error.URLError:
                     time.sleep(0.1)

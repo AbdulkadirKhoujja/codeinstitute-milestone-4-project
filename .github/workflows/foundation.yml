@@ -52,6 +52,8 @@ jobs:
           python manage.py collectstatic --noinput
           python manage.py expire_bookings
           python -m pip check
+      - name: Exercise the actual Linux Gunicorn process
+        run: python scripts/smoke_server.py --gunicorn
   windows-foundation:
     runs-on: windows-latest
     timeout-minutes: 15
