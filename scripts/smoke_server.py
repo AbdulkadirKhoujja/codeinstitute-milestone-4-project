@@ -26,6 +26,8 @@ def main():
                 "-m",
                 "gunicorn",
                 "config.wsgi:application",
+                "--config",
+                "config/gunicorn.py",
                 "--bind",
                 f"127.0.0.1:{port}",
                 "--workers",
