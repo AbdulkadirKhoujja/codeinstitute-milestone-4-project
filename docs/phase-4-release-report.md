@@ -1,5 +1,12 @@
 # Phase 4 release and submission-readiness report
 
+## Current commerce update — 21 October 2026
+
+**The mandatory hosted commerce gap is resolved in the executed sandbox card scope.** Heroku **v22**, source `3d28b6858c72132b1d86a93aba8822aaa429c595`, completed a genuine £1 test Checkout, user-submitted decline/success, direct signed fulfillment, two Stripe resends with one durable receipt/seat, confirmation and exact HTTP/browser protected download. A separate genuine provider expiry released its hold. Invalid signatures and modified bytes returned400. Twenty payment/resource tests and production deploy checks passed. [Detailed report](phase-4-hosted-stripe.md), [sanitised results](testing/phase4-hosted-stripe.json).
+
+The user explicitly approved creating the missing sandbox endpoint and privately configuring its signing secret. Existing live Stripe settings and unrelated endpoints were untouched. Fixture accounts were disabled, workshop unpublished, sessions/handout/private bytes removed; sandbox financial audit records were retained with reconciled capacity. **Phase 4 remains open for scheduled no-traffic expiry evidence** and the stated broader testing limits. The following 19 October report is a historical snapshot; its missing-Stripe statements are superseded by this update.
+
+
 19 October 2026. **Deployment successful; Phase 4 incomplete / not submission-ready.** The current Heroku deployment has no Stripe test key or hosted webhook signing secret, so mandatory commerce/content-unlock verification is still missing. No fifth phase was created.
 
 ## Independently established production baseline

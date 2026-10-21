@@ -1,6 +1,6 @@
 # Phase 4 — release and assessment evidence
 
-**Current checkpoint: deployed and core hosted journeys verified; Phase 4 remains incomplete because current hosted Stripe commerce and scheduled no-traffic expiry are unverified.** The chronological notes below preserve earlier observations; the final hosted continuation section and updated release report supersede their old empty-app and unavailable-rubric statements.
+**Current checkpoint, 21 October 2026: genuine hosted Stripe sandbox commerce is verified, including signed fulfillment, provider resends, expiry, confirmation and paid download. Phase 4 remains open for scheduled no-traffic expiry evidence.** The chronological notes below preserve earlier observations; the final hosted continuation section and updated release report supersede their old empty-app and unavailable-rubric statements.
 
 ## Baseline and scope — 19 October 2026
 
@@ -101,3 +101,7 @@ The learner supplied the actual Unit 4 F/650/3528 PDF (printed 55–65) and13 ma
 All final publication checks must complete before delivery; the exact documentation commit, final release and CI URL are reported there. No fifth phase, extra billable resource or artificial commit was created.
 
 Actual post-push GitHub inspection at `8cdfb74`: all **38 inline images** loaded with nonzero natural widths, including every one of the **22 production captures**; all **three Mermaid diagrams** rendered with their expected labels. The existing `testing/phase4-readme-render.json` now records this current check.
+
+## Hosted Stripe continuation — 21 October 2026
+
+[Detailed current commerce report](phase-4-hosted-stripe.md) and [sanitised assertions](testing/phase4-hosted-stripe.json) supersede the historical missing-credentials gap above. Heroku v22 on source `3d28b6858c72132b1d86a93aba8822aaa429c595` completed the genuine £1 sandbox purchase, direct signed fulfillment, two provider resends, provider expiry and exact paid handout download. Mandatory6 / criteria4.1–4.2 now PASS in the executed scope. The user approved the missing test endpoint/private signing-secret configuration and manually submitted both test-card cases. Secrets were not printed or committed. Cleanup retained sandbox financial audit records, disabled the three fictional users, unpublished the workshop, removed five fixture sessions and removed the handout/private bytes. No scheduler or extra service was provisioned.

@@ -8,7 +8,7 @@ Production: Heroku · PostgreSQL 18.4 · HTTPS · Stripe integration supports te
 
 ## Project overview
 
-SkillSeat connects curious learners with small practical workshops. Visitors discover workshops; registered attendees reserve places and manage bookings; approved hosts publish workshops, record attendance and share protected resources. The application is deployed and its core hosted journeys are verified. Phase 3 retains a genuine Stripe sandbox payment and signed webhook record. The current Heroku deployment has no Stripe credentials configured, so hosted payment completion and paid-attendee resource access remain unverified. Phase 4 remains open until the outstanding release requirements are satisfied.
+SkillSeat connects curious learners with small practical workshops. Visitors discover workshops; registered attendees reserve places and manage bookings; approved hosts publish workshops, record attendance and share protected resources. The application is deployed and its core hosted journeys are verified. Phase 3 retains a genuine Stripe sandbox payment and signed webhook record. On 21 October 2026, the deployed Heroku site completed a genuine £1.00 Stripe sandbox Checkout, direct signed webhook fulfillment, two provider resends, payment confirmation and exact-byte purchased-resource access. [Current commerce evidence](docs/phase-4-hosted-stripe.md). Phase 4 remains open until the outstanding release requirements are satisfied.
 
 ## Purpose and intended audience
 
@@ -23,12 +23,12 @@ The intended audiences are:
 ## Current development status
 
 - **Live:** [https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/](https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/). Existing Heroku app `skillseat-akkhoujja`, Europe, heroku-24, one Basic web dyno and its own Essential-0 PostgreSQL attachment. No additional resources were provisioned during this continuation; ByteBoard was not modified.
-- Runtime verification snapshot: **release v19**, commit `e06fce0a855a650afd75469ffcd089a1469813b2`. Documentation publication uses the same runtime source; its exact final deployment SHA/release and final CI run are identified in the delivery record, avoiding a self-referential Git hash inside its own commit.
+- Earlier core-runtime verification (19 October): **release v19**, commit `e06fce0a855a650afd75469ffcd089a1469813b2`. Documentation publication uses the same runtime source; its exact final deployment SHA/release and final CI run are identified in the delivery record, avoiding a self-referential Git hash inside its own commit.
 - **132 Django tests pass** locally and separately in Windows, PostgreSQL 17 and PostgreSQL 18 CI. Each full suite includes seven independent-connection races; Windows also runs seven file-backed SQLite races. Three custom JavaScript behavior tests pass.
 - Hosted account, owner CRUD, discovery filters, final-seat concurrency, cancellation, request-triggered expiry, attendance/review CRUD, private owner downloads and denials, HTTPS/CSRF/throttling, static delivery and genuine restart persistence are verified with fictional fixtures. Temporary application records and authenticated fixture sessions were cleaned up afterwards.
 - Hosted W3C HTML: four public pages, no messages. CSS: valid, zero errors, one system-font vendor warning. Hosted mobile Lighthouse: **100 performance / 100 accessibility / 100 best practices / 100 SEO**. These checks do not establish full WCAG compliance.
 - The supplied **Unit 4 specification (F/650/3528, printed pp. 55–65)** and **13 mandatory requirements** now drive the [assessment matrix](docs/assessment-audit.md). Criterion 3.2 and mandatory requirement 8 exposed real gaps, corrected through Red/Green commits.
-- **Remaining:** privately configure existing Stripe test credentials and the hosted webhook endpoint, then verify real payment/replay/late-event journeys and paid-attendee downloads. No scheduler is attached; no-traffic hosted expiration remains unverified. No submission-ready or grade claim is made.
+- **Hosted Stripe verified, 21 October:** release **v22**, deployed source `3d28b6858c72132b1d86a93aba8822aaa429c595`; real sandbox card decline and success, signed fulfillment, duplicate delivery protection, provider expiry and protected download. [Sanitised results](docs/testing/phase4-hosted-stripe.json). Late-success/asynchronous methods remain deterministic-test coverage. **Remaining:** No scheduler is attached; no-traffic hosted expiration remains unverified. No submission-ready or grade claim is made.
 
 ## Implemented product scope
 
@@ -561,7 +561,7 @@ The release path is deliberately manual:
 6. Match the released slug's `commit` to the intended SHA, verify the existing `web.1` is up, check `/` and `/health/`, run `check --deploy`, inspect applied migrations and `SHOW server_version`, and review logs without publishing secrets. Verify HTTPS redirects, cookies, CSRF and assets through the public origin.
 7. Use temporary fictional records to check hosted workflows, then restart only the existing web dyno to confirm database/private-byte persistence. Clean up only recorded fixture IDs and sessions; never reset the production database.
 
-For Stripe, configure a **test** key privately as `STRIPE_TEST_KEY` and the signing secret of the endpoint `/workshops/payments/webhook/` as `STRIPE_WEBHOOK_SECRET`, using the documented event types in [payment setup](docs/phase-3-architecture.md#stripe-test-mode-setup). Never use live mode. Complete an actual sandbox Checkout and confirm signed fulfillment, duplicate/late/expired rejection and authorised paid download before marking hosted payments verified. **Neither Stripe value is currently configured on Heroku**: Checkout gives clear feedback and the webhook returns 503, rather than granting payment.
+For Stripe, configure a **test** key privately as `STRIPE_TEST_KEY` and the signing secret of the endpoint `/workshops/payments/webhook/` as `STRIPE_WEBHOOK_SECRET`, using the documented event types in [payment setup](docs/phase-3-architecture.md#stripe-test-mode-setup). Never use live mode. Complete an actual sandbox Checkout and confirm signed fulfillment, duplicate/late/expired rejection and authorised paid download before marking hosted payments verified. **Both values are now configured privately on Heroku (v22, 21 October 2026).** The hosted test endpoint and its signing secret were created with explicit user approval. Genuine sandbox payment, signature rejection, provider resends, expiry and paid download passed; see [current evidence](docs/phase-4-hosted-stripe.md). No live payment was used.
 
 `python manage.py expire_bookings` releases expired unpaid holds and prunes expired authentication counters. Discovery/reservation/dashboard requests also perform cleanup. No scheduler is attached; a real scheduled run without HTTP traffic has not been verified. No add-on or extra dyno was provisioned to bypass the user's resource restriction.
 
@@ -594,14 +594,14 @@ The actual hosted browser checked home, discovery, profile and bookings at **390
 
 ## Limitations
 
-- Current Heroku Stripe test credentials/webhook configuration are absent. Successful hosted payment confirmation, signed rejection/replay/late-event exercises and paid-attendee downloads are **NOT VERIFIED**. The genuine earlier Phase 3 sandbox exercise and deterministic tests do not substitute for the current endpoint.
+- Current hosted sandbox card payment, signed fulfillment, rejected signatures/tampered bytes, two Stripe resends, provider expiry, confirmation and paid-attendee downloads are **verified on v22**. Hosted late-success and asynchronous payment methods remain **NOT VERIFIED**; their deterministic coverage is separate. [Actual results](docs/testing/phase4-hosted-stripe.json).
 - There is no attached scheduler. Request-triggered expiration works; scheduled no-traffic hosted execution is **NOT VERIFIED**.
 - Temporary production workshops, users, bookings, reviews and handout bytes were removed after evidence collection. Discovery therefore currently shows its honest empty state. Screenshot records are fictional verification fixtures, not advertised real events or real paid attendance. No public administrator or reusable assessment password is shipped.
 - The native confirmation prompt exceeded the in-app browser's dialog-control timeout; cancellation succeeded, while hosted dismissal remains unverified. Three deterministic JavaScript tests cover its acceptance/dismissal logic.
 - Testing uses Chromium viewport emulation, not physical devices, Firefox/Safari or screen readers. Accessibility coverage is scoped; no full WCAG compliance or institutional grade is claimed.
 - No live payments, automatic refunds or email service were introduced. Private files use database quota and are limited to 5 MB each; larger-scale storage, quotas and scanning require further design. Rate limits do not replace network protection.
 
-The supplied Unit 4 criteria and mandatory requirements are now traceable in the assessment matrix. **Phase 4 is still incomplete and not submission-ready**, principally because the current deployment cannot demonstrate the mandatory Stripe payment/content-unlock journey. The supplied final-release requirement also calls for scheduled no-traffic expiration evidence.
+The supplied Unit 4 criteria and mandatory requirements are now traceable in the assessment matrix. **Mandatory requirement 6 and criteria 4.1–4.2 now PASS within the executed sandbox card-payment scope. Phase 4 remains open:** the supplied final-release requirement still calls for scheduled no-traffic expiration evidence; broader browser/accessibility limits remain documented.
 
 ## Credits
 
@@ -634,6 +634,16 @@ Paid Checkout snapshots trusted GBP pence, uses stable idempotency and records t
 
 Only an authorised owner/superuser or a relevant paid+confirmed attendee can download a private attachment. No public media route is registered. Cancellation, expiry or unpaid/unrelated identity revokes access. Reviews require confirmation, workshop end and explicit host-recorded attendance; trimmed bodies are 10–2000 characters, ratings 1–5, one own review per workshop. Superusers control visibility; editing a hidden review does not republish it.
 
+## Hosted sandbox commerce verification — 21 October 2026
+
+A fictional attendee completed a **£1.00 test-mode Checkout on the deployed site**. The user submitted the decline and success test cards manually. Stripe delivered directly to the Heroku webhook: the booking became confirmed/paid, the attempt succeeded, and two genuine provider resends left one receipt and one reserved seat. The buyer's HTTP and browser downloads matched the exact fictional handout bytes, with `private, no-store`; unpaid and anonymous access remained denied. Invalid signatures and altered bodies returned 400. A separate genuine provider expiry event released its hold without granting payment.
+
+![Actual hosted booking after signed sandbox payment](docs/design/production/stripe-confirmed-hosted.jpg)
+
+![Actual purchased-resource link for the verified fictional attendee](docs/design/production/stripe-resource-unlocked-hosted.jpg)
+
+[Detailed provenance and scope](docs/phase-4-hosted-stripe.md) · [Sanitised assertions and HTTP results](docs/testing/phase4-hosted-stripe.json). The handout/private bytes were removed, the workshop unpublished, three fixture accounts disabled and five fixture sessions removed. The two bookings, attempts and event receipts remain in PostgreSQL as sandbox audit records; the one confirmed seat reconciles correctly. No real customer data, live payment, unrelated endpoint, extra dyno or paid service was changed. Twenty payment/resource regression tests and the production deploy check passed.
+
 ## Release verification and assessment readiness
 
 | Executed check, 19 October 2026 | Actual result and scope |
@@ -653,7 +663,7 @@ Only an authorised owner/superuser or a relevant paid+confirmed attendee can dow
 | Responsive / keyboard | Twelve hosted viewport/page combinations without horizontal overflow; skip navigation and visible focus verified |
 | Fixture cleanup | Exact fictional rows/private bytes removed; application counts return to baseline; throttle counters preserved |
 | Unit 4 audit | Supplied actual criteria **1.1–5.6**, **M(i)–M(vii)** and mandatory requirements 1–13 mapped to implementation, tests, evidence and status |
-| Outstanding assessment requirement | **Mandatory 6 / criteria 4.1–4.2 PARTIAL:** current hosted Stripe payment and content unlock unavailable |
+| Hosted commerce, 21 October 2026 | **Mandatory 6 / criteria 4.1–4.2 PASS in tested scope:** sandbox decline/success, signed fulfillment, two provider resends, expiry, confirmation and exact paid download on v22 |
 | Outstanding release requirement | Scheduled no-traffic expiration **NOT VERIFIED**; no new service authorised |
 
 The [assessment matrix](docs/assessment-audit.md) uses **PASS / PARTIAL / FAIL / NOT VERIFIED** as evidence statuses, not an awarded grade. It records the supplied Unit 4 document by filename, printed pages and SHA-256, and separately maps the user's 13 mandatory requirements. The main README follows ByteBoard's presentation standard with purpose, original planning provenance, inline production images, schema/architecture/workflow diagrams, operating policies, deployment and actual test results. ByteBoard was read only.

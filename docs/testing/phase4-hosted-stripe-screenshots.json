@@ -1,0 +1,22 @@
+{
+  "origin": "https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/",
+  "capture_date": "2026-10-21",
+  "release": 22,
+  "scope": "Real in-app browser full-page captures after actual sandbox fulfillment, before exact fixture cleanup. No generated images.",
+  "images": [
+    {
+      "file": "docs/design/production/stripe-confirmed-hosted.jpg",
+      "format": "JPEG",
+      "width": 458,
+      "height": 875,
+      "sha256": "29a45ac9f8060aa0bf3555bd49fba3b2eea77c4c12e13291b214769a3d443441"
+    },
+    {
+      "file": "docs/design/production/stripe-resource-unlocked-hosted.jpg",
+      "format": "JPEG",
+      "width": 458,
+      "height": 1474,
+      "sha256": "66d9b678dba11358c9304af6926446a776bd0f6fa03aa64aa893af43486c17a7"
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "date": "2026-10-21",
+  "origin": "https://skillseat-akkhoujja-e88f42c60993.herokuapp.com",
+  "scope": "Genuine hosted Stripe sandbox Checkout and direct Stripe webhook delivery; read-only DB assertions. No live payment.",
+  "release": 22,
+  "runtime_commit": "3d28b6858c72132b1d86a93aba8822aaa429c595",
+  "configuration": {
+    "test_key_present": true,
+    "hosted_signing_secret_present": true,
+    "endpoint_testmode": true,
+    "endpoint_api_version": "2026-09-30.endive",
+    "retrieved_event_api_version": "2025-12-15.clover"
+  },
+  "checkout": {
+    "session_id": "cs_test_a...HGedl3",
+    "amount_total": 100,
+    "currency": "gbp",
+    "livemode": false,
+    "status": "complete",
+    "payment_status": "paid",
+    "booking_id": 9
+  },
+  "fulfillment": {
+    "event_id": "evt_1UT3h...qnKHhG",
+    "receipt_count": 1,
+    "booking_status": "confirmed",
+    "paid": true,
+    "attempt_state": "succeeded",
+    "reserved": 1,
+    "refund_required": false,
+    "provenance": "Stripe-origin automatic delivery created durable receipt through deployed signature-checking endpoint; no fixture paid-state writes or local forwarding"
+  },
+  "checkout_preconditions": [
+    "Fictional hosted registration/login and pending booking PASS",
+    "Unpaid resource denial HTTP 404 PASS",
+    "Forged success query cannot mark paid PASS",
+    "Genuine Stripe test Checkout GBP 1.00 open/unpaid PASS",
+    "Repeated Checkout reuses session PASS"
+  ],
+  "replay": {
+    "method": "Stripe CLI events resend to actual hosted endpoint, twice",
+    "deliveries": [
+      {
+        "resend": 1,
+        "cli_exit": 0
+      },
+      {
+        "resend": 2,
+        "cli_exit": 0
+      }
+    ],
+    "before": {
+      "receipts": 1,
+      "reserved": 1,
+      "booking": "confirmed",
+      "paid": true
+    },
+    "after": {
+      "receipts": 1,
+      "reserved": 1,
+      "booking": "confirmed",
+      "paid": true
+    }
+  },
+  "security": {
+    "invalid_signature_http": 400,
+    "tampered_body_http": 400,
+    "tamper_provenance": "Harness signed retrieved genuine event body with hosted secret, then modified bytes; negative input only",
+    "anonymous_download_http": 302
+  },
+  "purchased_resource": {
+    "http": 200,
+    "exact_bytes": true,
+    "sha256": "4b3556a55a7ff7373ff53fea189a10bd99f55dbf5755be6d1cb36411e21e17a4",
+    "cache_control": "private, no-store",
+    "browser_download_sha256": "4b3556a55a7ff7373ff53fea189a10bd99f55dbf5755be6d1cb36411e21e17a4"
+  },
+  "confirmation_page": {
+    "http": 200,
+    "confirmed_visible": true
+  },
+  "local_regression": {
+    "tests": 20,
+    "passed": true,
+    "seconds": 0.704
+  },
+  "limitations": [
+    "Scheduled no-traffic expiry still not verified; no scheduler provisioned.",
+    "Late success and asynchronous payment methods remain covered by deterministic tests, not this hosted card exercise."
+  ],
+  "webhook_router_responses": [
+    {
+      "time": "2026-10-21T17:46:37.287790+00:00",
+      "status": 503
+    },
+    {
+      "time": "2026-10-21T17:50:04.183217+00:00",
+      "status": 400
+    },
+    {
+      "time": "2026-10-21T17:53:22.790825+00:00",
+      "status": 200
+    },
+    {
+      "time": "2026-10-21T17:53:45.697488+00:00",
+      "status": 200
+    },
+    {
+      "time": "2026-10-21T17:54:07.749314+00:00",
+      "status": 200
+    },
+    {
+      "time": "2026-10-21T17:54:11.437526+00:00",
+      "status": 200
+    },
+    {
+      "time": "2026-10-21T17:54:14.669078+00:00",
+      "status": 400
+    },
+    {
+      "time": "2026-10-21T17:54:14.792179+00:00",
+      "status": 400
+    }
+  ],
+  "provider_expiry": {
+    "session_testmode": true,
+    "provider_status": "expired",
+    "booking_status": "expired",
+    "paid": false,
+    "attempt_state": "failed",
+    "event_receipt_count": 1,
+    "unpaid_resource_http": 404
+  },
+  "declined_card": {
+    "user_submitted": true,
+    "browser_feedback": "Your credit card was declined because of insufficient funds. Try paying with a debit card instead.",
+    "evidence": "User screenshot 2026-10-21 185249.png and observed browser alert; original screenshot not published because it includes unrelated UI."
+  },
+  "cleanup": {
+    "workshop_unpublished": true,
+    "fictional_users_disabled": 3,
+    "passwords_unusable": true,
+    "fixture_permissions_removed": true,
+    "fixture_sessions_removed": 5,
+    "resource_and_private_bytes_removed": true,
+    "payment_booking_attempt_receipts_retained": true,
+    "capacity_reconciled": true,
+    "final_counts": {
+      "users": 3,
+      "workshops": 1,
+      "bookings": 2,
+      "payment_attempts": 2,
+      "payment_events": 2,
+      "private_blobs": 0
+    },
+    "production_deploy_check": "passed",
+    "scope": "Only exact fixture IDs touched. Payment audit retained on deployed PostgreSQL; no real-user data or unrelated Stripe endpoints changed."
+  },
+  "final_checks": {
+    "health_http": 200,
+    "unpublished_fixture_http": 404,
+    "changed_artifacts_secret_scan": "passed; exact configured values and credential patterns absent",
+    "screenshot_hashes": "passed",
+    "new_local_links_checked": 12,
+    "git_diff_check": "passed",
+    "publication": "Workspace documentation changes; no commit, push or documentation redeployment claimed."
+  }
+}
