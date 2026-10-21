@@ -1,0 +1,68 @@
+{
+  "scope": "Completed Stripe-evidence and scheduled-expiry implementation runs; final documentation-only SHA/run verified separately in delivery.",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 39649414660,
+      "headSha": "03e782129516b72c0852391334d23fb532f5a1c9",
+      "status": "completed",
+      "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39649414660",
+      "jobs": [
+        {
+          "name": "postgres-release (17)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39649414660/job/119393492960"
+        },
+        {
+          "name": "postgres-release (18)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39649414660/job/119393493590"
+        },
+        {
+          "name": "windows-foundation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39649414660/job/119393493671"
+        }
+      ]
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39649848477,
+      "headSha": "8aeb4e2d5ef142171f8d9abfc2e1dfcd517fa8f5",
+      "status": "completed",
+      "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39649848477",
+      "jobs": [
+        {
+          "name": "postgres-release (18)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39649848477/job/119394988459"
+        },
+        {
+          "name": "windows-foundation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39649848477/job/119394989020"
+        },
+        {
+          "name": "postgres-release (17)",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/39649848477/job/119394989391"
+        }
+      ],
+      "test_summaries": [
+        "Ran 137 tests in 11.856s",
+        "Real server smoke check: HTTP 200, SkillSeat home verified.",
+        "Ran 137 tests in 4.483s",
+        "Ran 7 tests in 0.256s",
+        "Real server smoke check: HTTP 200, SkillSeat home verified.",
+        "Ran 137 tests in 11.559s",
+        "Real server smoke check: HTTP 200, SkillSeat home verified."
+      ]
+    }
+  ]
+}

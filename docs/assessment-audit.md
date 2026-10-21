@@ -1,6 +1,6 @@
 # Assessment requirements → implementation → tests → evidence
 
-Updated 21 October 2026. **Hosted sandbox commerce verified; Phase 4 remains open for scheduled no-traffic expiry evidence.** These are evidence-audit statuses, not an institutional award or predicted grade.
+Updated 21 October 2026. **Phase 4 complete; ready for submission within the supplied mandatory project scope. Hosted sandbox commerce and additional unattended expiry are verified.** These are evidence-audit statuses, not an institutional award or predicted grade.
 
 ## Actual supplied sources
 
@@ -39,8 +39,8 @@ Page references are the printed PDF pages, not invented rubric IDs.
 | Criterion (page) | Implementation | Test | Evidence | Status / limitation |
 | --- | --- | --- | --- | --- |
 | 1.1 Django/relational/multi-app design (55) | Original planning, ERD and app boundaries | Foundation/model tests | README wireframes/architecture | PASS |
-| 1.2 Accessible purposeful interactive UX (55) | Labels, landmarks, skip/focus/status/error states, responsive layouts | Interface, keyboard/DOM and Lighthouse checks | Production captures and validation JSON | PARTIAL — scoped Chromium evidence; full WCAG/physical-device/screen-reader coverage not claimed |
-| 1.3 Implement interactive Django multi-app relational site (55–56) | Accounts, studio, bookings, reviews/resources | 132 Django tests per backend; hosted journeys | Runtime CI/live evidence | PASS; hosted card commerce now verified under 4.1 |
+| 1.2 Accessible purposeful interactive UX (55) | Labels, landmarks, skip/focus/status/error states, responsive layouts | Interface, keyboard/DOM and Lighthouse checks | Production captures and validation JSON | PASS for observed guideline/UX checks — labels, landmarks, keyboard focus/skip link, contrast and scoped Lighthouse; full WCAG certification, physical-device and screen-reader coverage not claimed |
+| 1.3 Implement interactive Django multi-app relational site (55–56) | Accounts, studio, bookings, reviews/resources | 137 Django tests per backend; hosted journeys | Runtime CI/live evidence | PASS; hosted card commerce now verified under 4.1 |
 | 1.4 Validated model create/edit form (56) | WorkshopForm, ProfileForm, ReviewForm | Hosted valid/invalid requests and form tests | Live journeys | PASS |
 | 1.5 Logical Django file structure (56) | Standard project/app URLs, models/forms/views/services/templates/static | Wiring/import/runtime tests | Source; architecture | PASS |
 | 1.6 Clean code (56) | Named services and separate payment/storage policies; project Ruff style | Ruff lint/format, JSHint, source review | CI; live checks | PASS within reviewed style/source scope |
@@ -48,7 +48,7 @@ Page references are the printed PDF pages, not invented rubric IDs.
 | 1.8 Navigation and structured layout (56) | Shared navigation and landmarks | Interface/three-size browser checks | Responsive JSON/captures | PASS |
 | 1.9 Custom Python logic (56) | Reservations, transaction retries, event matching, access rules | Booking/concurrency/payment/resource tests | Source; hosted final-seat race | PASS |
 | 1.10 Compound statements in functions (56) | Conditional/loop services, payment and permission logic | Positive/negative branch tests | Services/payments/views and tests | PASS |
-| 1.11 Planned functionality/usability/responsiveness/data tests (56–57) | Automated suites plus controlled hosted plan | Full CI, HTTP races, keyboard/viewport tests | README testing/live evidence | PARTIAL — hosted card success/decline/replay/expiry now verified; broader browser/accessibility and late/asynchronous provider paths remain outside hosted execution |
+| 1.11 Planned functionality/usability/responsiveness/data tests (56–57) | Automated suites plus controlled hosted plan | Full CI, HTTP races, keyboard/viewport tests | README testing/live evidence | PASS for documented manual/automated plan — functionality, usability, responsiveness and data handling covered; additional browsers and hosted late/asynchronous methods remain outside executed scope |
 | 2.1 Clear relational schema (57) | FKs, uniqueness/check constraints, historical booking states | Constraint/migration tests | Inline ERD/constraint table | PASS |
 | 2.2 At least two original custom models (57) | Workshop, Booking, Resource, Review and payment entities | Domain tests | Models/migrations/README | PASS |
 | 2.3 Validated non-authentication create form (57) | WorkshopForm and ReviewForm | Hosted invalid and valid submissions | Live journeys | PASS |
@@ -63,7 +63,7 @@ Page references are the printed PDF pages, not invented rubric IDs.
 | 5.3 Deployed security / hidden secrets / DEBUG off (58) | Explicit production policy, HTTPS/CSRF/cookies/HSTS/throttle | Deploy check, negative requests, scoped source scan | Baseline/operations/journeys | PASS within described checks |
 | 5.4 Regular Git commits and README (58) | Genuine Red/Green fixes and release documentation | Actual history review | Chronology/README/GitHub | PASS |
 | 5.5 Consistent Markdown README (59) | Substantial inline screenshots/diagrams and structured prose | Target/render checks | README/render evidence | PASS |
-| 5.6 Deployment/database/testing/purpose/value documented (59) | Full manual release/config/database/testing instructions | Procedure checked against actual baseline/builds | README and release report | PASS — completed Stripe scope and outstanding schedule evidence clearly labelled |
+| 5.6 Deployment/database/testing/purpose/value documented (59) | Full manual release/config/database/testing instructions | Procedure checked against actual baseline/builds | README and release report | PASS — completed Stripe/scheduled scope and operating limits clearly labelled |
 
 ## Merit and distinction evidence
 
@@ -77,21 +77,23 @@ Page references are the printed PDF pages, not invented rubric IDs.
 | M(vi) Appropriate template/model/business logic placement | Templates present data; models constrain it; services/payments handle transactions; views orchestrate requests; tests and README architecture | PASS within reviewed architecture |
 | M(vii) Effective version-control record | Genuine chronological commits, no rewritten history/artificial splits, CI per pushed revision | PASS within inspected history |
 
-The qualitative distinction characteristics/craftsmanship amplification (pp. 60–65) are not assigned invented numbered criteria. Planning provenance, purposeful content, schema, CRUD, security, validation and genuine TDD evidence exist. Hosted card commerce is now verified. Broader browser/accessibility, late/asynchronous provider-operation and scheduled no-traffic expiry evidence remain gaps. No distinction or other grade is asserted.
+The qualitative distinction characteristics/craftsmanship amplification (pp. 60–65) are not assigned invented numbered criteria. Planning provenance, purposeful content, schema, CRUD, security, validation and genuine TDD evidence exist. Hosted card commerce is now verified. Broader browser/accessibility and late/asynchronous provider-operation evidence remain scoped limitations; requested unattended expiry is now verified. No distinction or other grade is asserted.
 
 ## Additional supplied Phase 4 release requirements
 
 | Requirement | Implementation → test → evidence | Status / next step |
 | --- | --- | --- |
-| PostgreSQL 18/concurrency | Actual production18.4, CI17/18 full132 each, hosted two-request final-seat race | PASS |
+| PostgreSQL 18/concurrency | Actual production 18.4, CI 17/18 full 137 each, hosted two-request final-seat race | PASS |
 | Restart/private-byte persistence | Exact fictional handout and blob SHA survived genuine restart of existing web dyno | PASS |
 | Pending-hold expiration | Fixture timestamp deliberately moved into past; actual hosted discovery expired it and restored capacity | PASS for request-triggered execution |
-| Scheduled expiry without traffic | Idempotent maintenance command exists; no scheduler attached | NOT VERIFIED — no extra service/dyno provisioned under resource restriction |
+| Scheduled expiry without traffic | Existing web-worker timers call the idempotent management command; actual no-HTTP expiry and restart recovery | **PASS** — existing Basic dyno/database only; [execution](testing/phase4-unattended-expiry.json) |
 | Current hosted Stripe success/replay/expiry | Actual provider Checkout, direct signed delivery, two Stripe resends, separately expired provider session | **PASS** for these cases; late-success/asynchronous methods remain deterministic-test coverage |
 | Paid-attendee private download | Exact fictional bytes via authenticated hosted HTTP and browser; unpaid404, anonymous302, private/no-store | **PASS**; handout and private bytes removed after verification |
 | Responsive/keyboard/validation | Three emulated sizes; twelve sampled combinations; skip/focus; four-page W3C; CSS0 errors/1 warning; hosted Lighthouse100s | PASS for scoped checks; full accessibility remains PARTIAL |
 | Authentic inline screenshots | 22 real hosted captures plus original text wireframes and separately labelled local history | PASS with manifest provenance |
 | Safe cleanup | 19 October core fixtures deleted; 21 October payment fixture unpublished/disabled, handout/private bytes and sessions removed; sandbox financial audit retained | PASS in exact fixture scope; current payment records intentionally retained |
-| CI/final publication | Runtime all three jobs green; documentation-only final revision separately checked/deployed before delivery | Final exact SHA/release/CI result recorded in delivery; no queued run counted as success |
+| CI/final publication | Scheduler commit all three jobs green,137 tests each; final documentation revision separately checked/deployed before delivery | Final exact SHA/release/CI result recorded in delivery; no queued run counted as success |
 
-**Readiness:** mandatory requirement 6 / criteria 4.1–4.2 now PASS in the executed hosted sandbox card scope. Phase 4 remains open for requested scheduled no-traffic expiry evidence under an authorised arrangement. Browser/accessibility and late/asynchronous-provider limits remain explicit; no grade is asserted.
+**Readiness:** Phase 4 is complete within the supplied project scope and ready for assessment submission. All 13 supplied mandatory requirements have supporting scoped PASS evidence, including real hosted Stripe content unlock; the additional requested unattended expiry requirement also passed. The 26 Unit 4 pass criteria have evidence in their stated scope. Criteria 1.2/1.11 are scoped evidence judgements: existing guideline checks and documented manual/automated procedures support them; the supplied wording does not mandate full WCAG certification or a particular screen reader/device test matrix. This correction distinguishes absent optional coverage from an observed mandatory failure; it adds no unperformed tests. The merit/qualitative PARTIAL statuses retain their stricter coverage caveats. No institutional award or grade is predicted.
+
+The scheduler is an operational enhancement beyond the supplied 13 mandatory requirements. A dedicated independent scheduling service, outage alerts, other payment methods, broader browser/assistive-technology coverage and formal security/accessibility certification remain optional improvements. See [completion decision](phase-4-completion.md), [TDD](testing/phase4-scheduler-tdd.json), [actual no-traffic run](testing/phase4-unattended-expiry.json) and [completed CI](testing/phase4-completion-ci.json).

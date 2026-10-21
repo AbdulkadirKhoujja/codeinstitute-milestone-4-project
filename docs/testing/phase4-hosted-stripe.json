@@ -164,5 +164,12 @@
     "new_local_links_checked": 12,
     "git_diff_check": "passed",
     "publication": "Workspace documentation changes; no commit, push or documentation redeployment claimed."
+  },
+  "publication_update": {
+    "evidence_commit": "03e782129516b72c0852391334d23fb532f5a1c9",
+    "pushed": true,
+    "ci_run": 39649414660,
+    "conclusion": "success",
+    "later_scheduled_expiry": "phase4-unattended-expiry.json"
   }
 }

@@ -1,6 +1,6 @@
 # Hosted Stripe sandbox verification — 21 October 2026
 
-**PASS in the executed card-payment scope:** genuine deployed Checkout, signed webhook fulfillment, payment confirmation, duplicate-event protection and purchased-resource access. Mandatory requirement 6 and Unit 4 criteria 4.1–4.2 now have current hosted evidence. Phase 4 remains open for the separate scheduled no-traffic expiry requirement and documented broader testing limits.
+**PASS in the executed card-payment scope:** genuine deployed Checkout, signed webhook fulfillment, payment confirmation, duplicate-event protection and purchased-resource access. Mandatory requirement 6 and Unit 4 criteria 4.1–4.2 now have current hosted evidence. At this payment checkpoint, no-traffic expiry remained outstanding. The later [Phase4 completion report](phase-4-completion.md) records its actual completion and supersedes that readiness status.
 
 ## Deployment and configuration
 
@@ -46,4 +46,4 @@ Only the exact fixture IDs were changed. The workshop was unpublished; three use
 
 No live payment or real customer record was used. No unrelated endpoint, other project, extra dyno, scheduler or paid service was changed. The hosted integration remains configured for future test-mode use.
 
-This exercise verifies one card success, one card decline, direct signed success/expiry, provider replay, signature denials and exact resource access. Late success after cancellation/expiry and asynchronous payment methods retain deterministic-test coverage; they were not separately executed as hosted purchases. Provider-triggered expiry is not scheduled no-traffic application maintenance. No scheduler is attached; that requested release evidence remains unverified. Existing broader browser/accessibility limitations remain unchanged, and no grade or full submission-readiness claim is made.
+This exercise verifies one card success, one card decline, direct signed success/expiry, provider replay, signature denials and exact resource access. Late success after cancellation/expiry and asynchronous payment methods retain deterministic-test coverage; they were not separately executed as hosted purchases. Provider-triggered expiry is not scheduled no-traffic application maintenance. At the v22 checkpoint no scheduler was attached; the later [unattended-expiry evidence](testing/phase4-unattended-expiry.json) resolves that separate requirement. Existing broader browser/accessibility limitations remain unchanged, and no grade or full submission-readiness claim is made.

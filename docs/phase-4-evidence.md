@@ -1,6 +1,6 @@
 # Phase 4 — release and assessment evidence
 
-**Current checkpoint, 21 October 2026: genuine hosted Stripe sandbox commerce is verified, including signed fulfillment, provider resends, expiry, confirmation and paid download. Phase 4 remains open for scheduled no-traffic expiry evidence.** The chronological notes below preserve earlier observations; the final hosted continuation section and updated release report supersede their old empty-app and unavailable-rubric statements.
+**Final checkpoint, 21 October 2026: Phase 4 complete within supplied project scope; hosted Stripe commerce and unattended expiry/restart recovery verified. Ready for assessment submission, with optional coverage/operational limits stated.** The chronological notes below preserve earlier observations; the final hosted continuation section and updated release report supersede their old empty-app and unavailable-rubric statements.
 
 ## Baseline and scope — 19 October 2026
 
@@ -105,3 +105,7 @@ Actual post-push GitHub inspection at `8cdfb74`: all **38 inline images** loaded
 ## Hosted Stripe continuation — 21 October 2026
 
 [Detailed current commerce report](phase-4-hosted-stripe.md) and [sanitised assertions](testing/phase4-hosted-stripe.json) supersede the historical missing-credentials gap above. Heroku v22 on source `3d28b6858c72132b1d86a93aba8822aaa429c595` completed the genuine £1 sandbox purchase, direct signed fulfillment, two provider resends, provider expiry and exact paid handout download. Mandatory6 / criteria4.1–4.2 now PASS in the executed scope. The user approved the missing test endpoint/private signing-secret configuration and manually submitted both test-card cases. Secrets were not printed or committed. Cleanup retained sandbox financial audit records, disabled the three fictional users, unpublished the workshop, removed five fixture sessions and removed the handout/private bytes. No scheduler or extra service was provisioned.
+
+## Phase 4 completion — 21 October 2026
+
+The v22 payment evidence was committed/pushed as `03e7821` and all three CI jobs succeeded. Scheduler Red `ddc9afc` had five genuine errors before implementation; Green `8aeb4e2` passed 137 tests locally and on Windows/PG17/PG18. The existing web workers now run the existing `expire_bookings` command independently of traffic, without new resources. Actual hosted periodic expiry and restart recovery passed with zero router requests in the observation window; the future control hold and all pre-existing sandbox financial audit records were preserved. Exact scheduling fixtures were removed. [Completion report](phase-4-completion.md), [execution evidence](testing/phase4-unattended-expiry.json), [CI](testing/phase4-completion-ci.json). Historical open/blocked checkpoints above are superseded, not relabelled as completed executions.

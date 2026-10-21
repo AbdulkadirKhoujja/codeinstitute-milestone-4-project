@@ -1,0 +1,8 @@
+{
+  "credential_scan": "passed for changed/new tracked artifacts; exact configured values and credential patterns absent",
+  "markdown_file_links_checked": 114,
+  "json_parsing": "passed",
+  "production_security_check": "passed",
+  "unapplied_migrations": 0,
+  "postgres_version": "18.4"
+}

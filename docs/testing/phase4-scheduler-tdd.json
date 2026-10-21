@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-21",
+  "red": {
+    "commit": "ddc9afc",
+    "command": "Django tests.test_scheduled_expiry",
+    "tests": 5,
+    "errors": 5,
+    "cause": "Missing workshops.maintenance and config.gunicorn modules; actual failing execution before implementation."
+  },
+  "green": {
+    "commit": "8aeb4e2d5ef142171f8d9abfc2e1dfcd517fa8f5",
+    "tests": 5,
+    "passed": true,
+    "seconds": 0.051
+  },
+  "full_local": {
+    "tests": 137,
+    "passed": true,
+    "seconds": 29.035,
+    "migrations": "No changes detected",
+    "ruff_lint": "passed",
+    "ruff_format": "84 files already formatted",
+    "whitespace": "passed"
+  },
+  "behavior": [
+    "Immediate and repeated invocation of the existing expire_bookings command",
+    "Exception is logged without private details and next tick retries",
+    "Stopped worker invokes no command",
+    "Gunicorn worker init starts timer and worker exit stops/joins it",
+    "Real DB command releases expired pending booking exactly once while future hold and confirmed paid booking survive"
+  ],
+  "ci": "phase4-completion-ci.json"
+}
