@@ -6,6 +6,37 @@ SkillSeat is a Code Institute Milestone Project 4 full-stack Django workshop dis
 
 Production: Heroku · PostgreSQL 18.4 · HTTPS · Stripe integration supports test mode only.
 
+## How to Test SkillSeat
+
+Open **[the live application](https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/)** and choose **Explore workshops**. Listings beginning **DEMO:** are fictional assessment demonstrations, not real scheduled commercial events. Stripe payments use sandbox test mode; no real money is taken. Never enter real card details.
+
+1. **Find a workshop:** on [Discover workshops](https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/workshops/), use **Price → Free** or **Paid**, then **Find workshops**. Try searches `Python`, `drawing`, `photography` or `clay`; **Clear filters** restores the catalogue. Open a title to see its dates, price and available places.
+2. **Create a learner account:** choose **Join SkillSeat**, enter a unique username and a strong password, then sign in. Registration creates an ordinary learner; no host privileges are needed for booking. Use **Sign out** to test logout and sign in again to continue.
+3. **Reserve a free place:** open a free workshop and select **Reserve a place**. **My bookings** shows **Confirmed** immediately. Return there any time to check your booking.
+4. **Try a paid booking:** open **DEMO: Find your eye for photography**, reserve a place, then select **Pay with Stripe · test mode** in **My bookings** within four minutes. The booking is **Pending** until verified payment. The place is held for 35 minutes; Checkout has its own expiry.
+5. **Complete sandbox Checkout:** check that Stripe displays test mode. Use success card **4242 4242 4242 4242**, any future expiry (for example **12/30**) and any three-digit CVC (for example **123**). Supply fictional name/email and any other requested test billing fields. These are [Stripe's official test-card instructions](https://docs.stripe.com/testing#cards). Submit the test payment and return to SkillSeat.
+6. **Confirm and download:** open **My bookings** and refresh if Stripe's signed webhook has not arrived yet. Look for **Confirmed · Payment verified**, then **Workshop details and resources** → **Download Fictional photography practice handout**. A return/success URL alone never confirms payment. Anonymous users must sign in; unpaid learners receive a 404 on the protected download URL and do not see its link.
+7. **Cancel:** in **My bookings**, select **Cancel booking** and confirm the prompt. The status becomes **Cancelled**, the seat is released and purchased-resource access ends. Cancelling a verified paid booking records a manual refund-review requirement; it does not automatically issue a refund. These demonstrations involve no real money.
+8. **Try an unsuccessful payment:** use decline card **4000 0000 0000 0002** with a future expiry and any three-digit CVC. Stripe displays the decline; the booking remains unpaid and resources remain inaccessible. You may retry with the success card during the hold, return and cancel in **My bookings**, or let the hold expire. An abandoned or expired Checkout never establishes payment. An expired booking releases its seat; reserve again to obtain a new hold.
+
+The permanent assessment catalogue contains two free demonstrations (Python and drawing) and two paid demonstrations (photography **£1.00**, clay **£2.50**). Each starts with 30 places; availability reflects active bookings. Dates are set about two years ahead when first provisioned and remain unchanged on repeat runs. These nominal prices demonstrate sandbox payments only. Do not remove these listings or the photography resource after testing.
+
+### Workshop-owner CRUD review
+
+Learner registration does not grant workshop-owner access. An administrator must privately provision an individual review account with the `workshops.add_workshop` permission; arrange this directly with the project author through the existing private assessment channel. No privileged credentials are published here. The dedicated fictional demo host has no usable password and is not an owner-review login.
+
+An authorised owner uses **Owner studio** to create a fictional listing, edit its details/publication state, upload a small private resource and manage the attendee roster. Use a separate temporary listing for CRUD review; preserve the four permanent demos. Workshop deletion is intentionally restricted: unpublish a listing to remove it from discovery while preserving booking/payment audit records. Owners can delete resources and record attendance; reviews require recorded attendance after the workshop ends. [Owner and access-control evidence](docs/phase-3-architecture.md).
+
+### Controlled assessment catalogue maintenance
+
+After deploying this revision to the existing Heroku app, an authorised operator runs:
+
+```text
+heroku run python manage.py seed_assessment --confirm skillseat-assessment-demo --app skillseat-akkhoujja
+```
+
+This separate command requires a sandbox Stripe key, a configured signing secret and durable database resource storage. It adds four published fictional workshops and one private text handout inside a transaction, locks the dedicated demo owner to serialize repeat invocations, and leaves existing users, bookings and payment audit records intact. It creates no successful payments or learner credentials. Repeating it preserves workshop IDs, dates, capacity usage and resource bytes. It refuses an occupied host identity or an expired/changed listing that needs manual review. The original local-only `seed_demo` production guard is unchanged. This command is an explicit operator action, never a startup or release hook.
+
 ## Project overview
 
 SkillSeat connects curious learners with small practical workshops. Visitors discover workshops; registered attendees reserve places and manage bookings; approved hosts publish workshops, record attendance and share protected resources. The application is deployed and its core hosted journeys are verified. Phase 3 retains a genuine Stripe sandbox payment and signed webhook record. On 21 October 2026, the deployed Heroku site completed a genuine £1.00 Stripe sandbox Checkout, direct signed webhook fulfillment, two provider resends, payment confirmation and exact-byte purchased-resource access. [Current commerce evidence](docs/phase-4-hosted-stripe.md). Phase 4 is complete within the supplied project scope, with evidence ready for assessment. [Completion and remaining optional enhancements](docs/phase-4-completion.md).
@@ -681,3 +712,4 @@ The [assessment matrix](docs/assessment-audit.md) uses **PASS / PARTIAL / FAIL /
 No repository-wide licence has been granted. Public availability does not itself grant reuse rights. Django-generated boilerplate and third-party dependencies retain their own licences; the credits identify the official sources and tools. Choosing a licence remains the repository owner's decision and is not presented as an assessment pass.
 
 The [Phase 4 checkpoint report](docs/phase-4-release-report.md) consolidates actual release results, the complete implementation-commit chronology and precise continuation steps. The substantive design, model, role, state and verification evidence remains presented directly above.
+
