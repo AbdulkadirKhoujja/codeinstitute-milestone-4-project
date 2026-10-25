@@ -132,3 +132,17 @@ class AssessmentCatalogueTests(TestCase):
         owner.refresh_from_db()
         self.assertTrue(owner.has_usable_password())
         self.assertFalse(Workshop.objects.exists())
+
+    def test_changed_resource_reference_aborts_without_orphaning_new_data(self):
+        self.seed()
+        resource = Resource.objects.get()
+        original_name = resource.file.name
+        Resource.objects.filter(pk=resource.pk).update(file="assessment/other-private-resource.txt")
+        PrivateResourceBlob.objects.filter(name=original_name).delete()
+        before = list(Workshop.objects.values())
+        with self.assertRaises(CommandError):
+            self.seed()
+        self.assertFalse(PrivateResourceBlob.objects.exists())
+        self.assertEqual(list(Workshop.objects.values()), before)
+        resource.refresh_from_db()
+        self.assertEqual(resource.file.name, "assessment/other-private-resource.txt")
