@@ -101,7 +101,7 @@ class AssessmentCatalogueTests(TestCase):
         learner = get_user_model().objects.create_user(username="unpaid-reviewer")
         self.client.force_login(learner)
         self.assertEqual(
-            self.client.get(reverse("workshops:download", args=[resource.pk])).status_code, 403
+            self.client.get(reverse("workshops:download", args=[resource.pk])).status_code, 404
         )
 
     def test_existing_users_bookings_and_payment_audit_are_untouched(self):
