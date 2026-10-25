@@ -114,11 +114,15 @@ class Command(BaseCommand):
                     raise CommandError(
                         "Existing demo resource differs; no resource was overwritten."
                     )
-                Resource.objects.get_or_create(
+                resource, _ = Resource.objects.get_or_create(
                     workshop=item,
                     title="Fictional photography practice handout",
                     defaults={"file": name},
                 )
+                if resource.file.name != name:
+                    raise CommandError(
+                        "Existing demo resource reference differs; no data was overwritten."
+                    )
             self.stdout.write(
                 f"{item.pk}: {item.title} | {item.price_display} | {item.available_seats}/{item.capacity} available | {item.starts_at.isoformat()}"
             )
