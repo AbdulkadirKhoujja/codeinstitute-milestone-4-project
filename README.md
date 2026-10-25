@@ -8,6 +8,8 @@ Production: Heroku · PostgreSQL 18.4 · HTTPS · Stripe integration supports te
 
 ## How to Test SkillSeat
 
+**Final review correction, 25 October 2026:** four permanent fictional workshops are published with dates in October 2028. A newly registered learner completed free booking/cancellation and an actual £1.00 Stripe sandbox purchase; the signed webhook confirmed payment and unlocked the photography handout. All 143 Django tests and three JavaScript tests pass; Windows and PostgreSQL 17/18 CI are green. [Final review evidence and cleanup](docs/final-review.md).
+
 Open **[the live application](https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/)** and choose **Explore workshops**. Listings beginning **DEMO:** are fictional assessment demonstrations, not real scheduled commercial events. Stripe payments use sandbox test mode; no real money is taken. Never enter real card details.
 
 1. **Find a workshop:** on [Discover workshops](https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/workshops/), use **Price → Free** or **Paid**, then **Find workshops**. Try searches `Python`, `drawing`, `photography` or `clay`; **Clear filters** restores the catalogue. Open a title to see its dates, price and available places.
@@ -51,7 +53,7 @@ The intended audiences are:
 - registered attendees booking workshops and managing their participation; and
 - workshop owners and administrators managing listings and related workflows.
 
-## Current development status
+## Completed phases and historical verification
 
 - **Live:** [https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/](https://skillseat-akkhoujja-e88f42c60993.herokuapp.com/). Existing Heroku app `skillseat-akkhoujja`, Europe, heroku-24, one Basic web dyno and its own Essential-0 PostgreSQL attachment. No additional resources were provisioned during this continuation; ByteBoard was not modified.
 - Earlier core-runtime verification (19 October): **release v19**, commit `e06fce0a855a650afd75469ffcd089a1469813b2`. Documentation publication uses the same runtime source; its exact final deployment SHA/release and final CI run are identified in the delivery record, avoiding a self-referential Git hash inside its own commit.

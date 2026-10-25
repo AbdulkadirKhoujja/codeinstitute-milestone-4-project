@@ -1,0 +1,135 @@
+{
+  "date": "2026-10-25",
+  "origin": "https://skillseat-akkhoujja-e88f42c60993.herokuapp.com",
+  "runtime_commit": "e0d3e556ecd8275b8920453978d2d54132866dac",
+  "release": 26,
+  "baseline": {
+    "users": 4,
+    "workshops": 1,
+    "bookings": 2,
+    "payment_attempts": 2,
+    "payment_events": 2,
+    "published_workshops": 0,
+    "original_records_unchanged": true
+  },
+  "catalogue": [
+    {
+      "pk": 34,
+      "title": "DEMO: Your first lines of Python",
+      "starts_at": "2028-10-24 10:00:00+00:00",
+      "price_pence": 0,
+      "capacity": 30,
+      "reserved": 0,
+      "published": true
+    },
+    {
+      "pk": 35,
+      "title": "DEMO: Everyday drawing for beginners",
+      "starts_at": "2028-10-25 10:00:00+00:00",
+      "price_pence": 0,
+      "capacity": 30,
+      "reserved": 0,
+      "published": true
+    },
+    {
+      "pk": 36,
+      "title": "DEMO: Find your eye for photography",
+      "starts_at": "2028-10-26 10:00:00+00:00",
+      "price_pence": 100,
+      "capacity": 30,
+      "reserved": 0,
+      "published": true
+    },
+    {
+      "pk": 37,
+      "title": "DEMO: Clay, coffee & creativity",
+      "starts_at": "2028-10-27 10:00:00+00:00",
+      "price_pence": 250,
+      "capacity": 30,
+      "reserved": 0,
+      "published": true
+    }
+  ],
+  "seed": {
+    "explicit_confirmation": true,
+    "original_development_guard_preserved": true,
+    "second_run_no_changes": true,
+    "storage": "database",
+    "permanent_resource_id": 67
+  },
+  "learner_journeys": [
+    "Anonymous catalogue, four details, four searches, free/paid filters and empty search message PASS",
+    "Ordinary learner registration, login, logout, incorrect-password error and login again PASS",
+    "Authenticated catalogue, details, search and free/paid filters PASS",
+    "Free booking visibly Confirmed; duplicate rejected; cancellation visibly Cancelled and seat released PASS",
+    "Paid booking Pending; unpaid and anonymous downloads denied; actual Stripe test Checkout redirect GBP 1.00 PASS"
+  ],
+  "payment": {
+    "session_id": "cs_test_a1ddplth1gUhAdu4NM2QxAbPWnMfqERAnkbCvudqKL3terBIdL6xV9qDYl",
+    "booking_id": 35,
+    "amount_total": 100,
+    "currency": "gbp",
+    "livemode": false,
+    "checkout_status": "complete",
+    "payment_status": "paid",
+    "booking_status": "confirmed",
+    "paid": true,
+    "attempt": "succeeded",
+    "event_id": "evt_1UUMfDFWiMbptDb05jcLV90V",
+    "durable_receipts": 1,
+    "provenance": "User submitted actual hosted Stripe sandbox Checkout; Stripe-origin signed webhook confirmed the booking. No fixture payment-state writes or local forwarding.",
+    "declined_attempts": [
+      {
+        "event_id": "evt_3UUMerFWiMbptDb00e0PEDF0",
+        "livemode": false,
+        "error_code": "card_declined",
+        "decline_code": "generic_decline"
+      }
+    ]
+  },
+  "resource": {
+    "download_http": 200,
+    "exact_bytes": true,
+    "sha256": "553f3491973ee032505cc9e68ffa052015f87d8b29fa28633693db6597315451",
+    "cache_control": "private, no-store",
+    "unpaid_http": 404,
+    "anonymous_http": 302
+  },
+  "checks": {
+    "django_tests": 143,
+    "javascript_tests": 3,
+    "lint": "passed",
+    "format": "passed",
+    "migration_consistency": "passed",
+    "ci_run": "https://github.com/AbdulkadirKhoujja/codeinstitute-milestone-4-project/actions/runs/40176234200",
+    "windows": "passed",
+    "postgres17": "passed",
+    "postgres18": "passed"
+  },
+  "limitations": [
+    "Owner CRUD requires an administrator-provisioned private account.",
+    "Paid cancellation requires manual refund review; no automatic refund."
+  ],
+  "cleanup": {
+    "free_cancelled_booking_deleted": true,
+    "paid_booking_cancelled": true,
+    "paid_download_after_cancel_http": 404,
+    "reserved_places_after_cleanup": 0,
+    "tester_disabled_password_unusable": true,
+    "tester_session_removed": true,
+    "payment_booking_attempt_and_receipt_retained": true,
+    "reason_for_retained_tester_identity": "Payment audit uses protected foreign keys; disabled fictional identity retained without usable credentials.",
+    "permanent_workshops_and_resource_preserved": true
+  },
+  "restart": {
+    "existing_web_dynos_restarted": true,
+    "public_workshop_count_after_restart": 4,
+    "all_four_have_30_available": true,
+    "private_handout_exact_bytes_persisted": true,
+    "baseline_records_still_unchanged": true,
+    "health_http": 200,
+    "production_security_check": "passed",
+    "recent_log_error_indicators": 0,
+    "log_lines_checked": 155
+  }
+}
